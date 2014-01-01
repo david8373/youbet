@@ -1,0 +1,1 @@
+<p>This will be a webapp which allows you to bet on any numerical value (score of a ball game, stock price, etc) with your friends. It will be in the form of bidding/offering on future contracts which will be familiar to people working in finance.</p>

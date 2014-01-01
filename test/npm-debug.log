@@ -1,0 +1,197 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install', '-g', 'mocha' ]
+2 info using npm@1.2.32
+3 info using node@v0.10.12
+4 verbose node symlink /usr/bin/node
+5 verbose read json /usr/lib/package.json
+6 verbose read json /usr/lib/package.json
+7 verbose cache add [ 'mocha', null ]
+8 verbose cache add name=undefined spec="mocha" args=["mocha",null]
+9 verbose parsed url { protocol: null,
+9 verbose parsed url   slashes: null,
+9 verbose parsed url   auth: null,
+9 verbose parsed url   host: null,
+9 verbose parsed url   port: null,
+9 verbose parsed url   hostname: null,
+9 verbose parsed url   hash: null,
+9 verbose parsed url   search: null,
+9 verbose parsed url   query: null,
+9 verbose parsed url   pathname: 'mocha',
+9 verbose parsed url   path: 'mocha',
+9 verbose parsed url   href: 'mocha' }
+10 silly lockFile a619da43-mocha mocha
+11 verbose lock mocha /home/ubuntu/.npm/a619da43-mocha.lock
+12 silly lockFile a619da43-mocha mocha
+13 silly lockFile a619da43-mocha mocha
+14 verbose addNamed [ 'mocha', '' ]
+15 verbose addNamed [ null, '' ]
+16 silly lockFile b9899f31-mocha mocha@
+17 verbose lock mocha@ /home/ubuntu/.npm/b9899f31-mocha.lock
+18 silly addNameRange { name: 'mocha', range: '', hasData: false }
+19 verbose url raw mocha
+20 verbose url resolving [ 'https://registry.npmjs.org/', './mocha' ]
+21 verbose url resolved https://registry.npmjs.org/mocha
+22 info trying registry request attempt 1 at 18:53:31
+23 verbose etag "3N9TZZIXCT42M0I6GFKSJ24SC"
+24 http GET https://registry.npmjs.org/mocha
+25 http 304 https://registry.npmjs.org/mocha
+26 silly registry.get cb [ 304,
+26 silly registry.get   { date: 'Wed, 01 Jan 2014 18:55:45 GMT',
+26 silly registry.get     server: 'Apache',
+26 silly registry.get     connection: 'Keep-Alive',
+26 silly registry.get     'keep-alive': 'timeout=10, max=50',
+26 silly registry.get     etag: '"3N9TZZIXCT42M0I6GFKSJ24SC"',
+26 silly registry.get     vary: 'Accept' } ]
+27 verbose etag mocha from cache
+28 silly addNameRange number 2 { name: 'mocha', range: '', hasData: true }
+29 silly addNameRange versions [ 'mocha',
+29 silly addNameRange   [ '0.0.1-alpha1',
+29 silly addNameRange     '0.0.1-alpha2',
+29 silly addNameRange     '0.0.1-alpha3',
+29 silly addNameRange     '0.0.1-alpha4',
+29 silly addNameRange     '0.0.1-alpha5',
+29 silly addNameRange     '0.0.1-alpha6',
+29 silly addNameRange     '0.0.1',
+29 silly addNameRange     '0.0.2',
+29 silly addNameRange     '0.0.3',
+29 silly addNameRange     '0.0.4',
+29 silly addNameRange     '0.0.5',
+29 silly addNameRange     '0.0.6',
+29 silly addNameRange     '0.0.7',
+29 silly addNameRange     '0.0.8',
+29 silly addNameRange     '0.1.0',
+29 silly addNameRange     '0.2.0',
+29 silly addNameRange     '0.3.0',
+29 silly addNameRange     '0.3.1',
+29 silly addNameRange     '0.3.2',
+29 silly addNameRange     '0.3.3',
+29 silly addNameRange     '0.3.4',
+29 silly addNameRange     '0.3.6',
+29 silly addNameRange     '0.4.0',
+29 silly addNameRange     '0.5.0',
+29 silly addNameRange     '0.6.0',
+29 silly addNameRange     '0.7.0',
+29 silly addNameRange     '0.7.1',
+29 silly addNameRange     '0.8.0',
+29 silly addNameRange     '0.8.1',
+29 silly addNameRange     '0.9.0',
+29 silly addNameRange     '0.10.0',
+29 silly addNameRange     '0.10.1',
+29 silly addNameRange     '0.10.2',
+29 silly addNameRange     '0.11.0',
+29 silly addNameRange     '0.12.0',
+29 silly addNameRange     '0.12.1',
+29 silly addNameRange     '0.13.0',
+29 silly addNameRange     '0.14.0',
+29 silly addNameRange     '0.14.1',
+29 silly addNameRange     '1.0.0',
+29 silly addNameRange     '1.0.1',
+29 silly addNameRange     '1.0.2',
+29 silly addNameRange     '1.0.3',
+29 silly addNameRange     '1.1.0',
+29 silly addNameRange     '1.2.0',
+29 silly addNameRange     '1.2.1',
+29 silly addNameRange     '1.2.2',
+29 silly addNameRange     '1.3.0',
+29 silly addNameRange     '1.3.1',
+29 silly addNameRange     '1.3.2',
+29 silly addNameRange     '1.4.0',
+29 silly addNameRange     '1.4.1',
+29 silly addNameRange     '1.4.2',
+29 silly addNameRange     '1.4.3',
+29 silly addNameRange     '1.5.0',
+29 silly addNameRange     '1.6.0',
+29 silly addNameRange     '1.7.0',
+29 silly addNameRange     '1.7.1',
+29 silly addNameRange     '1.7.2',
+29 silly addNameRange     '1.7.3',
+29 silly addNameRange     '1.7.4',
+29 silly addNameRange     '1.8.0',
+29 silly addNameRange     '1.8.1',
+29 silly addNameRange     '1.8.2',
+29 silly addNameRange     '1.9.0',
+29 silly addNameRange     '1.10.0',
+29 silly addNameRange     '1.11.0',
+29 silly addNameRange     '1.12.0',
+29 silly addNameRange     '1.12.1',
+29 silly addNameRange     '1.13.0',
+29 silly addNameRange     '1.14.0',
+29 silly addNameRange     '1.15.0',
+29 silly addNameRange     '1.15.1',
+29 silly addNameRange     '1.16.0',
+29 silly addNameRange     '1.16.1',
+29 silly addNameRange     '1.16.2' ] ]
+30 verbose addNamed [ 'mocha', '1.16.2' ]
+31 verbose addNamed [ '1.16.2', '1.16.2' ]
+32 silly lockFile e30b9907-mocha-1-16-2 mocha@1.16.2
+33 verbose lock mocha@1.16.2 /home/ubuntu/.npm/e30b9907-mocha-1-16-2.lock
+34 verbose read json /home/ubuntu/.npm/mocha/1.16.2/package/package.json
+35 silly lockFile e30b9907-mocha-1-16-2 mocha@1.16.2
+36 silly lockFile e30b9907-mocha-1-16-2 mocha@1.16.2
+37 silly lockFile b9899f31-mocha mocha@
+38 silly lockFile b9899f31-mocha mocha@
+39 silly resolved [ { name: 'mocha',
+39 silly resolved     version: '1.16.2',
+39 silly resolved     description: 'simple, flexible, fun test framework',
+39 silly resolved     keywords: [ 'mocha', 'test', 'bdd', 'tdd', 'tap' ],
+39 silly resolved     author: { name: 'TJ Holowaychuk', email: 'tj@vision-media.ca' },
+39 silly resolved     repository: { type: 'git', url: 'git://github.com/visionmedia/mocha.git' },
+39 silly resolved     main: './index',
+39 silly resolved     bin: { mocha: './bin/mocha', _mocha: './bin/_mocha' },
+39 silly resolved     engines: { node: '>= 0.4.x' },
+39 silly resolved     scripts: { test: 'make test-all' },
+39 silly resolved     dependencies:
+39 silly resolved      { commander: '2.0.0',
+39 silly resolved        growl: '1.7.x',
+39 silly resolved        jade: '0.26.3',
+39 silly resolved        diff: '1.0.7',
+39 silly resolved        debug: '*',
+39 silly resolved        mkdirp: '0.3.5',
+39 silly resolved        glob: '3.2.3' },
+39 silly resolved     devDependencies: { should: '>= 2.0.x', 'coffee-script': '1.2' },
+39 silly resolved     files: [ 'bin', 'images', 'lib', 'index.js', 'mocha.css', 'mocha.js' ],
+39 silly resolved     readme: ' [![Build Status](https://secure.travis-ci.org/visionmedia/mocha.png)](http://travis-ci.org/visionmedia/mocha)\n\n  [![Mocha test framework](http://f.cl.ly/items/3l1k0n2A1U3M1I1L210p/Screen%20Shot%202012-02-24%20at%202.21.43%20PM.png)](http://visionmedia.github.io/mocha)\n\n  Mocha is a simple, flexible, fun JavaScript test framework for node.js and the browser. For more information view the [documentation](http://visionmedia.github.io/mocha).\n\n## Contributors\n\n```\n\n project  : mocha\n repo age : 2 years, 4 months ago\n commits  : 1314\n active   : 372 days\n files    : 141\n authors  :\n   582    TJ Holowaychuk          44.3%\n   389    Tj Holowaychuk          29.6%\n    46    Travis Jeffery          3.5%\n    31    Guillermo Rauch         2.4%\n    13    Attila Domokos          1.0%\n    10    John Firebaugh          0.8%\n     8    Jo Liss                 0.6%\n     7    Nathan Rajlich          0.5%\n     6    Mike Pennisi            0.5%\n     6    James Carr              0.5%\n     6    Brendan Nee             0.5%\n     5    Aaron Heckmann          0.4%\n     5    Ryunosuke SATO          0.4%\n     4    hokaccha                0.3%\n     4    Joshua Krall            0.3%\n     4    Xavier Antoviaque       0.3%\n     3    Jesse Dailey            0.2%\n     3    Forbes Lindesay         0.2%\n     3    Sindre Sorhus           0.2%\n     3    Cory Thomas             0.2%\n     3    Fredrik Enestad         0.2%\n     3    Ben Lindsey             0.2%\n     3    Tyson Tate              0.2%\n     3    Mathieu Desvé          0.2%\n     3    Valentin Agachi         0.2%\n     3    Wil Moore III           0.2%\n     3    Merrick Christensen     0.2%\n     3    eiji.ienaga             0.2%\n     3    fool2fish               0.2%\n     3    Nathan Bowser           0.2%\n     3    Paul Miller             0.2%\n     2    Juzer Ali               0.2%\n     2    Pete Hawkins            0.2%\n     2    Jonas Westerlund        0.2%\n     2    Arian Stolwijk          0.2%\n     2    Quang Van               0.2%\n     2    Glen Mailer             0.2%\n     2    Justin DuJardin         0.2%\n     2    FARKAS Máté           0.2%\n     2    Raynos                  0.2%\n     2    Michael Riley           0.2%\n     2    Michael Schoonmaker     0.2%\n     2    Domenic Denicola        0.2%\n     2    Simon Gaeremynck        0.2%\n     2    Konstantin Käfer      0.2%\n     2    domenic                 0.2%\n     2    Paul Armstrong          0.2%\n     2    fcrisci                 0.2%\n     2    Alexander Early         0.2%\n     2    Shawn Krisman           0.2%\n     2    Brian Beck              0.2%\n     2    Nathan Alderson         0.2%\n     2    David Henderson         0.2%\n     2    Timo Tijhof             0.2%\n     2    Ian Storm Taylor        0.2%\n     2    travis jeffery          0.2%\n     1    Matt Smith              0.1%\n     1    Matthew Shanley         0.1%\n     1    Nathan Black            0.1%\n     1    Phil Sung               0.1%\n     1    R56                     0.1%\n     1    Refael Ackermann        0.1%\n     1    Richard Dingwall        0.1%\n     1    Romain Prieto           0.1%\n     1    Roman Neuhauser         0.1%\n     1    Roman Shtylman          0.1%\n     1    Russ Bradberry          0.1%\n     1    Russell Munson          0.1%\n     1    Rustem Mustafin         0.1%\n     1    Salehen Shovon Rahman   0.1%\n     1    Sasha Koss              0.1%\n     1    Seiya Konno             0.1%\n     1    Simon Goumaz            0.1%\n     1    Standa Opichal          0.1%\n     1    Stephen Mathieson       0.1%\n     1    Steve Mason             0.1%\n     1    Tapiwa Kelvin           0.1%\n     1    Teddy Zeenny            0.1%\n     1    Tim Ehat                0.1%\n     1    Vadim Nikitin           0.1%\n     1    Victor Costan           0.1%\n     1    Will Langstroth         0.1%\n     1    Yanis Wang              0.1%\n     1    Yuest Wang              0.1%\n     1    abrkn                   0.1%\n     1    airportyh               0.1%\n     1    badunk                  0.1%\n     1    fengmk2                 0.1%\n     1    grasGendarme            0.1%\n     1    lodr                    0.1%\n     1    tgautier@yahoo.com      0.1%\n     1    traleig1                0.1%\n     1    vlad                    0.1%\n     1    yuitest                 0.1%\n     1    Adam Crabtree           0.1%\n     1    Andreas Brekken         0.1%\n     1    Andreas Lind Petersen   0.1%\n     1    Andrew Nesbitt          0.1%\n     1    Andrey Popp             0.1%\n     1    Arnaud Brousseau        0.1%\n     1    Atsuya Takagi           0.1%\n     1    Austin Birch            0.1%\n     1    Bjørge Næss           0.1%\n     1    Brian Lalor             0.1%\n     1    Brian M. Carlson        0.1%\n     1    Brian Moore             0.1%\n     1    Bryan Donovan           0.1%\n     1    Casey Foster            0.1%\n     1    ChrisWren               0.1%\n     1    Corey Butler            0.1%\n     1    Daniel Stockman         0.1%\n     1    Dave McKenna            0.1%\n     1    Di Wu                   0.1%\n     1    Dmitry Shirokov         0.1%\n     1    Fedor Indutny           0.1%\n     1    Florian Margaine        0.1%\n     1    Frederico Silva         0.1%\n     1    Fredrik Lindin          0.1%\n     1    Gareth Murphy           0.1%\n     1    Gavin Mogan             0.1%\n     1    Glen Huang              0.1%\n     1    Greg Perkins            0.1%\n     1    Harry Brundage          0.1%\n     1    Herman Junge            0.1%\n     1    Ian Young               0.1%\n     1    Ivan                    0.1%\n     1    JP Bochi                0.1%\n     1    Jaakko Salonen          0.1%\n     1    Jakub Nešetřil      0.1%\n     1    James Bowes             0.1%\n     1    James Lal               0.1%\n     1    Jason Barry             0.1%\n     1    Javier Aranda           0.1%\n     1    Jeff Kunkle             0.1%\n     1    Jeremy Martin           0.1%\n     1    Jimmy Cuadra            0.1%\n     1    Jonathan Creamer        0.1%\n     1    Jussi Virtanen          0.1%\n     1    Katie Gengler           0.1%\n     1    Kazuhito Hokamura       0.1%\n     1    Kirill Korolyov         0.1%\n     1    Koen Punt               0.1%\n     1    Laszlo Bacsi            0.1%\n     1    Liam Newman             0.1%\n     1    László Bácsi         0.1%\n     1    Maciej Małecki         0.1%\n     1    Mal Graty               0.1%\n     1    Marc Kuo                0.1%\n     1    Matt Robenolt           0.1%\n```\n\n## Links\n\n  - [Google Group](http://groups.google.com/group/mochajs)\n  - [Wiki](https://github.com/visionmedia/mocha/wiki)\n  - Mocha [Extensions and reporters](https://github.com/visionmedia/mocha/wiki)\n',
+39 silly resolved     readmeFilename: 'Readme.md',
+39 silly resolved     bugs: { url: 'https://github.com/visionmedia/mocha/issues' },
+39 silly resolved     _id: 'mocha@1.16.2',
+39 silly resolved     _from: 'mocha@' } ]
+40 info install mocha@1.16.2 into /usr/lib
+41 info installOne mocha@1.16.2
+42 verbose from cache /home/ubuntu/.npm/mocha/1.16.2/package/package.json
+43 info /usr/lib/node_modules/mocha unbuild
+44 verbose read json /usr/lib/node_modules/mocha/package.json
+45 verbose tar unpack /home/ubuntu/.npm/mocha/1.16.2/package.tgz
+46 silly lockFile f6860037-tar-usr-lib-node-modules-mocha tar:///usr/lib/node_modules/mocha
+47 verbose lock tar:///usr/lib/node_modules/mocha /home/ubuntu/.npm/f6860037-tar-usr-lib-node-modules-mocha.lock
+48 silly lockFile 0eff6fbe-ntu-npm-mocha-1-16-2-package-tgz tar:///home/ubuntu/.npm/mocha/1.16.2/package.tgz
+49 verbose lock tar:///home/ubuntu/.npm/mocha/1.16.2/package.tgz /home/ubuntu/.npm/0eff6fbe-ntu-npm-mocha-1-16-2-package-tgz.lock
+50 silly gunzTarPerm modes [ '755', '644' ]
+51 error Error: EACCES, mkdir '/usr/lib/node_modules/mocha'
+51 error  { [Error: EACCES, mkdir '/usr/lib/node_modules/mocha']
+51 error   errno: 3,
+51 error   code: 'EACCES',
+51 error   path: '/usr/lib/node_modules/mocha',
+51 error   fstream_type: 'Directory',
+51 error   fstream_path: '/usr/lib/node_modules/mocha',
+51 error   fstream_class: 'DirWriter',
+51 error   fstream_stack:
+51 error    [ '/usr/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23',
+51 error      '/usr/lib/node_modules/npm/node_modules/mkdirp/index.js:37:53',
+51 error      'Object.oncomplete (fs.js:107:15)' ] }
+52 error Please try running this command again as root/Administrator.
+53 error System Linux 3.2.0-40-virtual
+54 error command "/usr/bin/node" "/usr/bin/npm" "install" "-g" "mocha"
+55 error cwd /home/ubuntu/youbet/test
+56 error node -v v0.10.12
+57 error npm -v 1.2.32
+58 error path /usr/lib/node_modules/mocha
+59 error fstream_path /usr/lib/node_modules/mocha
+60 error fstream_type Directory
+61 error fstream_class DirWriter
+62 error code EACCES
+63 error errno 3
+64 error stack Error: EACCES, mkdir '/usr/lib/node_modules/mocha'
+65 error fstream_stack /usr/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23
+65 error fstream_stack /usr/lib/node_modules/npm/node_modules/mkdirp/index.js:37:53
+65 error fstream_stack Object.oncomplete (fs.js:107:15)
+66 verbose exit [ 3, true ]

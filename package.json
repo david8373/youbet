@@ -1,0 +1,27 @@
+{
+  "name": "youbet",
+  "version": "0.0.0",
+  "description": "Customized online betting game",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/david8373/youbet.git"
+  },
+  "author": "Yuhan Zhang",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/david8373/youbet/issues"
+  },
+  "dependencies": {
+    "simplesets": "~1.2.0",
+    "enum": "~0.2.5",
+    "node-uuid": "~1.4.1",
+    "express": "~3.4.7"
+  }
+}

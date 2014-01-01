@@ -1,0 +1,46 @@
+{
+  "author": {
+    "name": "adrai"
+  },
+  "name": "enum",
+  "version": "0.2.5",
+  "private": false,
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.6.0"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": ">= 1.0.1",
+    "expect.js": ">= 0.1.2",
+    "smoosh": ">= 0.4.1"
+  },
+  "description": "Enum is a javascript module that introduces the Enum Type. It works for node.js and in the browser.",
+  "keywords": [
+    "enum"
+  ],
+  "homepage": "https://github.com/adrai/enum",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:adrai/enum.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adrai/enum/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/adrai/enum/master/licence"
+    }
+  ],
+  "scripts": {
+    "test": "mocha"
+  },
+  "readme": "# Introduction\n\n[![Build Status](https://secure.travis-ci.org/adrai/enum.png)](http://travis-ci.org/adrai/enum)\n\nEnum is a javascript module that introduces the Enum Type. It works for node.js and in the browser.\n\n# Dependencies\nNo dependencies!\n\n# Download\nReleases for a browser are available for download from GitHub.\n\n| **Version** | **Description** | **Size** |\n|:------------|:----------------|:---------|\n| `enum-0.2.4.js` | *uncompressed, with comments* | [Download](https://raw.github.com/adrai/enum/master/enum-0.2.4.js) |\n| `enum-0.2.4.min.js` | *compressed, without comments* | [Download](https://raw.github.com/adrai/enum/master/enum-0.2.4.min.js) |\n\n# Installation (node.js)\n\n    $ npm install enum\n\n# Installation (browser, library is AMD compatible)\n\n    <script src=\"enum.js\"></script>\n\n# Usage\n\n    // use it as module\n    var Enum = require('enum');\n\n    // or extend node.js with this new type\n    require('enum').register();\n\n    // define a simple enum (automatically flaggable -> A: 0x01, B: 0x02, C: 0x04)\n    var myEnum = new Enum(['A', 'B', 'C']);\n\n    // define an enum with own values\n    var myEnum = new Enum({'A': 1, 'B': 2, 'C': 4});\n\n    // if defining an flaggable enum, you can define your own separator (default is ' | ')\n    var myEnum = new Enum(['A', 'B', 'C'], { separator: ' | ' });\n\n    // if you want your enum to have a name define it in the options\n    var myEnum = new Enum(['A', 'B', 'C'], { name: 'MyEnum' });\n\n    // or\n    var myEnum = new Enum(['A', 'B', 'C'], 'MyEnum');\n\n\n    // get your item\n    myEnum.A\n\n    // or\n    myEnum.get('A')\n\n    // or\n    myEnum.get(1)\n\n    // or\n    myEnum.get('A | B')\n\n    // or\n    myEnum.get(3)\n\n\n    // get your value\n    myEnum.A.value\n\n    // get your key\n    myEnum.A.key\n\n\n    // get all items\n    myEnum.enums // returns all enums in an array\n\n\n    // compare\n    myEnum.A.is(myEnum.A)\n\n    // or\n    myEnum.A.is('A')\n\n    // or\n    myEnum.A.is(1)\n\n    // or\n    myEnum.A == 'A'\n\n    // or\n    myEnum.A == myEnum.A\n\n    // or\n    myEnum.A === myEnum.A\n\n\n    // check flag\n    var myItem = myEnum.get(3); // or [myEnum.get('A | B')]\n    myItem.has(myEnum.A)\n\n    // or\n    myItem.has('A')\n\n    // or\n    myItem.has(1)\n\n\n    // other functions\n    myItem.toString() // returns A | C\n    myItem.toJSON() // returns A | C\n    myItem.valueOf() // returns A | C\n    \n    JSON.stringify(myItem) // returns A | C\n\n\n# License\n\nCopyright (c) 2013 Adriano Raiano\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\nTHE SOFTWARE.",
+  "readmeFilename": "README.md",
+  "_id": "enum@0.2.5",
+  "_from": "enum@"
+}
