@@ -28,5 +28,4 @@ var s4 = new sets.Set([1, 2, 3]);
 var s5 = s4.copy();
 s4.add(42);
 s5.remove(2);
-console.log('s4 =', s4.array());
-console.log('s5 =', s5.array());
+s5.each(function(a) { console.log(a); });

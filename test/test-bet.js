@@ -3,6 +3,7 @@ var Enums = require('../node/enums.js');
 
 var OrderState = Enums.OrderState;
 var ExecState = Enums.ExecState;
+var BetState = Enums.BetState;
 
 var EPSILON = 1.0e-7;
 
@@ -81,6 +82,48 @@ exports.testPriceTimePriority = function(test) {
     var trades = response.msg;
     test.equals(1, trades.length ,"One trade generated");
     test.equals("Yuhan", trades[0].bidOrder.participant, "At same price Yuhan is done because of time priority");
+    test.done();
+};
+
+exports.testCancel = function(test) {
+    var bet = new Bet("YuhanBet", "Yuhan's Bet", "Yuhan", 0.0, 1.0, 0.05);
+    bet.addParticipant('Jing');
+    var response = bet.submit('Yuhan', true, 0.2, 1);
+    var orderID = bet.bidOrders[0].id;
+    var response = bet.cancel(orderID);
+    test.ok(response.success, "Testing cancellation success");
+    test.equals(0, bet.bidOrders.length, "Order should be gone after cancellation");
+    console.log(bet.bidOrders);
+    test.done();
+};
+
+exports.testExpireSettle = function(test) {
+    var bet = new Bet("YuhanBet", "Yuhan's Bet", "Yuhan", 0.0, 1.0, 0.05);
+    bet.addParticipant('Jing');
+    bet.submit('Yuhan', true, 0.2, 5);
+    var response = bet.submit('Jing', false, 0.2, 3);
+    test.equals(ExecState.ACCEPTED, response.state, "One trade done");
+    test.equals(1, response.msg.length, "One trade done");
+
+    // Cannot settle active bets
+    bet.settle(0.0);
+    test.equals(BetState.ACTIVE, bet.state, "Active bets cannot be settled");
+
+    // Expiration
+    bet.expire();
+    test.equals(BetState.EXPIRED, bet.state, "Expired bet");
+    test.equals(0, bet.bidOrders.length, "All orders expired");
+    test.equals(0, bet.offerOrders.length, "All orders expired");
+
+    // Cannot submit after bet expired
+    response = bet.submit('Yuhan', true, 0.5, 1);
+    test.equals(ExecState.REJECTED, response.state, "Cannot submit to expired bet");
+
+    // Settling a bet
+    response = bet.settle(0.3);
+    test.equals(BetState.SETTLED, bet.state, "Bet settled");
+    test.ok(Math.abs(0.3 - response.get('Yuhan')) < EPSILON, "Yuhan made 0.3");
+    test.ok(Math.abs(0.3 + response.get('Jing')) < EPSILON, "Jing lost 0.3");
     test.done();
 };
 

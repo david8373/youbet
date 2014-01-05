@@ -1,11 +1,6 @@
-if (false) {
-    var v = 1;
-}
 
-if (v) {
-    console.log(v);
-}
-else {
-    console.log("Does not exist");
-}
+var a = [1,2,3,4,5];
 
+a.forEach(function(o) {
+    console.log(o);
+});
