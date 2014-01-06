@@ -3,10 +3,39 @@ var read = require('read');
 var Consts = require('./consts.js');
 var util = require('util');
 
-var CREATE_TABLE_USERS_QUERY = "CREATE TABLE users ( username varchar(80)," +
-                                                   " email varchar(80)," +
-						   " password varchar(80)," + 
-						   " join_time timestamp);";
+var CREATE_TYPE_BET_STATE = "CREATE TYPE bet_state AS ENUM (\'ACTIVE\', \'EXPIRED\', \'SETTLED\');";
+var CREATE_TYPE_ORDER_STATE = "CREATE TYPE order_state AS ENUM (\'ACTIVE\', \'PARTIALLYFILLED\'," +
+                                                      " \'FILLED\', \'CANCELLED\', \'EXPIRED\');";
+var CREATE_TABLE_USERS_QUERY = "CREATE TABLE users ( username varchar(40)," +
+                                                   " email varchar(40)," +
+						   " password varchar(40)," + 
+						   " time timestamp);";
+var CREATE_TABLE_BETS_QUERY = "CREATE TABLE bets ( name varchar(40)," +
+                                                 " time timestamp," +
+                                                 " description varchar(500)," +
+                                                 " participants varchar(200)," +
+                                                 " state bet_state," +
+						 " expiry timestamp," + 
+						 " min_val real," + 
+						 " max_val real," + 
+						 " tick_size real," + 
+						 " host varchar(40));";
+var CREATE_TABLE_ORDERS_QUERY = "CREATE TABLE orders ( bet_name varchar(40)," +
+                                                     " username varchar(40)," +
+                                                     " is_bid boolean," +
+                                                     " price real," +
+                                                     " state order_state," +
+                                                     " size int," +
+                                                     " remaining_size int," +
+                                                     " id uuid," +
+                                                     " time timestamp);";
+var CREATE_TABLE_TRADES_QUERY = "CREATE TABLE trades ( bet_name varchar(40)," +
+                                                     " long_user varchar(40)," +
+                                                     " short_user varchar(40)," +
+                                                     " id uuid," +
+                                                     " price real," +
+                                                     " size int," +
+                                                     " time timestamp);";
 
 read({prompt: 'Password: ', silent: true}, function(err, password) {
     var CONN_STRING = util.format(Consts.RDS_POSTGRES_CONN_STRING, password);
@@ -17,16 +46,36 @@ read({prompt: 'Password: ', silent: true}, function(err, password) {
 	    client.end();
 	}
 
+	client.query(CREATE_TYPE_BET_STATE, function(err, result) {
+	    if (err) console.error('error running query', err.toString());
+	    else console.log('Bet state type successfully created');
+	});
+
+	client.query(CREATE_TYPE_ORDER_STATE, function(err, result) {
+	    if (err) console.error('error running query', err.toString());
+	    else console.log('Order state type successfully created');
+	});
+
 	client.query(CREATE_TABLE_USERS_QUERY, function(err, result) {
-	    if (err) {
-		console.error('error running query', err.toString());
-		client.end();
-	    }
-	    else {
-		console.log('Users table successfully created');
-		client.end();
-	    }
+	    if (err) console.error('error running query', err.toString());
+	    else console.log('Users table successfully created');
+	});
+
+	client.query(CREATE_TABLE_BETS_QUERY, function(err, result) {
+	    if (err) console.error('error running query', err.toString());
+	    else console.log('Bets table successfully created');
+	});
+
+	client.query(CREATE_TABLE_ORDERS_QUERY, function(err, result) {
+	    if (err) console.error('error running query', err.toString());
+	    else console.log('Orders table successfully created');
+	});
+
+	client.query(CREATE_TABLE_TRADES_QUERY, function(err, result) {
+	    if (err) console.error('error running query', err.toString());
+	    else console.log('Trades table successfully created');
 	});
     });
+    client.on('drain', client.end.bind(client));
 });
 
