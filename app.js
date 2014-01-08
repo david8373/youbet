@@ -6,6 +6,11 @@ var app = express.createServer(express.logger());
 
 var msg = fs.readFileSync('html/signup.html').toString();
 
+app.post('/', function(request, response) {
+    console.log('Inside signup callback!');
+    response.send(msg);
+});
+
 app.get('/', function(request, response) {
   response.send(msg);
 });

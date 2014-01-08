@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodeunit test/bet.js",
+    "start": "node youbet.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
     "simplesets": "~1.2.0",
     "enum": "~0.2.5",
     "node-uuid": "~1.4.1",
-    "express": "~3.4.7"
+    "express": "3.4.7",
+    "ejs": "*"
   }
 }
