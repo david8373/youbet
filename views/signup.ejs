@@ -8,7 +8,7 @@
 	<meta name="author" content="">
 	<link rel="shortcut icon" href="/ico/favicon.ico">
 
-	<title>Signin Template for Bootstrap</title>
+	<title>Signup for Youbet today!</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -29,27 +29,40 @@
     <body>
 
 	<div class="container">
-	    <img src="/img/photo.jpg">
-	</div>
 
-	<div class="container">
-
-	    <form class="form-signin" role="form" method="post">
-		<h2 class="form-signin-heading">Please sign in</h2>
+	    <form class="form-signin" id="signUpForm" method="post">
+		<h2 class="form-signin-heading">Please sign up</h2>
+		<input type="text" class="form-control" placeholder="Username" name="username" required autofocus>
 		<input type="text" class="form-control" placeholder="Email address" name="email" required autofocus>
-		<input type="password" class="form-control" placeholder="Password" name="password" required>
-		<label class="checkbox">
-		    <input type="checkbox" name="remember" value="remember-me"> Remember me
-		</label>
-		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+		<input type="password" class="form-control" placeholder="Password" name="password1" required>
+		<input type="password" class="form-control" placeholder="Confirm password" name="password2" required>
+		<span class="label label-warning"><%= error %></span>
+		<button id="submitBtn" class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
 	    </form>
 
 	</div> <!-- /container -->
+
+	<div class="container">
+	    <footer>
+	    <p>&copy; Yuhan Zhang 2014</p>
+	    </footer>
+	</div>
 
 
 	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
     </body>
+
+    <script src="jquery/jquery.js"></script>
+    <script>
+	$(document).ready(function() {
+	    var submitBtn = document.getElementById("submitBtn");
+	    $("#submitBtn).click(function(event) {
+		console.log("Clicked!");
+		alert("Hello.");
+	    });
+	});
+    </script>
 </html>
 
