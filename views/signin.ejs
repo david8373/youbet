@@ -8,7 +8,7 @@
 	<meta name="author" content="">
 	<link rel="shortcut icon" href="/ico/favicon.ico">
 
-	<title>Signup for Youbet today!</title>
+	<title>Signin</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -30,12 +30,10 @@
 
 	<div class="container">
 
-	    <form class="form-signin" id="signUpForm" method="post">
-		<h2 class="form-signin-heading">Please sign up</h2>
+	    <form class="form-signin" id="signInForm" method="post">
+		<h2 class="form-signin-heading">Please sign in</h2>
 		<input type="text" class="form-control" placeholder="Username" name="username" required autofocus>
-		<input type="text" class="form-control" placeholder="Email address" name="email" required autofocus>
-		<input type="password" class="form-control" placeholder="Password" name="password1" required>
-		<input type="password" class="form-control" placeholder="Confirm password" name="password2" required>
+		<input type="password" class="form-control" placeholder="Password" name="password" required>
 		<span class="label label-warning"><%= error %></span>
 		<button id="submitBtn" class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
 	    </form>

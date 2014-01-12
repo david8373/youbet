@@ -6,3 +6,5 @@ exports.USERNAME_RE = /^[a-zA-A0-9_-]{3,20}$/;
 exports.PASSWORD_RE = /^.{3,20}$/;
 exports.EMAIL_RE = /^[\S]+@[\S]+\.[\S]+/;
 
+exports.SHA_ALGORITHM = 'md5';
+

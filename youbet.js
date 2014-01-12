@@ -37,6 +37,8 @@ if ('development' == app.get('env')) {
 
 app.get('/signup', account_handlers.signup_get);
 app.post('/signup', account_handlers.signup_post);
+app.get('/signin', account_handlers.signin_get);
+app.post('/signin', account_handlers.signin_post);
 app.get('/home', bet_handlers.home_get);
 
 http.createServer(app).listen(app.get('port'), function(){
@@ -44,7 +46,10 @@ http.createServer(app).listen(app.get('port'), function(){
 });
 
 read({prompt: 'Password: ', silent: true}, function(err, password) {
+read({prompt: 'Security key: ', silent: true}, function(err, seckey) {
     var CONN_STRING = util.format(Consts.RDS_POSTGRES_CONN_STRING, password);
+    SECURITY_KEY = seckey;
     POSTGRES_CLIENT = new pg.Client(CONN_STRING);
     POSTGRES_CLIENT.connect();
+});
 });

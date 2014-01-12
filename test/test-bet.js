@@ -1,11 +1,12 @@
 var Bet = require('../node/bet.js');
 var Enums = require('../node/enums.js');
+var Consts = require('../node/consts.js');
 
 var OrderState = Enums.OrderState;
 var ExecState = Enums.ExecState;
 var BetState = Enums.BetState;
 
-var EPSILON = 1.0e-7;
+var EPSILON = Consts.EPSILON;
 
 exports.testParticipants = function(test){
     var bet = new Bet("YuhanBet", "Yuhan's Bet", "Yuhan", 0.0, 1.0, 0.05);
