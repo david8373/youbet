@@ -1,8 +1,9 @@
 var Consts = require('../node/consts.js');
+var Security = require('../node/security.js');
+
 var USERNAME_RE = Consts.USERNAME_RE;
 var PASSWORD_RE = Consts.PASSWORD_RE;
 var EMAIL_RE = Consts.EMAIL_RE;
-
 
 exports.signup_get = function(req, res) {
     res.render('signup', {error:''});
@@ -39,27 +40,30 @@ exports.signup_post = function(req, res) {
 	return;
     }
 
-    var query = POSTGRES_CLIENT.query({text: 'SELECT * FROM users where username=$1', values: [username]}, function(err, result) {
+    var username_h = Security.make_secure_username(username);
+    var password_h = Security.make_secure_password(password1);
+
+    var query = POSTGRES_CLIENT.query({text: 'SELECT * FROM users where username=$1', values: [username_h]}, function(err, result) {
 	if (err) {
 	    console.log(err);
 	    res.render('signup', {error: err});
 	    return;
 	}
-	if (result.rows.length > 0) {
+	if (result && result.rowCount > 0) {
 	    res.status(403);
 	    res.render('signup', {error: 'Username is already taken'});
 	    return;
 	}
     });
 
-    var query = POSTGRES_CLIENT.query({text: 'INSERT INTO users VALUES ($1, $2, $3, $4)', values: [username, email, password1, new Date()]}, function(err, result) {
+    var query = POSTGRES_CLIENT.query({text: 'INSERT INTO users VALUES ($1, $2, $3, $4)', values: [username_h, email, password_h, new Date()]}, function(err, result) {
 	if (err) {
 	    console.log(err);
 	    res.render('signup', {error: err});
 	    return;
 	}
-	res.cookie('username', username, {maxAge: 900000, httpOnly: true});
-	res.render('home');
+	res.cookie('username', username_h, {maxAge: 900000, httpOnly: true});
+	res.redirect('/home');
 	return;
     });
 };
@@ -87,31 +91,44 @@ exports.signin_post = function(req, res) {
 
     if (error) {
 	res.status(403);
-	res.render('signup', {error:error});
+	res.render('/signup', {error:error});
 	return;
     }
 
-    var query = POSTGRES_CLIENT.query({text: 'SELECT * FROM users where username=$1', values: [username]}, function(err, result) {
+    var username_h = Security.make_secure_username(username);
+    var password_h = Security.make_secure_password(password);
+
+    var query = POSTGRES_CLIENT.query({text: 'SELECT * FROM users where username=$1', values: [username_h]}, function(err, result) {
 	if (err) {
 	    console.log(err);
 	    res.render('signup', {error: err});
 	    return;
 	}
-	if (result.rows.length = 0) {
+	if (!result || result.rowCount == 0) {
 	    res.status(403);
 	    res.render('signin', {error: 'Username does not exist'});
 	    return;
 	}
-    });
-
-    var query = POSTGRES_CLIENT.query({text: 'INSERT INTO users VALUES ($1, $2, $3, $4)', values: [username, email, password1, new Date()]}, function(err, result) {
-	if (err) {
-	    console.log(err);
-	    res.render('signup', {error: err});
+	if (result.rowCount > 1) {
+	    console.warn('More than one DB row with same username!');
+	}
+	console.log(result.rows[0]);
+	var password_h_saved = result.rows[0].password;
+	if (Security.check_secure_password(password, password_h_saved)) {
+	    res.cookie('username', username_h, {maxAge: 900000, httpOnly: true});
+	    res.redirect('/home');
 	    return;
 	}
-	res.cookie('username', username, {maxAge: 900000, httpOnly: true});
-	res.render('home');
-	return;
+	else {
+	    res.status(403);
+	    res.render('/signin', {error: 'Password incorrect'});
+	    return;
+	}
     });
+};
+
+exports.logout_get = function(req, res) {
+    res.clearCookie('username');
+    res.redirect('/signin');
+    return;
 };

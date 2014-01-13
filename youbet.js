@@ -9,13 +9,16 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var util = require('util');
+var socketio = require('socket.io');
 
 var Consts = require('./node/consts.js');
+var Socket = require('./node/socket.js');
 
 var app = express();
 
 var account_handlers = require('./handlers/account_handlers.js');
 var bet_handlers = require('./handlers/bet_handlers.js');
+var index_handlers = require('./handlers/index_handlers.js');
 
 // all environments
 app.set('port', process.env.PORT || 8080);
@@ -35,13 +38,18 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+app.get('/', index_handlers.index_get);
 app.get('/signup', account_handlers.signup_get);
 app.post('/signup', account_handlers.signup_post);
 app.get('/signin', account_handlers.signin_get);
 app.post('/signin', account_handlers.signin_post);
+app.get('/logout', account_handlers.logout_get);
 app.get('/home', bet_handlers.home_get);
 
-http.createServer(app).listen(app.get('port'), function(){
+var server = http.createServer(app);
+var io = socketio.listen(server);
+
+server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
@@ -53,3 +61,6 @@ read({prompt: 'Security key: ', silent: true}, function(err, seckey) {
     POSTGRES_CLIENT.connect();
 });
 });
+
+// socket.io
+io.sockets.on('connection', Socket.server);

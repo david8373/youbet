@@ -3,7 +3,7 @@ console.log(crypto.getHashes());
 
 var shasum = crypto.createHash('md5');
 shasum.update('I am so secret');
-console.log(shasum.digest('hex'));
+console.log(shasum.digest('hex').length);
 
 SECURITY_KEY='eee';
 hash_str = function(s) {

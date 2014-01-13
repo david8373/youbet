@@ -6,9 +6,9 @@ var util = require('util');
 var CREATE_TYPE_BET_STATE = "CREATE TYPE bet_state AS ENUM (\'ACTIVE\', \'EXPIRED\', \'SETTLED\');";
 var CREATE_TYPE_ORDER_STATE = "CREATE TYPE order_state AS ENUM (\'ACTIVE\', \'PARTIALLYFILLED\'," +
                                                       " \'FILLED\', \'CANCELLED\', \'EXPIRED\');";
-var CREATE_TABLE_USERS_QUERY = "CREATE TABLE users ( username varchar(40)," +
+var CREATE_TABLE_USERS_QUERY = "CREATE TABLE users ( username varchar(60)," +
                                                    " email varchar(40)," +
-						   " password varchar(40)," + 
+						   " password varchar(60)," + 
 						   " time timestamp);";
 var CREATE_TABLE_BETS_QUERY = "CREATE TABLE bets ( name varchar(40)," +
                                                  " time timestamp," +
@@ -19,9 +19,9 @@ var CREATE_TABLE_BETS_QUERY = "CREATE TABLE bets ( name varchar(40)," +
 						 " min_val real," + 
 						 " max_val real," + 
 						 " tick_size real," + 
-						 " host varchar(40));";
+						 " host varchar(60));";
 var CREATE_TABLE_ORDERS_QUERY = "CREATE TABLE orders ( bet_name varchar(40)," +
-                                                     " username varchar(40)," +
+                                                     " username varchar(60)," +
                                                      " is_bid boolean," +
                                                      " price real," +
                                                      " state order_state," +
@@ -30,8 +30,8 @@ var CREATE_TABLE_ORDERS_QUERY = "CREATE TABLE orders ( bet_name varchar(40)," +
                                                      " id uuid," +
                                                      " time timestamp);";
 var CREATE_TABLE_TRADES_QUERY = "CREATE TABLE trades ( bet_name varchar(40)," +
-                                                     " long_user varchar(40)," +
-                                                     " short_user varchar(40)," +
+                                                     " long_user varchar(60)," +
+                                                     " short_user varchar(60)," +
                                                      " id uuid," +
                                                      " price real," +
                                                      " size int," +
