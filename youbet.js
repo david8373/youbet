@@ -3,14 +3,12 @@
  */
 
 var fs = require('fs');
-var pg = require('pg');
-var read = require('read');
 var express = require('express');
 var http = require('http');
 var path = require('path');
-var util = require('util');
 var socketio = require('socket.io');
 
+var DbClient = require('./node/db_client.js');
 var Consts = require('./node/consts.js');
 var Socket = require('./node/socket.js');
 
@@ -53,14 +51,6 @@ server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
-read({prompt: 'Password: ', silent: true}, function(err, password) {
-read({prompt: 'Security key: ', silent: true}, function(err, seckey) {
-    var CONN_STRING = util.format(Consts.RDS_POSTGRES_CONN_STRING, password);
-    SECURITY_KEY = seckey;
-    POSTGRES_CLIENT = new pg.Client(CONN_STRING);
-    POSTGRES_CLIENT.connect();
-});
-});
-
+DbClient.create();
 // socket.io
 io.sockets.on('connection', Socket.server);

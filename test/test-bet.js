@@ -8,8 +8,13 @@ var BetState = Enums.BetState;
 
 var EPSILON = Consts.EPSILON;
 
+var DbClient = require('../node/db_client.js');
+DbClient.create();
+
 exports.testParticipants = function(test){
-    var bet = new Bet("YuhanBet", "Yuhan's Bet", "Yuhan", 0.0, 1.0, 0.05);
+    var d = new Date();
+    d.setDate(d.getDate() + 3);
+    var bet = new Bet("YuhanBet0", "Yuhan's Bet 0", "Yuhan", d, 0.0, 1.0, 0.05, true);
     test.equal(1, bet.getParticipants().length, "Initial participant is just host himself");
     bet.addParticipant('Jing');
     test.equal(2, bet.getParticipants().length, "Adding another participant");
@@ -19,7 +24,9 @@ exports.testParticipants = function(test){
 };
 
 exports.testPrice = function(test) {
-    var bet = new Bet("YuhanBet", "Yuhan's Bet", "Yuhan", 0.0, 1.0, 0.05);
+    var d = new Date();
+    d.setDate(d.getDate() + 3);
+    var bet = new Bet("YuhanBet1", "Yuhan's Bet 1", "Yuhan", d, 0.0, 1.0, 0.05, true);
     bet.addParticipant('Jing');
     var response = bet.submit('SomeOtherGuy', true, 0.2, 1.0);
     test.equal(ExecState.REJECTED, response.state, "Orders by other participants should be rejected");
@@ -35,7 +42,9 @@ exports.testPrice = function(test) {
 };
 
 exports.testOrder = function(test) {
-    var bet = new Bet("YuhanBet", "Yuhan's Bet", "Yuhan", 0.0, 1.0, 0.05);
+    var d = new Date();
+    d.setDate(d.getDate() + 3);
+    var bet = new Bet("YuhanBet2", "Yuhan's Bet 2", "Yuhan", d, 0.0, 1.0, 0.05, true);
     bet.addParticipant('Jing');
 
     // Initial bid
@@ -72,7 +81,9 @@ exports.testOrder = function(test) {
 };
 
 exports.testPriceTimePriority = function(test) {
-    var bet = new Bet("YuhanBet", "Yuhan's Bet", "Yuhan", 0.0, 1.0, 0.05);
+    var d = new Date();
+    d.setDate(d.getDate() + 3);
+    var bet = new Bet("YuhanBet3", "Yuhan's Bet3", "Yuhan", d, 0.0, 1.0, 0.05, true);
     bet.addParticipant('Jing');
     bet.addParticipant('SomeOtherGuy');
 
@@ -87,7 +98,9 @@ exports.testPriceTimePriority = function(test) {
 };
 
 exports.testCancel = function(test) {
-    var bet = new Bet("YuhanBet", "Yuhan's Bet", "Yuhan", 0.0, 1.0, 0.05);
+    var d = new Date();
+    d.setDate(d.getDate() + 3);
+    var bet = new Bet("YuhanBet4", "Yuhan's Bet 4", "Yuhan", d, 0.0, 1.0, 0.05, true);
     bet.addParticipant('Jing');
     var response = bet.submit('Yuhan', true, 0.2, 1);
     var orderID = bet.bidOrders[0].id;
@@ -99,7 +112,9 @@ exports.testCancel = function(test) {
 };
 
 exports.testExpireSettle = function(test) {
-    var bet = new Bet("YuhanBet", "Yuhan's Bet", "Yuhan", 0.0, 1.0, 0.05);
+    var d = new Date();
+    d.setDate(d.getDate() + 3);
+    var bet = new Bet("YuhanBet5", "Yuhan's Bet 5", "Yuhan", d, 0.0, 1.0, 0.05, true);
     bet.addParticipant('Jing');
     bet.submit('Yuhan', true, 0.2, 5);
     var response = bet.submit('Jing', false, 0.2, 3);
@@ -127,4 +142,6 @@ exports.testExpireSettle = function(test) {
     test.ok(Math.abs(0.3 + response.get('Jing')) < EPSILON, "Jing lost 0.3");
     test.done();
 };
+
+POSTGRES_CLIENT.on('drain', POSTGRES_CLIENT.end.bind(POSTGRES_CLIENT));
 

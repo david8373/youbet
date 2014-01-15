@@ -1,2 +1,3 @@
 require('./enum.js');
-console.log(OrderState.Active.key);
+console.log(OrderState.Active.key.toUpperCase());
+

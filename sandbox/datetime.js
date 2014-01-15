@@ -1,2 +1,2 @@
-var datetime = new Date();
-console.log(datetime);
+Date = require("date");
+console.log(Date.today());

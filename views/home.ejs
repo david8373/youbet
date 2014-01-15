@@ -75,7 +75,7 @@
 		var socket = io.connect('http://ec2-54-213-10-197.us-west-2.compute.amazonaws.com:8080');
 		console.log(socket);
 		socket.on('news', function(data) {
-		    var $newElem = $("<li><a href=\"#\">" + data + "</a></li>");
+		    var $newElem = $("<li><a href=\"#\">" + data.toString() + "</a></li>");
 		    $newElem.appendTo("#active-dropdown");
 		    console.log(data);
 		    socket.emit('my other event', {my: 'data'});

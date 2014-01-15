@@ -11,40 +11,36 @@ var OrderState = Enums.OrderState;
 var BetState = Enums.BetState;
 var EPSILON = Consts.EPSILON;
 
-var HashMap = map.HashMap;
-var Set = sets.Set;
+// SELECT DISTINCT ON (name) * from bets order by name, time desc;
 
 // Constructor
-function Bet(name, description, host, expiry, minVal, maxVal, tickSize, doSave) {
+function Bet(name, description, host, expiry, minVal, maxVal, tickSize) {
     this.name = name;
     this.description = description;
     this.host = host;
-    this.initTime = new Date();
     this.expiry = expiry;
     this.state = BetState.ACTIVE;
     this.minVal = minVal;
     this.maxVal = maxVal;
     this.tickSize = tickSize;
-    this.doSave = doSave;
     this.init();
     this.save();
 }
 
 Bet.prototype.save = function() {
-    if (this.doSave) {
-	var participants_str = this.participants.array().join(',');
-	var state_str = this.state.key.toUpperCase();
-	POSTGRES_CLIENT.query({text: 'INSERT INTO bets VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)', values: [this.name, this.initTime, this.description, this.host, state_str, this.expiry, this.minVal, this.maxVal, this.tickSize, this.host]}, function(err, result) {
-	    if (err) {
-		console.log('Error when saving bet update: ' + err);
-		return;
-	    }
-	});
-    }
+    var participants_str = this.participants.array().join(',');
+    var state_str = this.state.key.toUpperCase();
+    POSTGRES_CLIENT.query({text: 'INSERT INTO bets VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)', values: [this.name, new Date(), this.description, this.host, state_str, this.expiry, this.minVal, this.maxVal, this.tickSize, this.host]}, function(err, result) {
+	if (err) {
+	    console.log('err!!!');
+	    console.log(err);
+	    return;
+	}
+    });
 }
 
 Bet.prototype.init = function() {
-    this.participants = new Set([this.host]);
+    this.participants = new sets.Set([this.host]);
     this.trades = [];
     this.bidOrders = [];
     this.offerOrders = [];
@@ -164,7 +160,7 @@ Bet.prototype.settle = function(settlementPrice) {
 	return;
     }
 
-    var result = new HashMap();
+    var result = new map.HashMap();
     this.participants.each(function(participant) { result.set(participant, 0.0); });
     for (ind in this.trades) {
 	var trade = this.trades[ind];
