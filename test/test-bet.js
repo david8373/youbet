@@ -93,7 +93,7 @@ exports.testPriceTimePriority = function(test) {
     test.equal(ExecState.ACCEPTED, response.state, "Order submission successful");
     var trades = response.msg;
     test.equals(1, trades.length ,"One trade generated");
-    test.equals("Yuhan", trades[0].bidOrder.participant, "At same price Yuhan is done because of time priority");
+    test.equals("Yuhan", trades[0].longParty, "At same price Yuhan is done because of time priority");
     test.done();
 };
 

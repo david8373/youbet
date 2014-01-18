@@ -98,7 +98,7 @@ Bet.prototype.submit = function(participant, isBid, price, size) {
 
     var sizeRounded = Math.round(size);
     var orders = isBid?this.bidOrders:this.offerOrders;
-    var newOrder = new Order(this, participant, isBid, price, sizeRounded);
+    var newOrder = new Order(this, participant, isBid, price, sizeRounded, true);
     orders.push(newOrder);
     if (isBid)
 	orders.sort(Order.PriceTimeDescending);
@@ -169,10 +169,10 @@ Bet.prototype.settle = function(settlementPrice) {
     for (ind in this.trades) {
 	var trade = this.trades[ind];
 	var res = trade.settle(settlementPrice);
-	var tmp = result.get(trade.bidOrder.participant);
-	result.set(trade.bidOrder.participant, tmp + res);
-	tmp = result.get(trade.offerOrder.participant);
-	result.set(trade.offerOrder.participant, tmp - res);
+	var tmp = result.get(trade.longParty);
+	result.set(trade.longParty, tmp + res);
+	tmp = result.get(trade.shortParty);
+	result.set(trade.shortParty, tmp - res);
     }
     this.state = BetState.SETTLED;
     this.save();
@@ -197,7 +197,7 @@ Bet.prototype.cross = function() {
 	var crossPrice = (bidOrder.price + offerOrder.price) / 2.0;
 	var crossSize = Math.min(bidOrder.remainingSize, offerOrder.remainingSize);
 	if (crossSize > 0) {
-	    var newTrade = new Trade(this, bidOrder, offerOrder, crossPrice, crossSize);
+	    var newTrade = new Trade(this, bidOrder.participant, offerOrder.participant, crossPrice, crossSize, true);
 	    this.trades.push(newTrade);
 	    tradesThisTime.push(newTrade);
 

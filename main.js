@@ -2,8 +2,8 @@ var Bet = require('./node/bet.js');
 var DbLoad = require('./node/db_load.js');
 
 var DbClient = require('./node/db_client.js');
-DbClient.create();
 
+DbClient.create();
 DbLoad.load_all();
 setTimeout(function(){
     BETS.forEach(function(value, key) {
@@ -12,4 +12,3 @@ setTimeout(function(){
     });
 }, 2000);
 
-POSTGRES_CLIENT.on('drain', POSTGRES_CLIENT.end.bind(POSTGRES_CLIENT));

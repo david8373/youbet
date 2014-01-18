@@ -3,7 +3,7 @@ var uuid = require('node-uuid');
 var Enums = require('./enums.js');
 var OrderState = Enums.OrderState;
 
-function Order(bet, participant, isBid, price, size) {
+function Order(bet, participant, isBid, price, size, doSave) {
     this.bet = bet;
     this.participant = participant;
     this.isBid = isBid;
@@ -12,9 +12,22 @@ function Order(bet, participant, isBid, price, size) {
     this.remainingSize = size;
     this.state = OrderState.ACTIVE;
     this.id = uuid.v1();
-    this.createTime = Date();
+    this.createTime = new Date();
+    this.doSave = doSave;
 
-    // TODO: DB write
+    this.save();
+}
+
+Order.prototype.save = function() {
+    if (this.doSave) {
+	var state_str = this.state.key.toUpperCase();
+	POSTGRES_CLIENT.query({text: 'INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)', values: [this.bet.name, this.participant, this.isBid, this.price, state_str, this.totalSize, this.remainingSize, this.id, this.createTime]}, function(err, result) {
+	    if (err) {
+		console.log('Error when saving order update: ' + err);
+		return;
+	    }
+	});
+    }
 }
 
 Order.prototype.isTerminal = function() {
@@ -23,12 +36,12 @@ Order.prototype.isTerminal = function() {
 
 Order.prototype.cancel = function() {
     this.state = OrderState.CANCELLED;
-    // TODO: DB write
+    this.save();
 }
 
 Order.prototype.expire = function() {
     this.state = OrderState.EXPIRED;
-    // TODO: DB write
+    this.save();
 }
 
 Order.prototype.fill = function(amount) {
@@ -47,6 +60,7 @@ Order.prototype.fill = function(amount) {
 	}
     }
     this.remainingSize -= amount;
+    this.save();
     return;
 }
  
