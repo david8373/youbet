@@ -46,7 +46,6 @@ var load_orders = function(callback) {
 	    console.log('Error when loading orders from DB: ' + err);
 	    callback();
 	}
-	console.log(result);
 	for (ind in result.rows) {
 	    var row = result.rows[ind];
 	    var order = new Order(BETS.get(row.bet_name), row.username, row.is_bid, row.price, row.size, false);

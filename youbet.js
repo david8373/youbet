@@ -9,6 +9,7 @@ var path = require('path');
 var socketio = require('socket.io');
 
 var DbClient = require('./node/db_client.js');
+var DbLoad = require('./node/db_load.js');
 var Consts = require('./node/consts.js');
 var Socket = require('./node/socket.js');
 
@@ -52,5 +53,7 @@ server.listen(app.get('port'), function(){
 });
 
 DbClient.create();
+DbLoad.load_all();
+
 // socket.io
 io.sockets.on('connection', Socket.server);
