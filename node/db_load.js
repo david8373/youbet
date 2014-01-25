@@ -18,7 +18,7 @@ exports.load_all = function() {
 }
 
 var load_bets = function(callback) {
-    POSTGRES_CLIENT.query('SELECT DISTINCT ON (name) * FROM bets ORDER BY name, time DESC;', function(err, result) {
+    POSTGRES_CLIENT.query('SELECT DISTINCT ON (name) * FROM bets ORDER BY name, id DESC;', function(err, result) {
 	if (err) {
 	    console.log('Error when loading bets from DB: ' + err);
 	    callback();
@@ -41,7 +41,7 @@ var load_bets = function(callback) {
 }
 
 var load_orders = function(callback) {
-    POSTGRES_CLIENT.query('SELECT DISTINCT ON (id) * FROM orders ORDER BY id, time DESC;', function(err, result) {
+    POSTGRES_CLIENT.query('SELECT DISTINCT ON (uid) * FROM orders ORDER BY uid, id DESC;', function(err, result) {
 	if (err) {
 	    console.log('Error when loading orders from DB: ' + err);
 	    callback();
@@ -65,7 +65,7 @@ var load_orders = function(callback) {
 }
 
 var load_trades = function(callback) {
-    POSTGRES_CLIENT.query('SELECT * FROM trades ORDER BY time DESC;', function(err, result) {
+    POSTGRES_CLIENT.query('SELECT * FROM trades ORDER BY id DESC;', function(err, result) {
 	if (err) {
 	    console.log('Error when loading trades from DB: ' + err);
 	    callback();
@@ -85,6 +85,7 @@ var load_complete = function() {
     // Enable save after loaded from DB
     BETS.forEach(function(value, key) {
 	value.doSave = true;
+	value.calc_depth();
 	value.bidOrders.forEach(function(order) { order.doSave = true; });
 	value.offerOrders.forEach(function(order) { order.doSave = true; });
 	value.trades.forEach(function(trade) { trade.doSave = true; });

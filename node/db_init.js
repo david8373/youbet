@@ -10,7 +10,8 @@ var CREATE_TABLE_USERS_QUERY = "CREATE TABLE users ( username varchar(60)," +
                                                    " email varchar(40)," +
 						   " password varchar(60)," + 
 						   " time timestamp);";
-var CREATE_TABLE_BETS_QUERY = "CREATE TABLE bets ( name varchar(40)," +
+var CREATE_TABLE_BETS_QUERY = "CREATE TABLE bets ( id serial primary key," + 
+                                                 " name varchar(40)," +
                                                  " time timestamp," +
                                                  " description varchar(500)," +
                                                  " participants varchar(200)," +
@@ -20,19 +21,21 @@ var CREATE_TABLE_BETS_QUERY = "CREATE TABLE bets ( name varchar(40)," +
 						 " max_val real," + 
 						 " tick_size real," + 
 						 " host varchar(60));";
-var CREATE_TABLE_ORDERS_QUERY = "CREATE TABLE orders ( bet_name varchar(40)," +
+var CREATE_TABLE_ORDERS_QUERY = "CREATE TABLE orders ( id serial primary key," + 
+                                                     "bet_name varchar(40)," +
                                                      " username varchar(60)," +
                                                      " is_bid boolean," +
                                                      " price real," +
                                                      " state order_state," +
                                                      " size int," +
                                                      " remaining_size int," +
-                                                     " id uuid," +
+                                                     " uid uuid," +
                                                      " time timestamp);";
-var CREATE_TABLE_TRADES_QUERY = "CREATE TABLE trades ( bet_name varchar(40)," +
+var CREATE_TABLE_TRADES_QUERY = "CREATE TABLE trades ( id serial primary key," +
+                                                     "bet_name varchar(40)," +
                                                      " long_user varchar(60)," +
                                                      " short_user varchar(60)," +
-                                                     " id uuid," +
+                                                     " uid uuid," +
                                                      " price real," +
                                                      " size int," +
                                                      " time timestamp);";

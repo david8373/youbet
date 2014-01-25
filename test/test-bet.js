@@ -143,5 +143,49 @@ exports.testExpireSettle = function(test) {
     test.done();
 };
 
+exports.testCalcDepth = function(test) {
+    var d = new Date();
+    d.setDate(d.getDate() + 3);
+    var bet = new Bet("YuhanBet6", "Yuhan's Bet 6", "david8373", d, 0.0, 1.0, 0.05, true);
+    bet.addParticipant('Jing');
+
+    // Bet initializes with empty depth
+    test.equals(0, bet.bp.length, "Depth initializes to 0");
+    test.equals(0, bet.bs.length, "Depth initializes to 0");
+    test.equals(0, bet.ap.length, "Depth initializes to 0");
+    test.equals(0, bet.as.length, "Depth initializes to 0");
+
+    // Bid depth after first order
+    bet.submit('david8373', true, 0.4, 5);
+    test.equals(1, bet.bp.length, "First bid in depth");
+    test.equals(1, bet.bs.length, "First bid in depth");
+    test.equals(0.4, bet.bp[0], "First bid in depth");
+    test.equals(5, bet.bs[0], "First bid in depth");
+
+    // Bid depth after different order
+    bet.submit('david8373', true, 0.3, 5);
+    test.equals(2, bet.bp.length, "Second bid in depth");
+    test.equals(2, bet.bs.length, "Second bid in depth");
+    test.equals(0.4, bet.bp[0], "Second bid in depth");
+    test.equals(5, bet.bs[0], "Second bid in depth");
+
+    // Bid depth after different order
+    bet.submit('david8373', true, 0.6, 6);
+    test.equals(3, bet.bp.length, "Third bid in depth");
+    test.equals(3, bet.bs.length, "Third bid in depth");
+    test.equals(0.6, bet.bp[0], "Third bid in depth");
+    test.equals(6, bet.bs[0], "Third bid in depth");
+
+    // Bid depth after different order
+    bet.submit('david8373', true, 0.4, 3);
+    console.log(bet.bp.length);
+    test.equals(3, bet.bp.length, "Fourth bid in depth");
+    test.equals(3, bet.bs.length, "Fourth bid in depth");
+    test.equals(0.4, bet.bp[1], "Fourth bid in depth");
+    test.equals(8, bet.bs[1], "Fourth bid in depth");
+
+    test.done();
+};
+
 POSTGRES_CLIENT.on('drain', POSTGRES_CLIENT.end.bind(POSTGRES_CLIENT));
 

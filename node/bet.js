@@ -27,6 +27,7 @@ function Bet(name, description, host, expiry, minVal, maxVal, tickSize, doSave) 
     this.tickSize = tickSize;
     this.doSave = doSave;
     this.init();
+    this.calc_depth();
     this.save();
 }
 
@@ -34,7 +35,7 @@ Bet.prototype.save = function() {
     if (this.doSave) {
 	var participants_str = this.participants.array().join(',');
 	var state_str = this.state.key.toUpperCase();
-	POSTGRES_CLIENT.query({text: 'INSERT INTO bets VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)', values: [this.name, this.initTime, this.description, this.host, state_str, this.expiry, this.minVal, this.maxVal, this.tickSize, this.host]}, function(err, result) {
+	POSTGRES_CLIENT.query({text: 'INSERT INTO bets(name,time,description,participants,state,expiry,min_val,max_val,tick_size,host) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)', values: [this.name, this.initTime, this.description, this.host, state_str, this.expiry, this.minVal, this.maxVal, this.tickSize, this.host]}, function(err, result) {
 	    if (err) {
 		console.log('Error when saving bet update: ' + err);
 		return;
@@ -72,6 +73,66 @@ Bet.prototype.addParticipant = function(participant) {
     }
 };
 
+Bet.prototype.calc_depth = function() {
+    this.bp = [];
+    this.bs = [];
+    this.ap = [];
+    this.as = [];
+    var acc = 0;
+    var p = this.maxVal + 1.0;
+    for (ind  in this.bidOrders) {	
+	var bidOrder = this.bidOrders[ind];
+	if (bidOrder.price < p) {
+	    if (p < this.maxVal) {
+		this.bp.push(p);
+		this.bs.push(acc);
+	    }
+	    p = bidOrder.price;
+	    acc = bidOrder.remainingSize;
+	}
+	else {
+	    acc += bidOrder.remainingSize;
+	}
+    }
+    if (acc > 0) {
+	this.bp.push(p);
+	this.bs.push(acc);
+    }
+
+    acc = 0;
+    p = this.minVal - 1.0;
+    for (ind  in this.askOrders) {
+	var askOrder = this.askOrders[ind];
+	if (askOrder.price > p) {
+	    if (p > this.minVal) {
+		this.ap.push(p);
+		this.as.push(acc);
+	    }
+	    p = askOrder.price;
+	    acc = askOrder.remainingSize;
+	}
+	else {
+	    acc += askOrder.remainingSize;
+	}
+    }
+    if (acc > 0) {
+	this.ap.push(p);
+	this.as.push(acc);
+    }
+};
+
+var PriceTimeAscending = function(o1, o2) {
+    if (o1.price == o2.price)
+	return o1.createTime - o2.createTime;
+    return o1.price - o2.price;
+}
+
+var PriceTimeDescending = function(o1, o2) {
+    if (o1.price == o2.price)
+	return o1.createTime - o2.createTime;
+    return o2.price - o1.price;
+}
+
 Bet.prototype.submit = function(participant, isBid, price, size) {
     if (!this.participants.has(participant))
 	var msg = "You (" + participant + ") are not invited to this bet. please contact " + this.host + " to include you";
@@ -100,11 +161,14 @@ Bet.prototype.submit = function(participant, isBid, price, size) {
     var orders = isBid?this.bidOrders:this.offerOrders;
     var newOrder = new Order(this, participant, isBid, price, sizeRounded, true);
     orders.push(newOrder);
-    if (isBid)
-	orders.sort(Order.PriceTimeDescending);
-    else
-	orders.sort(Order.PriceTimeAscending);
+    if (isBid) {
+	orders.sort(PriceTimeDescending);
+    }
+    else { 
+	orders.sort(PriceTimeAscending);
+    }
     var trades = this.cross();
+    this.calc_depth();
     this.save();
     return {state: ExecState.ACCEPTED, msg: trades};
 };
@@ -137,6 +201,7 @@ Bet.prototype.cancel = function(idToCancel) {
     else
 	msg = "Successfully cancelled order " + idToCancel;
 
+    this.calc_depth();
     this.save();
     return {success: true, msg: msg};
 };
@@ -150,6 +215,7 @@ Bet.prototype.expire = function() {
     this.offerOrders.forEach(function(order) { order.expire(); });
     this.removeTerminalOrders();
     this.state = BetState.EXPIRED;
+    this.calc_depth();
     this.save();
     return;
 };

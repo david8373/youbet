@@ -21,7 +21,7 @@ function Order(bet, participant, isBid, price, size, doSave) {
 Order.prototype.save = function() {
     if (this.doSave) {
 	var state_str = this.state.key.toUpperCase();
-	POSTGRES_CLIENT.query({text: 'INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)', values: [this.bet.name, this.participant, this.isBid, this.price, state_str, this.totalSize, this.remainingSize, this.id, this.createTime]}, function(err, result) {
+	POSTGRES_CLIENT.query({text: 'INSERT INTO orders(bet_name,username,is_bid,price,state,size,remaining_size,uid,time) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)', values: [this.bet.name, this.participant, this.isBid, this.price, state_str, this.totalSize, this.remainingSize, this.id, this.createTime]}, function(err, result) {
 	    if (err) {
 		console.log('Error when saving order update: ' + err);
 		return;
@@ -64,18 +64,4 @@ Order.prototype.fill = function(amount) {
     return;
 }
  
-function PriceTimeAscending(o1, o2) {
-    if (o1.price == o2.price)
-	return o1.createTime - o2.createTime;
-    return o1.price - o2.price;
-}
-
-function PriceTimeDescending(o1, o2) {
-    if (o1.price == o2.price)
-	return o1.createTime - o2.createTime;
-    return o2.price - o1.price;
-}
-
 module.exports = Order;
-module.exports.PriceTimeAscending = PriceTimeAscending;
-module.exports.PriceTimedescending = PriceTimeDescending;

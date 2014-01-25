@@ -14,7 +14,7 @@ function Trade(bet, longParty, shortParty, price, size, doSave) {
 
 Trade.prototype.save = function() {
     if (this.doSave) {
-	POSTGRES_CLIENT.query({text: 'INSERT INTO trades VALUES ($1, $2, $3, $4, $5, $6, $7)', values: [this.bet.name, this.longParty, this.shortParty, this.id, this.price, this.size, this.tradeTime]}, function(err, result) {
+	POSTGRES_CLIENT.query({text: 'INSERT INTO trades(bet_name,long_user,short_user,uid,price,size,time) VALUES ($1, $2, $3, $4, $5, $6, $7)', values: [this.bet.name, this.longParty, this.shortParty, this.id, this.price, this.size, this.tradeTime]}, function(err, result) {
 	    if (err) {
 		console.log('Error when saving trade update: ' + err);
 		return;

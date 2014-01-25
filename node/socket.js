@@ -3,8 +3,8 @@ var Enums = require('./enums.js');
 var BetState = Enums.BetState;
 
 exports.server = function(socket) {
-    console.log("Sending hello world!!!!!");
     socket.on('REQ_BETLIST', function(data) {
+	console.log('Got REQ_BETLIST request');
 	var active_list = [];
 	var expired_list = [];
 	var settled_list = [];
@@ -21,5 +21,9 @@ exports.server = function(socket) {
 	    }
 	});
 	socket.emit('BETLIST', {'Active': active_list, 'Expired': expired_list, 'Settled': settled_list});
+    });
+
+    socket.on('REQ_BET', function(data) {
+	console.log('Got REQ_BET request');
     });
 }
