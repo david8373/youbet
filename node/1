@@ -6,7 +6,9 @@ var BetState = Enums.BetState;
 exports.server = function(socket) {
     socket.on('BET_SUBSCRIBE', function(un, betname) {
 	console.log("socket BET_SUBSCRIBE: username=" + un + ", betname=" + betname);
+        console.log('Checking username for [' + un + ']');
 	var username = Security.check_secure_username(un);
+        console.log('Got username [' + username + ']');
 	if (!username) {
 	    console.warn("Username in cookies does not match (could have been changed manually at client side).");
 	    return;
@@ -19,7 +21,7 @@ exports.server = function(socket) {
 	    }
 	    socket.room = betname;
 	    socket.join(betname);
-	    socket.emit('BET_UPDATE', bet.jsonUpdateMsgFor(username));
+	    socket.emit('BET_UPDATE', bet.jsonUpdateMsg());
 	}
     });
 

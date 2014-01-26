@@ -57,6 +57,9 @@
 			<li class="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Expired<b class="caret"></b></a>
 			<ul class="dropdown-menu" id="expired-dropdown">
+			    <% for (var i = 0; i < expired.length; i++) {%>
+			    <li><a href=<%="/home/"+expired[i]%>><%= expired[i] %></a></li>
+			    <% } %>
 			</ul>
 			</li>
 			<li class="dropdown">
@@ -76,9 +79,97 @@
 	</div>
 
 	<div class="container">
-	    <span class="label label-warning"><%= alert %></span>
-	</div>
+	    <h1 id="bet-header">
+	    </h1>
+	    <div class="row">
+		<div class="col-md-8">
+		    <div class="panel-group" id="more-info-pgroup">
+			<div class="panel panel-default">
+			    <div class="panel-heading">
+				<h4 class="panel-title">
+				    <a data-toggle="collapse" data-parent="#more-info-pgroup" href="#more-info">More info</a>
+				</h4>
+			    </div>
+			    <div id="more-info" class="panel-collapse collapse in">
+				<div class="panel-body">
+				    <div class="row">
+					<div class="col-md-6">
+					    <div class="well" id="bet-description">
+					    </div>
+					</div>
+					<div class="col-md-6">
+					    <ul class="list-group">
+						<li class="list-group-item" id="bet-min-val"></li>
+						<li class="list-group-item" id="bet-max-val"></li>
+						<li class="list-group-item" id="bet-tick-size"></li>
+					    </ul>
+					</div>
+				    </div>
+				</div>
+			    </div> <!-- more-info panel -->
+			</div> <!-- more info panel -->
 
+			<div class="panel panel-default">
+			    <div class="panel-heading">
+				<h4 class="panel-title">
+				    Market
+				</h4>
+			    </div>
+			    <div id="market" class="panel-body">
+				<svg class="chart"></svg>
+			    </div> <!-- market panel body -->
+			</div> <!-- market panel -->
+		    </div> <!-- panel-group -->
+		</div> <!-- col-md-8 -->
+
+		<div class="col-md-4">
+		    <% if (bet_is_host) { %>
+		    <div class="input-group">
+			<input type="text" class="form-control" id="bet-invite">
+			<span class="input-group-btn">
+			    <button class="btn btn-default" type="button">Invite</button>
+			</span>
+		    </div>
+		    <% } %>
+		    <div class="input-group">
+			<span class="input-group-addon">Price</span>
+			<input type="text" class="form-control">
+		    </div>
+		    <div class="input-group">
+			<span class="input-group-addon">Size</span>
+			<input type="text" class="form-control">
+		    </div>
+		    <div class="container">
+			<button type="button" class="btn btn-default">Bid</button>
+			<button type="button" class="btn btn-default">Offer</button>
+		    </div>
+		    <hr>
+		    <ul class="list-group" id="order-list">
+			<li class="list-group-item">
+			Bid 20 @0.8
+			<button class="btn btn-default btn-xs type="button" style="float: right;">Cancel</button>
+			</li>
+			<li class="list-group-item">
+			Bid 20 @0.8
+			<button class="btn btn-default btn-xs" type="button" style="float: right;">Cancel</button>
+			</li>
+		    </ul>
+
+		    <hr>
+		    <ul class="list-group" id="trade-list">
+			<li class="list-group-item">
+			Long 30 @ 0.7
+			</li>
+			<li class="list-group-item">
+			Short 15 @ 0.6
+			</li>
+		    </ul>
+		</div> <!-- col-md-4 -->
+	    </div> <!-- row -->
+	</div>
+    </div>
+
+</div> <!-- /container -->
 
 <div class="footer">
     <p>&copy; Yuhan Zhang 2014</p>
@@ -89,5 +180,11 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="/jquery/jquery.js"></script>
 <script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<script src="/js/chart.js"></script>
+<script src="/js/bet.js"></script>
+
 </body>
 </html>

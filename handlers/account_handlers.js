@@ -62,7 +62,7 @@ exports.signup_post = function(req, res) {
 	    res.render('signup', {error: err});
 	    return;
 	}
-	res.cookie('username', username_h, {maxAge: 900000, httpOnly: true});
+	res.cookie('username', username_h, {maxAge: 900000, httpOnly: false});
 	res.redirect('/home');
 	return;
     });
@@ -115,7 +115,7 @@ exports.signin_post = function(req, res) {
 	console.log(result.rows[0]);
 	var password_h_saved = result.rows[0].password;
 	if (Security.check_secure_password(password, password_h_saved)) {
-	    res.cookie('username', username_h, {maxAge: 900000, httpOnly: true});
+	    res.cookie('username', username_h, {maxAge: 900000, httpOnly: false});
 	    res.redirect('/home');
 	    return;
 	}

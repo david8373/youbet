@@ -18,11 +18,13 @@ hash_str = function(s) {
 }
 
 exports.make_secure_username = function(s) {
+    console.log(util.format('%s|%s', s, hash_str(s)));
     return util.format('%s|%s', s, hash_str(s));
 }
 
 exports.check_secure_username = function(s) {
-    var sp = s.split('|');
+    var s_esc = s.replace('%7C', '|');
+    var sp = s_esc.split('|');
     if (sp.length != 2) {
 	return null;
     }
@@ -46,7 +48,8 @@ exports.make_secure_password = function(password) {
 }
 
 exports.check_secure_password = function(password, password_h) {
-    var sp = password_h.split('|');
+    var password_h_esc = password_h.replace('%7C', '|');
+    var sp = password_h_esc.split('|');
     if (sp.length != 2) {
 	return false;
     }

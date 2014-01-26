@@ -44,6 +44,7 @@ app.get('/signin', account_handlers.signin_get);
 app.post('/signin', account_handlers.signin_post);
 app.get('/logout', account_handlers.logout_get);
 app.get('/home', bet_handlers.home_get);
+app.get('/home/:bet_id', bet_handlers.home_bet_get);
 
 var server = http.createServer(app);
 var io = socketio.listen(server);

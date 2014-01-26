@@ -10,6 +10,7 @@ var ExecState = Enums.ExecState;
 var OrderState = Enums.OrderState;
 var BetState = Enums.BetState;
 var EPSILON = Consts.EPSILON;
+var DEPTH_LEVELS = Consts.DEPTH_LEVELS;
 
 var HashMap = map.HashMap;
 var Set = sets.Set;
@@ -287,6 +288,61 @@ Bet.prototype.removeTerminalOrders = function() {
     this.offerOrders = this.offerOrders.filter(function(order) {return !order.isTerminal();} );
 };
 
+Bet.prototype.jsonUpdateMsgFor = function(username) {
+    var depth = [];
+    for (var i = 0; i < Math.min(this.bp.length, DEPTH_LEVELS); ++i) {
+	depth.push([this.bp[i], this.bs[i]]);
+    }
+    for (var i = 0; i < Math.min(this.ap.length, DEPTH_LEVELS); ++i) {
+	depth.push([this.ap[i], -1 * this.as[i]]);
+    }
+
+    var orders = [];
+    for (var i in this.bidOrders) {
+	if (this.bidOrders[i].participant == username) {
+	    orders.push({'side': 'Bid', 
+		         'price': this.bidOrders[i].price, 
+		         'totalSize': this.bidOrders[i].totalSize,
+		         'remainingSize': this.bidOrders[i].remainingSize,
+	                 'uuid': this.bidOrders[i].id});
+	}
+    }
+    for (var i in this.askOrders) {
+	if (this.askOrders[i].participant == username) {
+	    orders.push({'side': 'Ask', 
+		         'price': this.askOrders[i].price, 
+		         'totalSize': this.askOrders[i].totalSize,
+		         'remainingSize': this.askOrders[i].remainingSize,
+	                 'uuid': this.askOrders[i].id});
+	}
+    }
+
+    var trades = [];
+    for (var i in this.trades) {
+	if (this.trades[i].longParty == username) {
+	    trades.push({'side': 'Long', 
+		         'price': this.trades[i].price, 
+		         'size': this.trades[i].size,
+	                 'uuid': this.trades[i].id});
+	}
+	else if (this.trades[i].shortParty = username) {
+	    trades.push({'side': 'Short', 
+		         'price': this.trades[i].price, 
+		         'size': this.trades[i].size,
+	                 'uuid': this.trades[i].id});
+	}
+    }
+    return {'name': this.name,
+	    'expiry': this.expiry,
+	    'state': this.state.key,
+	    'description': this.description,
+	    'minVal': this.minVal,
+	    'maxVal': this.maxVal,
+	    'tickSize': this.tickSize,
+	    'depth': depth, 
+            'orders': orders,
+            'trades': trades};
+};
 
 module.exports = Bet;
 

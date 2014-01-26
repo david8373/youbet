@@ -1,19 +1,18 @@
-.bidchart div {
-    font: 10px sans-serif;
-    background-color: steelblue;
-    align: right;
-    text-align: right;
-    padding: 3px;
-    margin: 1px;
-    color: white;
+.chart rect.bid {
+    fill: steelblue;
 }
 
-.askchart div {
-    font: 10px sans-serif;
-    background-color: red;
-    align: left;
-    text-align: left;
-    padding: 3px;
-    margin: 1px;
-    color: white;
+.chart rect.ask {
+    fill: red;
+}
+
+.axis {
+    font: 12px sans-serif;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
 }
