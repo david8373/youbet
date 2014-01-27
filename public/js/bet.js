@@ -1,24 +1,39 @@
 $(document).ready(function() {
     SOCKET = io.connect('http://ec2-54-213-10-197.us-west-2.compute.amazonaws.com:8080');
 
-    var betMatch = $(location).attr('href').match('\/home\/(.+)');
-    if (betMatch) {
-	var betname = betMatch[1];
-    }
-    var usernameMatch = document.cookie.match('username=(.+);*');
-    if (usernameMatch) {
-	var username = usernameMatch[1];
-    }
+    var betname = getBetName();
+    var username = getUsername();
     if (betname && username) {
 	console.log('Requesting BET_SUBSCRIBE: username=' + username + ", betname=" + betname);
         SOCKET.emit('BET_SUBSCRIBE', username, betname)
     }
 
     SOCKET.on('BET_LIST', on_BET_LIST);
-    SOCKET.on('BET_UPDATE', on_BET_UPDATE);
+    SOCKET.on('BET_UPDATE_STATIC', on_BET_UPDATE_STATIC);
+    SOCKET.on('BET_UPDATE_DEPTH', on_BET_UPDATE_DEPTH);
+    SOCKET.on('BET_UPDATE_ORDER', on_BET_UPDATE_ORDER);
+    SOCKET.on('BET_UPDATE_TRADE', on_BET_UPDATE_TRADE);
+    SOCKET.on('BET_CANCEL_RESPONSE', on_CANCEL_RESPONSE);
 });
 
+var getBetName = function() {
+    var betMatch = $(location).attr('href').match('\/home\/(.+)');
+    if (betMatch) {
+	return betMatch[1];
+    }
+    return null;
+}
+
+var getUsername = function() {
+    var usernameMatch = document.cookie.match('username=(.+);*');
+    if (usernameMatch) {
+	return usernameMatch[1];
+    }
+    return null;
+}
+    
 var on_BET_LIST = function(data) {
+    console.log("Received BET_LIST update on socket");
     var active_list = data.Active;
     $("#active-dropdown").empty();
     for (var i in active_list) {
@@ -45,7 +60,8 @@ var on_BET_LIST = function(data) {
     }
 }
 
-var on_BET_UPDATE = function(data) {
+var on_BET_UPDATE_STATIC = function(data) {
+    console.log("Received BET_UPDATE_STATIC update on socket");
     if (data.state.toUpperCase() == 'ACTIVE') {
 	var label = 'label-success';
     }
@@ -63,31 +79,58 @@ var on_BET_UPDATE = function(data) {
     $("#bet-min-val").text("Min value " + data.minVal);
     $("#bet-max-val").text("Max value " + data.maxVal);
     $("#bet-tick-size").text("Min tick size " + data.tickSize);
+}
 
+var on_BET_UPDATE_DEPTH = function(data) {
+    console.log("Received BET_UPDATE_DEPTH update on socket");
+    $(".chart").html("");
+    chart(data.depth);
+}
+
+var on_BET_UPDATE_ORDER = function(data) {
+    console.log("Received BET_UPDATE_ORDER update on socket");
     $("#order-list").empty();
     for (var i in data.orders) {
-	var orderContent = "<li class=\"list-group-item\" id=\"" + data.orders[i].uuid + "\">\n" 
+	var id = data.orders[i].uuid;
+	var cancelButtonId = "order-cancel-" + id;
+	var orderContent = "<li class=\"list-group-item\" id=\"order-" + data.orders[i].uuid + "\">\n" 
 	                   + data.orders[i].side + " " 
 			   + data.orders[i].remainingSize + "/"
 			   + data.orders[i].totalSize + " @"
 			   + data.orders[i].price + "\n"
-			   + "<button class=\"btn btn-default btn-xs\" type=\"button\" style=\"float: right;\">Cancel</button>"
+			   + "<button class=\"btn btn-default btn-xs\" type=\"button\" style=\"float: right;\"" 
+			   + " id=\"" + cancelButtonId + "\">Cancel</button>"
 			   + "\n</li>";
 	var $newOrder = $(orderContent);
 	$newOrder.appendTo("#order-list");
+        $("#" + cancelButtonId).on("click", {'username': getUsername(), 'betname': getBetName(), 'id': id}, function(e) {
+            SOCKET.emit('BET_CANCEL', e.data.username, e.data.betname, e.data.id);
+	});
     }
-    
+}
+
+var on_BET_UPDATE_TRADE = function(data) {
+    console.log("Received BET_UPDATE_TRADE update on socket");
     $("#trade-list").empty();
     for (var i in data.trades) {
-	var tradeContent = "<li class=\"list-group-item\" id=\"" + data.trades[i].uuid + "\">\n"
+	var tradeContent = "<li class=\"list-group-item\" id=\"trade-" + data.trades[i].uuid + "\">\n"
 	                   + data.trades[i].side + " "
 			   + data.trades[i].size + " @"
 			   + data.trades[i].price + "\n</li>";
 	var $newTrade = $(tradeContent);
 	$newTrade.appendTo("#trade-list");
-
     }
+}
 
-    //        'trades': trades};
-    chart(data.depth, data.tickSize);
+var on_CANCEL_RESPONSE = function(response) {
+    if (response.success) {
+	$("#order-" + response.uuid).hide("fast").remove();
+    }
+    else {
+	var $errorMsg = $("<div class=\"alert alert-warning\" id=\"order-msg-" + response.uuid + "\">" + response.msg + "</div>");
+	$errorMsg.insertAfter("#order-" + response.uuid);
+	setTimeout(function() {
+	    $("#order-msg-" + response.uuid).remove();
+	}, 3000);
+    }
 }

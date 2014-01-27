@@ -51,13 +51,15 @@ var load_orders = function(callback) {
 	    var order = new Order(BETS.get(row.bet_name), row.username, row.is_bid, row.price, row.size, false);
 	    order.remainingSize = row.remaining_size;
 	    order.state = OrderState.get(row.state);
-	    order.id = row.id;
+	    order.id = row.uid;
 	    order.createTime = row.time;
-	    if (order.isBid) {
-		BETS.get(row.bet_name).bidOrders.push(order);
-	    }
-	    else {
-		BETS.get(row.bet_name).offerOrders.push(order);
+	    if (!order.isTerminal()) {
+		if (order.isBid) {
+		    BETS.get(row.bet_name).bidOrders.push(order);
+		}
+		else {
+		    BETS.get(row.bet_name).offerOrders.push(order);
+		}
 	    }
 	}
 	callback();
@@ -73,19 +75,21 @@ var load_trades = function(callback) {
 	for (ind in result.rows) {
 	    var row = result.rows[ind];
 	    var trade = new Trade(BETS.get(row.bet_name), row.long_user, row.short_user, row.price, row.size, false);
-	    trade.id = row.id;
+	    trade.id = row.uid;
 	    trade.tradeTime = row.time;
 	    BETS.get(row.bet_name).trades.push(trade);
 	}
-        callback();
+	callback();
     });
 }
 
 var load_complete = function() {
     // Enable save after loaded from DB
     BETS.forEach(function(value, key) {
-	value.doSave = true;
+	value.sortBidOrders();
+	value.sortOfferOrders();
 	value.calc_depth();
+	value.doSave = true;
 	value.bidOrders.forEach(function(order) { order.doSave = true; });
 	value.offerOrders.forEach(function(order) { order.doSave = true; });
 	value.trades.forEach(function(trade) { trade.doSave = true; });

@@ -105,9 +105,11 @@ exports.testCancel = function(test) {
     var response = bet.submit('Yuhan', true, 0.2, 1);
     var orderID = bet.bidOrders[0].id;
     var response = bet.cancel(orderID);
+    console.log(response);
     test.ok(response.success, "Testing cancellation success");
     test.equals(0, bet.bidOrders.length, "Order should be gone after cancellation");
-    console.log(bet.bidOrders);
+    var response = bet.cancel(orderID);
+    test.ok(!response.success, "Cannot cancel unfound uuid");
     test.done();
 };
 

@@ -102,18 +102,18 @@ Bet.prototype.calc_depth = function() {
 
     acc = 0;
     p = this.minVal - 1.0;
-    for (ind  in this.askOrders) {
-	var askOrder = this.askOrders[ind];
-	if (askOrder.price > p) {
+    for (ind  in this.offerOrders) {
+	var offerOrder = this.offerOrders[ind];
+	if (offerOrder.price > p) {
 	    if (p > this.minVal) {
 		this.ap.push(p);
 		this.as.push(acc);
 	    }
-	    p = askOrder.price;
-	    acc = askOrder.remainingSize;
+	    p = offerOrder.price;
+	    acc = offerOrder.remainingSize;
 	}
 	else {
-	    acc += askOrder.remainingSize;
+	    acc += offerOrder.remainingSize;
 	}
     }
     if (acc > 0) {
@@ -163,10 +163,10 @@ Bet.prototype.submit = function(participant, isBid, price, size) {
     var newOrder = new Order(this, participant, isBid, price, sizeRounded, true);
     orders.push(newOrder);
     if (isBid) {
-	orders.sort(PriceTimeDescending);
+	this.sortBidOrders();
     }
     else { 
-	orders.sort(PriceTimeAscending);
+	this.sortOfferOrders();
     }
     var trades = this.cross();
     this.calc_depth();
@@ -174,8 +174,17 @@ Bet.prototype.submit = function(participant, isBid, price, size) {
     return {state: ExecState.ACCEPTED, msg: trades};
 };
 
+Bet.prototype.sortBidOrders = function() {
+    this.bidOrders.sort(PriceTimeDescending);
+};
+
+Bet.prototype.sortOfferOrders = function() {
+    this.offerOrders.sort(PriceTimeAscending);
+};
+
 Bet.prototype.cancel = function(idToCancel) {
-    var msg = "";
+    var msg = '';
+    var success = false;
     var numFound = 0;
 
     for (ind in this.bidOrders) {
@@ -199,12 +208,15 @@ Bet.prototype.cancel = function(idToCancel) {
 	msg = "Error cancelling: order cannot be found";
     else if (numFound > 1)
 	msg = "Warning cancelling: more than one order found"; // This should never happen
-    else
+    else {
 	msg = "Successfully cancelled order " + idToCancel;
+	success = true;
+    }
 
     this.calc_depth();
     this.save();
-    return {success: true, msg: msg};
+
+    return {'success': success, 'msg': msg};
 };
 
 Bet.prototype.expire = function() {
@@ -288,7 +300,17 @@ Bet.prototype.removeTerminalOrders = function() {
     this.offerOrders = this.offerOrders.filter(function(order) {return !order.isTerminal();} );
 };
 
-Bet.prototype.jsonUpdateMsgFor = function(username) {
+Bet.prototype.jsonStaticUpdateMsg = function() {
+    return {'name': this.name,
+	'expiry': this.expiry,
+	'state': this.state.key,
+	'description': this.description,
+	'minVal': this.minVal,
+	'maxVal': this.maxVal,
+	'tickSize': this.tickSize};
+};
+
+Bet.prototype.jsonDepthUpdateMsg = function() {
     var depth = [];
     for (var i = 0; i < Math.min(this.bp.length, DEPTH_LEVELS); ++i) {
 	depth.push([this.bp[i], this.bs[i]]);
@@ -296,52 +318,52 @@ Bet.prototype.jsonUpdateMsgFor = function(username) {
     for (var i = 0; i < Math.min(this.ap.length, DEPTH_LEVELS); ++i) {
 	depth.push([this.ap[i], -1 * this.as[i]]);
     }
+    return {'name': this.name,
+	    'depth': depth};
+};
 
+Bet.prototype.jsonOrderUpdateMsg = function(username) {
     var orders = [];
     for (var i in this.bidOrders) {
 	if (this.bidOrders[i].participant == username) {
 	    orders.push({'side': 'Bid', 
-		         'price': this.bidOrders[i].price, 
-		         'totalSize': this.bidOrders[i].totalSize,
-		         'remainingSize': this.bidOrders[i].remainingSize,
-	                 'uuid': this.bidOrders[i].id});
+		'price': this.bidOrders[i].price, 
+		'totalSize': this.bidOrders[i].totalSize,
+		'remainingSize': this.bidOrders[i].remainingSize,
+		'uuid': this.bidOrders[i].id});
 	}
     }
-    for (var i in this.askOrders) {
-	if (this.askOrders[i].participant == username) {
+    for (var i in this.offerOrders) {
+	if (this.offerOrders[i].participant == username) {
 	    orders.push({'side': 'Ask', 
-		         'price': this.askOrders[i].price, 
-		         'totalSize': this.askOrders[i].totalSize,
-		         'remainingSize': this.askOrders[i].remainingSize,
-	                 'uuid': this.askOrders[i].id});
+		'price': this.offerOrders[i].price, 
+		'totalSize': this.offerOrders[i].totalSize,
+		'remainingSize': this.offerOrders[i].remainingSize,
+		'uuid': this.offerOrders[i].id});
 	}
     }
+    return {'name': this.name,
+	    'orders': orders};
+};
 
+Bet.prototype.jsonTradeUpdateMsg = function(username) {
     var trades = [];
     for (var i in this.trades) {
 	if (this.trades[i].longParty == username) {
 	    trades.push({'side': 'Long', 
-		         'price': this.trades[i].price, 
-		         'size': this.trades[i].size,
-	                 'uuid': this.trades[i].id});
+		'price': this.trades[i].price, 
+		'size': this.trades[i].size,
+		'uuid': this.trades[i].id});
 	}
 	else if (this.trades[i].shortParty = username) {
 	    trades.push({'side': 'Short', 
-		         'price': this.trades[i].price, 
-		         'size': this.trades[i].size,
-	                 'uuid': this.trades[i].id});
+		'price': this.trades[i].price, 
+		'size': this.trades[i].size,
+		'uuid': this.trades[i].id});
 	}
     }
     return {'name': this.name,
-	    'expiry': this.expiry,
-	    'state': this.state.key,
-	    'description': this.description,
-	    'minVal': this.minVal,
-	    'maxVal': this.maxVal,
-	    'tickSize': this.tickSize,
-	    'depth': depth, 
-            'orders': orders,
-            'trades': trades};
+	    'trades': trades};
 };
 
 module.exports = Bet;

@@ -35,6 +35,7 @@ Order.prototype.isTerminal = function() {
 };
 
 Order.prototype.cancel = function() {
+    console.log("Cancelling " + this.id);
     this.state = OrderState.CANCELLED;
     this.save();
 }

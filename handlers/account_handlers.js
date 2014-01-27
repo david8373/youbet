@@ -62,9 +62,11 @@ exports.signup_post = function(req, res) {
 	    res.render('signup', {error: err});
 	    return;
 	}
-	res.cookie('username', username_h, {maxAge: 900000, httpOnly: false});
-	res.redirect('/home');
-	return;
+	else {
+	    res.cookie('username', username_h, {maxAge: 900000, httpOnly: false});
+	    res.redirect('/home');
+	    return;
+	}
     });
 };
 
@@ -91,7 +93,7 @@ exports.signin_post = function(req, res) {
 
     if (error) {
 	res.status(403);
-	res.render('/signup', {error:error});
+	res.render('signup', {error:error});
 	return;
     }
 
@@ -121,7 +123,7 @@ exports.signin_post = function(req, res) {
 	}
 	else {
 	    res.status(403);
-	    res.render('/signin', {error: 'Password incorrect'});
+	    res.render('signin', {error: 'Password incorrect'});
 	    return;
 	}
     });

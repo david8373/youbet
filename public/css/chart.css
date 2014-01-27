@@ -6,6 +6,12 @@
     fill: red;
 }
 
+.chart text.bar {
+    fill: white;
+    font: 10px sans-serif;
+    text-anchor: middle;
+}
+
 .axis {
     font: 12px sans-serif;
 }

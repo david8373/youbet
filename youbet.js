@@ -47,7 +47,7 @@ app.get('/home', bet_handlers.home_get);
 app.get('/home/:bet_id', bet_handlers.home_bet_get);
 
 var server = http.createServer(app);
-var io = socketio.listen(server);
+IO = socketio.listen(server);
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
@@ -57,4 +57,4 @@ DbClient.create();
 DbLoad.load_all();
 
 // socket.io
-io.sockets.on('connection', Socket.server);
+IO.sockets.on('connection', Socket.server);
