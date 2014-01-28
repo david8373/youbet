@@ -2,6 +2,7 @@ var Enums = require('./enums.js');
 var Security = require('./security.js');
 
 var BetState = Enums.BetState;
+var ExecState = Enums.ExecState;
 
 exports.server = function(socket) {
     socket.on('BET_SUBSCRIBE', function(un, betname) {
@@ -47,6 +48,66 @@ exports.server = function(socket) {
 		console.log("Broadcasting depth to room " + betname);
 		console.log("Current socket room = " + socket.room);
 		IO.sockets.in(betname).emit('BET_UPDATE_DEPTH', bet.jsonDepthUpdateMsg());
+	    }
+	}
+    });
+
+    socket.on('BET_NEWORDER', function(un, betname, verb, price, size) {
+	console.log("socket BET_NEWORDER username=" + un + 
+	            ", betname=" + betname + 
+		    ", verb=" + verb + 
+		    ", price=" + price +
+		    ", size=" + size);
+	var username = Security.check_secure_username(un);
+	if (!username) {
+	    console.warn("Username in cookies does not match (could have been changed manually at client side).");
+	    return;
+	}
+	if (!socket.username == username) {
+	    console.warn("Username on new order request does not match username on this socket - this should never happen!");
+	    return;
+	}
+	var bet = BETS.get(betname);
+	var isBid;
+	if (verb == 'Bid') {
+	    isBid = true;
+	}
+	else {
+	    isBid = false;
+	}
+	if (bet) {
+	    var result = bet.submit(username, isBid, parseFloat(price), parseFloat(size));
+	    console.log('result:');
+	    console.log(result);
+	    var response = {};
+	    if (result.state == ExecState.ACCEPTED) {
+		response.success = true;
+		response.err = '';
+		socket.emit('BET_NEWORDER_RESPONSE', response);
+		IO.sockets.in(betname).emit('BET_UPDATE_DEPTH', bet.jsonDepthUpdateMsg());
+
+		// Even when no trades recorded, wash-trades (self-crossing) could have reduced order remaining size
+		var socketsInRoom = IO.sockets.clients(betname);
+		for (i in socketsInRoom) {
+		    console.log("Emitting order info for " + socketsInRoom[i].username);
+		    socketsInRoom[i].emit('BET_UPDATE_ORDER', bet.jsonOrderUpdateMsg(socketsInRoom[i].username));
+		}
+
+		// Update trades only when there are trades
+		if (result.msg.length > 0) {
+		    var socketsInRoom = IO.sockets.clients(betname);
+		    for (i in socketsInRoom) {
+			console.log("Emitting order info for " + socketsInRoom[i].username);
+		        socketsInRoom[i].emit('BET_UPDATE_ORDER', bet.jsonOrderUpdateMsg(socketsInRoom[i].username));
+			console.log("Emitting trade info for " + socketsInRoom[i].username);
+		        socketsInRoom[i].emit('BET_UPDATE_TRADE', bet.jsonTradeUpdateMsg(socketsInRoom[i].username));
+		    }
+		}
+	    }
+	    else {
+		response.success = false;
+		response.err = result.msg;
+		socket.emit('BET_NEWORDER_RESPONSE', response);
 	    }
 	}
     });

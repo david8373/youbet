@@ -1,6 +1,4 @@
 
-var a = [1,2,3,4,5];
-
-a.forEach(function(o) {
-    console.log(o);
-});
+var a = 0.9;
+var b = 0.9;
+console.log((parseFloat(a)+parseFloat(b))/2);

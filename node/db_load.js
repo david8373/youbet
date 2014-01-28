@@ -29,7 +29,7 @@ var load_bets = function(callback) {
 	    var participants = row.participants.split(',');
 	    var bet = new Bet(row.name, row.description, row.host, row.expiry, row.min_val, row.max_val, row.tick_size, false);
 	    bet.initTime = row.time;
-	    bet.participants = new Set(row.participants.split(','));
+	    bet.participants = new Set(participants);
 	    bet.state = BetState.get(row.state);
 	    bets.set(row.name, bet);
 	}

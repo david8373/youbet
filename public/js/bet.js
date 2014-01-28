@@ -5,7 +5,7 @@ $(document).ready(function() {
     var username = getUsername();
     if (betname && username) {
 	console.log('Requesting BET_SUBSCRIBE: username=' + username + ", betname=" + betname);
-        SOCKET.emit('BET_SUBSCRIBE', username, betname)
+	SOCKET.emit('BET_SUBSCRIBE', username, betname)
     }
 
     SOCKET.on('BET_LIST', on_BET_LIST);
@@ -14,6 +14,26 @@ $(document).ready(function() {
     SOCKET.on('BET_UPDATE_ORDER', on_BET_UPDATE_ORDER);
     SOCKET.on('BET_UPDATE_TRADE', on_BET_UPDATE_TRADE);
     SOCKET.on('BET_CANCEL_RESPONSE', on_CANCEL_RESPONSE);
+    SOCKET.on('BET_NEWORDER_RESPONSE', on_BET_NEWORDER_RESPONSE);
+
+    $('#button-bid').on("click", {'username': getUsername(), 
+	                          'betname': getBetName(),
+	                          'price': $("#input-price").val(), 
+	                          'size': $("#input-size").val()}, function(e) {
+        var price = $("#input-price").val();
+        var size = $("#input-size").val();
+	console.log("Bid button clicked, price=" + price + ", size=" + size);
+	SOCKET.emit('BET_NEWORDER', e.data.username, e.data.betname, 'Bid', price, size);
+    });
+    $('#button-offer').on("click", {'username': getUsername(), 
+	                            'betname': getBetName(),
+	                            'price': $("#input-price").val(), 
+	                            'size': $("#input-size").val()}, function(e) {
+        var price = $("#input-price").val();
+        var size = $("#input-size").val();
+	console.log("Ask button clicked, price=" + price + ", size=" + size);
+	SOCKET.emit('BET_NEWORDER', e.data.username, e.data.betname, 'Ask', price, size);
+    });
 });
 
 var getBetName = function() {
@@ -31,7 +51,7 @@ var getUsername = function() {
     }
     return null;
 }
-    
+
 var on_BET_LIST = function(data) {
     console.log("Received BET_LIST update on socket");
     var active_list = data.Active;
@@ -84,6 +104,13 @@ var on_BET_UPDATE_STATIC = function(data) {
 var on_BET_UPDATE_DEPTH = function(data) {
     console.log("Received BET_UPDATE_DEPTH update on socket");
     $(".chart").html("");
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 5; i++ )
+	text += possible.charAt(Math.floor(Math.random() * possible.length));
+    $(".chart").attr("id", text);
+
     chart(data.depth);
 }
 
@@ -94,17 +121,17 @@ var on_BET_UPDATE_ORDER = function(data) {
 	var id = data.orders[i].uuid;
 	var cancelButtonId = "order-cancel-" + id;
 	var orderContent = "<li class=\"list-group-item\" id=\"order-" + data.orders[i].uuid + "\">\n" 
-	                   + data.orders[i].side + " " 
-			   + data.orders[i].remainingSize + "/"
-			   + data.orders[i].totalSize + " @"
-			   + data.orders[i].price + "\n"
-			   + "<button class=\"btn btn-default btn-xs\" type=\"button\" style=\"float: right;\"" 
-			   + " id=\"" + cancelButtonId + "\">Cancel</button>"
-			   + "\n</li>";
+	    + data.orders[i].side + " " 
+	    + data.orders[i].remainingSize + "/"
+	    + data.orders[i].totalSize + " @"
+	    + data.orders[i].price + "\n"
+	    + "<button class=\"btn btn-default btn-xs\" type=\"button\" style=\"float: right;\"" 
+	    + " id=\"" + cancelButtonId + "\">Cancel</button>"
+	    + "\n</li>";
 	var $newOrder = $(orderContent);
 	$newOrder.appendTo("#order-list");
-        $("#" + cancelButtonId).on("click", {'username': getUsername(), 'betname': getBetName(), 'id': id}, function(e) {
-            SOCKET.emit('BET_CANCEL', e.data.username, e.data.betname, e.data.id);
+	$("#" + cancelButtonId).on("click", {'username': getUsername(), 'betname': getBetName(), 'id': id}, function(e) {
+	    SOCKET.emit('BET_CANCEL', e.data.username, e.data.betname, e.data.id);
 	});
     }
 }
@@ -114,9 +141,9 @@ var on_BET_UPDATE_TRADE = function(data) {
     $("#trade-list").empty();
     for (var i in data.trades) {
 	var tradeContent = "<li class=\"list-group-item\" id=\"trade-" + data.trades[i].uuid + "\">\n"
-	                   + data.trades[i].side + " "
-			   + data.trades[i].size + " @"
-			   + data.trades[i].price + "\n</li>";
+	    + data.trades[i].side + " "
+	    + data.trades[i].size + " @"
+	    + data.trades[i].price + "\n</li>";
 	var $newTrade = $(tradeContent);
 	$newTrade.appendTo("#trade-list");
     }
@@ -124,13 +151,25 @@ var on_BET_UPDATE_TRADE = function(data) {
 
 var on_CANCEL_RESPONSE = function(response) {
     if (response.success) {
-	$("#order-" + response.uuid).hide("fast").remove();
+	$("#order-" + response.uuid).hide("fast", function() { $(this).remove(); });
     }
     else {
-	var $errorMsg = $("<div class=\"alert alert-warning\" id=\"order-msg-" + response.uuid + "\">" + response.msg + "</div>");
+	var $errorMsg = $("<div class=\"alert alert-warning\" id=\"order-cancel-msg-" + response.uuid + "\">" + response.msg + "</div>");
 	$errorMsg.insertAfter("#order-" + response.uuid);
 	setTimeout(function() {
-	    $("#order-msg-" + response.uuid).remove();
+	    $("#order-cancel-msg-" + response.uuid).hide("fast", function() { $(this).remove(); });
+	}, 3000);
+    }
+}
+
+var on_BET_NEWORDER_RESPONSE = function(response) {
+    $("#input-price").val("");
+    $("#input-size").val("");
+    if (!response.success) {
+	var $errorMsg = $("<div class=\"alert alert-warning\" id=\"order-msg\">" + response.err + "</div>");
+	$errorMsg.insertAfter("#button-offer");
+	setTimeout(function() {
+	    $("#order-msg").hide("fast", function() { $(this).remove(); });
 	}, 3000);
     }
 }

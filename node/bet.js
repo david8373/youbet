@@ -36,7 +36,7 @@ Bet.prototype.save = function() {
     if (this.doSave) {
 	var participants_str = this.participants.array().join(',');
 	var state_str = this.state.key.toUpperCase();
-	POSTGRES_CLIENT.query({text: 'INSERT INTO bets(name,time,description,participants,state,expiry,min_val,max_val,tick_size,host) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)', values: [this.name, this.initTime, this.description, this.host, state_str, this.expiry, this.minVal, this.maxVal, this.tickSize, this.host]}, function(err, result) {
+	POSTGRES_CLIENT.query({text: 'INSERT INTO bets(name,time,description,participants,state,expiry,min_val,max_val,tick_size,host) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)', values: [this.name, this.initTime, this.description, participants_str, state_str, this.expiry, this.minVal, this.maxVal, this.tickSize, this.host]}, function(err, result) {
 	    if (err) {
 		console.log('Error when saving bet update: ' + err);
 		return;
@@ -271,14 +271,18 @@ Bet.prototype.cross = function() {
     while (bidInd < numBids && offerInd < numOffers) {
 	var bidOrder = this.bidOrders[bidInd];
 	var offerOrder = this.offerOrders[offerInd];
-	if (bidOrder.price < offerOrder.price)
+	var bidPrice = parseFloat(bidOrder.price);
+	var offerPrice = parseFloat(offerOrder.price);
+	if (bidPrice < offerPrice)
 	    break;
-	var crossPrice = (bidOrder.price + offerOrder.price) / 2.0;
+	var crossPrice = (bidPrice + offerPrice) / 2;
 	var crossSize = Math.min(bidOrder.remainingSize, offerOrder.remainingSize);
 	if (crossSize > 0) {
-	    var newTrade = new Trade(this, bidOrder.participant, offerOrder.participant, crossPrice, crossSize, true);
-	    this.trades.push(newTrade);
-	    tradesThisTime.push(newTrade);
+	    if (bidOrder.participant != offerOrder.participant) { // no wash trades allowed
+	        var newTrade = new Trade(this, bidOrder.participant, offerOrder.participant, crossPrice, crossSize, true);
+	        this.trades.push(newTrade);
+	        tradesThisTime.push(newTrade);
+	    }
 
 	    bidOrder.fill(crossSize);
 	    offerOrder.fill(crossSize);
