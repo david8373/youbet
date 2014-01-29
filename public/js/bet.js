@@ -15,25 +15,29 @@ $(document).ready(function() {
     SOCKET.on('BET_UPDATE_TRADE', on_BET_UPDATE_TRADE);
     SOCKET.on('BET_CANCEL_RESPONSE', on_CANCEL_RESPONSE);
     SOCKET.on('BET_NEWORDER_RESPONSE', on_BET_NEWORDER_RESPONSE);
+    SOCKET.on('BET_INVITE_RESPONSE', on_BET_INVITE_RESPONSE);
+
+    $('#button-invite').on("click", {'username': getUsername(),
+	'betname': getBetName()}, function(e) {
+	    var invite = $("#input-invite").val().trim();
+	    console.log("Invite button clicked, invite=" + invite);
+	    SOCKET.emit('BET_INVITE', e.data.username, e.data.betname, invite);
+	});
 
     $('#button-bid').on("click", {'username': getUsername(), 
-	                          'betname': getBetName(),
-	                          'price': $("#input-price").val(), 
-	                          'size': $("#input-size").val()}, function(e) {
-        var price = $("#input-price").val();
-        var size = $("#input-size").val();
-	console.log("Bid button clicked, price=" + price + ", size=" + size);
-	SOCKET.emit('BET_NEWORDER', e.data.username, e.data.betname, 'Bid', price, size);
-    });
+	'betname': getBetName()}, function(e) {
+	    var price = $("#input-price").val();
+	    var size = $("#input-size").val();
+	    console.log("Bid button clicked, price=" + price + ", size=" + size);
+	    SOCKET.emit('BET_NEWORDER', e.data.username, e.data.betname, 'Bid', price, size);
+	});
     $('#button-offer').on("click", {'username': getUsername(), 
-	                            'betname': getBetName(),
-	                            'price': $("#input-price").val(), 
-	                            'size': $("#input-size").val()}, function(e) {
-        var price = $("#input-price").val();
-        var size = $("#input-size").val();
-	console.log("Ask button clicked, price=" + price + ", size=" + size);
-	SOCKET.emit('BET_NEWORDER', e.data.username, e.data.betname, 'Ask', price, size);
-    });
+	'betname': getBetName()}, function(e) {
+	    var price = $("#input-price").val();
+	    var size = $("#input-size").val();
+	    console.log("Ask button clicked, price=" + price + ", size=" + size);
+	    SOCKET.emit('BET_NEWORDER', e.data.username, e.data.betname, 'Ask', price, size);
+	});
 });
 
 var getBetName = function() {
@@ -154,6 +158,7 @@ var on_CANCEL_RESPONSE = function(response) {
 	$("#order-" + response.uuid).hide("fast", function() { $(this).remove(); });
     }
     else {
+	$("#order-cancel-msg-" + response.uuid).remove();
 	var $errorMsg = $("<div class=\"alert alert-warning\" id=\"order-cancel-msg-" + response.uuid + "\">" + response.msg + "</div>");
 	$errorMsg.insertAfter("#order-" + response.uuid);
 	setTimeout(function() {
@@ -166,10 +171,31 @@ var on_BET_NEWORDER_RESPONSE = function(response) {
     $("#input-price").val("");
     $("#input-size").val("");
     if (!response.success) {
+	$("#order-msg").remove();
 	var $errorMsg = $("<div class=\"alert alert-warning\" id=\"order-msg\">" + response.err + "</div>");
 	$errorMsg.insertAfter("#button-offer");
 	setTimeout(function() {
 	    $("#order-msg").hide("fast", function() { $(this).remove(); });
+	}, 3000);
+    }
+}
+
+var on_BET_INVITE_RESPONSE = function(response) {
+    $("#input-invite").val("");
+    if (!response.success) {
+	$("#invite-msg").remove();
+	var $errorMsg = $("<div class=\"alert alert-warning\" id=\"invite-msg\">" + response.msg + "</div>");
+	$errorMsg.insertAfter("#invite");
+	setTimeout(function() {
+	    $("#invite-msg").hide("fast", function() { $(this).remove(); });
+	}, 3000);
+    }
+    else {
+	$("#invite-msg").remove();
+	var $successMsg = $("<div class=\"alert alert-success\" id=\"invite-msg\">" + response.msg + "</div>");
+	$successMsg.insertAfter("#invite");
+	setTimeout(function() {
+	    $("#invite-msg").hide("fast", function() { $(this).remove(); });
 	}, 3000);
     }
 }

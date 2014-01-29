@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
 	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="Expires" content="-10">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
@@ -72,6 +72,7 @@
 			</li>
 		    </ul>
 		    <ul class="nav navbar-nav navbar-right">
+			<li><p class="navbar-text"><%=welcome_msg%></p>
 			<li><a href="/logout">Logout</a></li>
 		    </ul>
 		</div><!--/.nav-collapse -->
@@ -124,10 +125,10 @@
 
 		<div class="col-md-4">
 		    <% if (bet_is_host) { %>
-		    <div class="input-group">
-			<input type="text" class="form-control" id="bet-invite">
+		    <div class="input-group" id="invite">
+			<input type="text" class="form-control" id="input-invite">
 			<span class="input-group-btn">
-			    <button class="btn btn-default" type="button">Invite</button>
+			    <button class="btn btn-default" type="button" id="button-invite">Invite</button>
 			</span>
 		    </div>
 		    <hr>

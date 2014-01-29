@@ -18,11 +18,13 @@ exports.load_all = function() {
 }
 
 var load_bets = function(callback) {
+    var a = 1;
     POSTGRES_CLIENT.query('SELECT DISTINCT ON (name) * FROM bets ORDER BY name, id DESC;', function(err, result) {
 	if (err) {
 	    console.log('Error when loading bets from DB: ' + err);
 	    callback();
 	}
+	console.log("Inside and I can see a=" + a);
 	var bets = new HashMap();
 	for (ind in result.rows) {
 	    var row = result.rows[ind];

@@ -54,10 +54,10 @@ exports.server = function(socket) {
 
     socket.on('BET_NEWORDER', function(un, betname, verb, price, size) {
 	console.log("socket BET_NEWORDER username=" + un + 
-	            ", betname=" + betname + 
-		    ", verb=" + verb + 
-		    ", price=" + price +
-		    ", size=" + size);
+	    ", betname=" + betname + 
+	    ", verb=" + verb + 
+	    ", price=" + price +
+	    ", size=" + size);
 	var username = Security.check_secure_username(un);
 	if (!username) {
 	    console.warn("Username in cookies does not match (could have been changed manually at client side).");
@@ -98,9 +98,9 @@ exports.server = function(socket) {
 		    var socketsInRoom = IO.sockets.clients(betname);
 		    for (i in socketsInRoom) {
 			console.log("Emitting order info for " + socketsInRoom[i].username);
-		        socketsInRoom[i].emit('BET_UPDATE_ORDER', bet.jsonOrderUpdateMsg(socketsInRoom[i].username));
+			socketsInRoom[i].emit('BET_UPDATE_ORDER', bet.jsonOrderUpdateMsg(socketsInRoom[i].username));
 			console.log("Emitting trade info for " + socketsInRoom[i].username);
-		        socketsInRoom[i].emit('BET_UPDATE_TRADE', bet.jsonTradeUpdateMsg(socketsInRoom[i].username));
+			socketsInRoom[i].emit('BET_UPDATE_TRADE', bet.jsonTradeUpdateMsg(socketsInRoom[i].username));
 		    }
 		}
 	    }
@@ -108,6 +108,57 @@ exports.server = function(socket) {
 		response.success = false;
 		response.err = result.msg;
 		socket.emit('BET_NEWORDER_RESPONSE', response);
+	    }
+	}
+    });
+
+    socket.on('BET_INVITE', function(un, betname, invite) {
+	console.log("socket BET_INVITE username=" + un + 
+	    ", betname=" + betname + 
+	    ", invite=" + invite);
+	var username = Security.check_secure_username(un);
+	if (!username) {
+	    console.warn("Username in cookies does not match (could have been changed manually at client side).");
+	    return;
+	}
+	if (!socket.username == username) {
+	    console.warn("Username on new order request does not match username on this socket - this should never happen!");
+	    return;
+	}
+	if (/,/.test(invite)) {
+	    socket.emit('BET_INVITE_RESPONSE', {'success': false, 
+		'msg': 'One person at a time please (no comma-deliminated list)'});
+	    return;
+	}
+    //POSTGRES_CLIENT.query('SELECT DISTINCT ON (name) * FROM bets ORDER BY name, id DESC;', function(err, result) {
+    //    if (err) {
+    //        console.log('Error when loading bets from DB: ' + err);
+    //        callback();
+    //    }
+    //    var bets = new HashMap();
+    //    for (ind in result.rows) {
+    //        var row = result.rows[ind];
+    //        var participants = row.participants.split(',');
+    //        var bet = new Bet(row.name, row.description, row.host, row.expiry, row.min_val, row.max_val, row.tick_size, false);
+    //        bet.initTime = row.time;
+    //        bet.participants = new Set(participants);
+    //        bet.state = BetState.get(row.state);
+    //        bets.set(row.name, bet);
+    //    }
+
+    //    BETS = bets;
+    //    console.log('bets loaded');
+    //    callback();
+    //});
+	var bet = BETS.get(betname);
+	if (bet) {
+	    var result = bet.addParticipant(invite);
+	    console.log(result);
+	    if (result.success) {
+		socket.emit('BET_INVITE_RESPONSE', {'success': true, 'msg': result.msg});
+	    }
+	    else {
+		socket.emit('BET_INVITE_RESPONSE', {'success': false, 'msg': result.msg});
 	    }
 	}
     });

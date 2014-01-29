@@ -66,11 +66,14 @@ Bet.prototype.getOfferOrders = function() {
 
 Bet.prototype.addParticipant = function(participant) {
     if (this.participants.has(participant)) {
-	console.warn("Participant " + participant + " already in the list!!");
+	var msg = "Participant " + participant + " already participating";
+	console.warn(msg);
+	return {'success': false, 'msg': msg};
     }
     else {
 	this.participants.add(participant);
 	this.save();
+	return {'success': true, 'msg': "Participant " + participant + " successfully added"};
     }
 };
 
@@ -137,20 +140,19 @@ var PriceTimeDescending = function(o1, o2) {
 Bet.prototype.submit = function(participant, isBid, price, size) {
     if (!this.participants.has(participant))
 	var msg = "You (" + participant + ") are not invited to this bet. please contact " + this.host + " to include you";
-
-    if (this.state != BetState.ACTIVE)
+    else if (this.state != BetState.ACTIVE)
 	var msg = "Bet state is " + this.state + " and no more orders allowed";
-
-    if (price < this.minVal)
+    else if (!price || isNaN(price))
+	var msg = "Price must be a numeric value";
+    else if (!size || isNaN(size))
+	var msg = "Size must be a numeric value";
+    else if (price < this.minVal)
 	var msg = price + " is below minimum price (" + this.minVal + ") of this bet";
-
-    if (price > this.maxVal)
+    else if (price > this.maxVal)
 	var msg = price + " is above maximum price (" + this.maxVal + ") of this bet";
-
-    if ((Math.abs(Math.round(price / this.tickSize) * this.tickSize) - price) > EPSILON)
+    else if ((Math.abs(Math.round(price / this.tickSize) * this.tickSize) - price) > EPSILON)
 	var msg = price + " does not follow minimum tick size of " + this.tickSize;
-
-    if (size <= 0)
+    else if (size <= 0)
 	var msg = "Order size (" + size + ") should be positive";
 
     if (msg) {

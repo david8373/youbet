@@ -10,7 +10,8 @@ exports.home_get = function(req, res) {
 	res.redirect('/signin');
 	return;
     }
-    if (!Security.check_secure_username(req.cookies.username)) {
+    var username = Security.check_secure_username(req.cookies.username);
+    if (!username) {
 	console.warn("Username in cookies does not match (could have been changed manually at client side), redirecting to signin page");
 	res.redirect('/signin');
 	return;
@@ -29,7 +30,7 @@ exports.home_get = function(req, res) {
 	    settled_list.push(value.name);
 	}
     });
-    res.render('home', {'alert': '', 'active': active_list, 'expired': expired_list, 'settled': settled_list});
+    res.render('home', {'welcome_msg': 'Welcome ' + username + '!', 'alert': '', 'active': active_list, 'expired': expired_list, 'settled': settled_list});
 };
 
 exports.home_bet_get = function(req, res) {
@@ -61,7 +62,7 @@ exports.home_bet_get = function(req, res) {
 
     var bet = BETS.get(req.params.bet_id);
     if (!bet) {
-        res.render('home', {'alert': 'iBet not found!', 'active': active_list, 'expired': expired_list, 'settled': settled_list});
+        res.render('home', {'welcome_msg': 'Welcome ' + username + '!', 'alert': 'iBet not found!', 'active': active_list, 'expired': expired_list, 'settled': settled_list});
 	return;
     }
 
@@ -71,7 +72,8 @@ exports.home_bet_get = function(req, res) {
     else {
 	var is_host = false;
     }
-    res.render('bet_main', {'alert': '', 
+    res.render('bet_main', {'welcome_msg': 'Welcome ' + username + '!', 
+	                'alert': '', 
 	                'active': active_list, 
 	                'expired': expired_list, 
 	                'settled': settled_list, 
