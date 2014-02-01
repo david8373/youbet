@@ -31,6 +31,7 @@ exports.home_get = function(req, res) {
 	}
     });
     res.render('home', {'welcome_msg': 'Welcome ' + username + '!', 'alert': '', 'active': active_list, 'expired': expired_list, 'settled': settled_list});
+    return;
 };
 
 exports.home_bet_get = function(req, res) {
@@ -62,7 +63,7 @@ exports.home_bet_get = function(req, res) {
 
     var bet = BETS.get(req.params.bet_id);
     if (!bet) {
-        res.render('home', {'welcome_msg': 'Welcome ' + username + '!', 'alert': 'iBet not found!', 'active': active_list, 'expired': expired_list, 'settled': settled_list});
+        res.render('home', {'welcome_msg': 'Welcome ' + username + '!', 'alert': 'Bet not found!', 'active': active_list, 'expired': expired_list, 'settled': settled_list});
 	return;
     }
 

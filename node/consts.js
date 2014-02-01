@@ -4,6 +4,7 @@ exports.DEPTH_LEVELS = 3;
 exports.RDS_POSTGRES_CONN_STRING = "postgres://david8373:%s@david8373-postgres-db.cesjjcp6a6ro.us-west-2.rds.amazonaws.com:5432/postgres_db";
 
 exports.USERNAME_RE = /^[a-zA-Z0-9_-]{3,20}$/;
+exports.BETNAME_RE = /^[a-zA-Z0-9_-]{3,20}$/;
 exports.PASSWORD_RE = /^.{3,20}$/;
 exports.EMAIL_RE = /^[\S]+@[\S]+\.[\S]+/;
 

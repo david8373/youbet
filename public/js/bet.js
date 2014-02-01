@@ -13,6 +13,7 @@ $(document).ready(function() {
     SOCKET.on('BET_UPDATE_DEPTH', on_BET_UPDATE_DEPTH);
     SOCKET.on('BET_UPDATE_ORDER', on_BET_UPDATE_ORDER);
     SOCKET.on('BET_UPDATE_TRADE', on_BET_UPDATE_TRADE);
+    SOCKET.on('BET_UPDATE_PARTICIPANTS', on_BET_UPDATE_PARTICIPANTS);
     SOCKET.on('BET_CANCEL_RESPONSE', on_CANCEL_RESPONSE);
     SOCKET.on('BET_NEWORDER_RESPONSE', on_BET_NEWORDER_RESPONSE);
     SOCKET.on('BET_INVITE_RESPONSE', on_BET_INVITE_RESPONSE);
@@ -153,6 +154,18 @@ var on_BET_UPDATE_TRADE = function(data) {
     }
 }
 
+var on_BET_UPDATE_PARTICIPANTS = function(data) {
+    console.log("Received BET_UPDATE_PARTICIPANTS update on socket");
+    $("#participant-list").empty();
+    for (var i in data.participants) {
+	var participantContent = "<li class=\"list-group-item\" id=\"participant-" 
+	    + data.participants[i] + "\">\n"
+	    + data.participants[i] + "\n</li>";
+	var $newParticipant = $(participantContent);
+	$newParticipant.appendTo("#participant-list");
+    }
+}
+
 var on_CANCEL_RESPONSE = function(response) {
     if (response.success) {
 	$("#order-" + response.uuid).hide("fast", function() { $(this).remove(); });
@@ -199,3 +212,4 @@ var on_BET_INVITE_RESPONSE = function(response) {
 	}, 3000);
     }
 }
+

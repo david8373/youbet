@@ -2,13 +2,13 @@
 <html lang="en">
     <head>
 	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="Expires" content="-10">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
 
-	<title>Youbet home</title>
+	<title>New bet</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -16,8 +16,8 @@
 	<!-- Custom styles for this template -->
 	<link href="/css/navbar-fixed-top.css" rel="stylesheet">
 
-	<!-- Custom styles for charting -->
-	<link href="/css/chart.css" rel="stylesheet">
+	<!-- Custom styling -->
+	<link href="/css/newbet.css" rel="stylesheet">
 
 	<!-- Just for debugging purposes. Don't actually copy this line! -->
 	<!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -37,11 +37,8 @@
 		<div class="navbar-header">
 		    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
 		    </button>
-		    <a class="navbar-brand" href="#">Youbet</a>
+		    <a class="navbar-brand" href="/home">Youbet</a>
 		</div>
 		<div class="navbar-collapse collapse">
 		    <ul class="nav navbar-nav">
@@ -57,6 +54,9 @@
 			<li class="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Expired<b class="caret"></b></a>
 			<ul class="dropdown-menu" id="expired-dropdown">
+			    <% for (var i = 0; i < expired.length; i++) {%>
+			    <li><a href=<%="/home/"+expired[i]%>><%= expired[i] %></a></li>
+			    <% } %>
 			</ul>
 			</li>
 			<li class="dropdown">
@@ -77,18 +77,28 @@
 	</div>
 
 	<div class="container">
-	    <span class="label label-warning"><%= alert %></span>
+	    <form class="form-newbet" id="newBetForm" method="post">
+		<input type="text" class="form-control" placeholder="Bet name" name="betname" required autofocus>
+		<textarea rows="8" class="form-control" placeholder="Description" id="description" autofocus></textarea>
+		<input type="text" class="form-control" placeholder="Minimum value" name="minval" required autofocus>
+		<input type="text" class="form-control" placeholder="Maximum value" name="maxval" required autofocus>
+		<input type="text" class="form-control" placeholder="Tick size" name="ticksize" required autofocus>
+		<span class="label label-warning"><%= error %></span>
+	    </form>
+	</div> <!-- /container -->
+
+	<div class="footer">
+	    <p>&copy; Yuhan Zhang 2014</p>
 	</div>
 
+	<!-- Bootstrap core JavaScript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="/jquery/jquery.js"></script>
+	<script src="/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
 
-<div class="footer">
-    <p>&copy; Yuhan Zhang 2014</p>
-</div>
+	<!-- <script src="/js/newbet.js"></script> -->
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="/jquery/jquery.js"></script>
-<script src="/bootstrap/js/bootstrap.min.js"></script>
-</body>
+    </body>
 </html>

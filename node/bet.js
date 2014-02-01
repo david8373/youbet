@@ -316,6 +316,11 @@ Bet.prototype.jsonStaticUpdateMsg = function() {
 	'tickSize': this.tickSize};
 };
 
+Bet.prototype.jsonParticipantUpdateMsg = function() {
+    return {'name': this.name,
+	    'participants': this.participants.array()};
+};
+
 Bet.prototype.jsonDepthUpdateMsg = function() {
     var depth = [];
     for (var i = 0; i < Math.min(this.bp.length, DEPTH_LEVELS); ++i) {

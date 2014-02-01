@@ -17,6 +17,7 @@ var app = express();
 
 var account_handlers = require('./handlers/account_handlers.js');
 var bet_handlers = require('./handlers/bet_handlers.js');
+var newbet_handlers = require('./handlers/newbet_handlers.js');
 var index_handlers = require('./handlers/index_handlers.js');
 
 // all environments
@@ -44,6 +45,8 @@ app.get('/signin', account_handlers.signin_get);
 app.post('/signin', account_handlers.signin_post);
 app.get('/logout', account_handlers.logout_get);
 app.get('/home', bet_handlers.home_get);
+app.get('/home/newbet', newbet_handlers.newbet_get);
+app.post('/home/newbet', newbet_handlers.newbet_post);
 app.get('/home/:bet_id', bet_handlers.home_bet_get);
 
 var server = http.createServer(app);

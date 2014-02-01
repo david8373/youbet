@@ -22,6 +22,7 @@ exports.server = function(socket) {
 	    console.log("Joining room " + betname);
 	    socket.join(betname);
 	    socket.emit('BET_UPDATE_STATIC', bet.jsonStaticUpdateMsg());
+	    socket.emit('BET_UPDATE_PARTICIPANTS', bet.jsonParticipantUpdateMsg());
 	    socket.emit('BET_UPDATE_DEPTH', bet.jsonDepthUpdateMsg());
 	    socket.emit('BET_UPDATE_ORDER', bet.jsonOrderUpdateMsg(username));
 	    socket.emit('BET_UPDATE_TRADE', bet.jsonTradeUpdateMsg(username));
@@ -130,32 +131,18 @@ exports.server = function(socket) {
 		'msg': 'One person at a time please (no comma-deliminated list)'});
 	    return;
 	}
-    //POSTGRES_CLIENT.query('SELECT DISTINCT ON (name) * FROM bets ORDER BY name, id DESC;', function(err, result) {
-    //    if (err) {
-    //        console.log('Error when loading bets from DB: ' + err);
-    //        callback();
-    //    }
-    //    var bets = new HashMap();
-    //    for (ind in result.rows) {
-    //        var row = result.rows[ind];
-    //        var participants = row.participants.split(',');
-    //        var bet = new Bet(row.name, row.description, row.host, row.expiry, row.min_val, row.max_val, row.tick_size, false);
-    //        bet.initTime = row.time;
-    //        bet.participants = new Set(participants);
-    //        bet.state = BetState.get(row.state);
-    //        bets.set(row.name, bet);
-    //    }
 
-    //    BETS = bets;
-    //    console.log('bets loaded');
-    //    callback();
-    //});
 	var bet = BETS.get(betname);
 	if (bet) {
 	    var result = bet.addParticipant(invite);
 	    console.log(result);
 	    if (result.success) {
 		socket.emit('BET_INVITE_RESPONSE', {'success': true, 'msg': result.msg});
+		var socketsInRoom = IO.sockets.clients(betname);
+		for (i in socketsInRoom) {
+		    console.log("Updating participants list for " + socketsInRoom[i].username);
+		    socketsInRoom[i].emit('BET_UPDATE_PARTICIPANTS', bet.jsonParticipantUpdateMsg());
+		}
 	    }
 	    else {
 		socket.emit('BET_INVITE_RESPONSE', {'success': false, 'msg': result.msg});

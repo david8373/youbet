@@ -16,6 +16,9 @@
 	<!-- Custom styles for this template -->
 	<link href="/css/navbar-fixed-top.css" rel="stylesheet">
 
+	<!-- Custom styling -->
+	<link href="/css/bet.css" rel="stylesheet">
+
 	<!-- Custom styles for charting -->
 	<link href="/css/chart.css" rel="stylesheet">
 
@@ -37,15 +40,12 @@
 		<div class="navbar-header">
 		    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
 		    </button>
-		    <a class="navbar-brand" href="#">Youbet</a>
+		    <a class="navbar-brand" href="/home">Youbet</a>
 		</div>
 		<div class="navbar-collapse collapse">
 		    <ul class="nav navbar-nav">
-			<li class="active"><a href="#">New bet</a></li>
+			<li class="active"><a href="/home/newbet">New bet</a></li>
 			<li class="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Active<b class="caret"></b></a>
 			<ul class="dropdown-menu" id="active-dropdown">
@@ -84,7 +84,7 @@
 	    </h1>
 	    <div class="row">
 		<div class="col-md-8">
-		    <div class="panel-group" id="more-info-pgroup">
+		    <div class="panel-group" id="lhs-group">
 			<div class="panel panel-default">
 			    <div class="panel-heading">
 				<h4 class="panel-title">
@@ -124,31 +124,73 @@
 		</div> <!-- col-md-8 -->
 
 		<div class="col-md-4">
-		    <% if (bet_is_host) { %>
-		    <div class="input-group" id="invite">
-			<input type="text" class="form-control" id="input-invite">
-			<span class="input-group-btn">
-			    <button class="btn btn-default" type="button" id="button-invite">Invite</button>
-			</span>
+		    <div class="panel-group" id="rhs-group">
+			<div class="panel panel-default">
+			    <div class="panel-heading">
+				<h4 class="panel-title">
+				    Participants
+				</h4>
+			    </div>
+			    <div id="participants" class="panel-body">
+			        <div id="participant-list-div" class="panel-body">
+			            <ul class="list-group" id="participant-list"></ul>
+			        </div> <!-- panel body -->
+				<% if (bet_is_host) { %>
+				<div class="input-group" id="invite">
+				    <input type="text" class="form-control" id="input-invite">
+				    <span class="input-group-btn">
+					<button class="btn btn-default" type="button" id="button-invite">Invite</button>
+				    </span>
+				</div>
+				<% } %>
+			    </div> <!-- panel body -->
+			</div> <!-- panel -->
+
+			<div class="panel panel-default">
+			    <div class="panel-heading">
+				<h4 class="panel-title">
+				    New Order
+				</h4>
+			    </div>
+			    <div id="participants" class="panel-body">
+				<div class="input-group">
+				    <span class="input-group-addon">Price</span>
+				    <input type="text" class="form-control" id="input-price">
+				</div>
+				<div class="input-group">
+				    <span class="input-group-addon">Size</span>
+				    <input type="text" class="form-control" id="input-size">
+				</div>
+				<div class="container">
+				    <button type="button" class="btn btn-default" id="button-bid">Bid</button>
+				    <button type="button" class="btn btn-default" id="button-offer">Offer</button>
+				</div>
+			    </div> <!-- panel body -->
+			</div> <!-- panel -->
+
+			<div class="panel panel-default">
+			    <div class="panel-heading">
+				<h4 class="panel-title">
+				    Active Orders
+				</h4>
+			    </div>
+			    <div id="order-list-div" class="panel-body">
+				<ul class="list-group" id="order-list"></ul>
+			    </div> <!-- panel body -->
+			</div> <!-- panel -->
+
+			<div class="panel panel-default">
+			    <div class="panel-heading">
+				<h4 class="panel-title">
+				    Done Trades
+				</h4>
+			    </div>
+			    <div id="trade-list-div" class="panel-body">
+				<ul class="list-group" id="trade-list"></ul>
+			    </div> <!-- panel body -->
+			</div> <!-- panel -->
+
 		    </div>
-		    <hr>
-		    <% } %>
-		    <div class="input-group">
-			<span class="input-group-addon">Price</span>
-			<input type="text" class="form-control" id="input-price">
-		    </div>
-		    <div class="input-group">
-			<span class="input-group-addon">Size</span>
-			<input type="text" class="form-control" id="input-size">
-		    </div>
-		    <div class="container">
-			<button type="button" class="btn btn-default" id="button-bid">Bid</button>
-			<button type="button" class="btn btn-default" id="button-offer">Offer</button>
-		    </div>
-		    <hr>
-		    <ul class="list-group" id="order-list"></ul>
-		    <hr>
-		    <ul class="list-group" id="trade-list"></ul>
 		</div> <!-- col-md-4 -->
 	    </div> <!-- row -->
 	</div>
