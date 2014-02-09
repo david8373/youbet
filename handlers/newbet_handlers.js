@@ -36,13 +36,47 @@ exports.newbet_get = function(req, res) {
 };
 
 exports.newbet_post = function(req, res) {
+    if (!req.cookies.username) {
+	console.log("No username in cookies, redirecting to signin page");
+	res.redirect('/signin');
+	return;
+    }
+    var username = Security.check_secure_username(req.cookies.username);
+    if (!username) {
+	console.warn("Username in cookies does not match (could have been changed manually at client side), redirecting to signin page");
+	res.redirect('/signin');
+	return;
+    }
+    var active_list = [];
+    var expired_list = [];
+    var settled_list = [];
+    BETS.forEach(function(value, key) {
+	if (value.state == BetState.ACTIVE) {
+	    active_list.push(value.name);
+	}
+	else if (value.state == BetState.EXPIRED) {
+	    expired_list.push(value.name);
+	}
+	else {
+	    settled_list.push(value.name);
+	}
+    });
     var betname = req.body.betname;
     var description = req.body.description;
     var minval = req.body.minval;
     var maxval = req.body.maxval;
     var ticksize = req.body.ticksize;
+    var expiry = req.body.expiry;
 
-    if (!betname || !description || !minval || !maxval || !ticksize) {
+    console.log(betname);
+    console.log(description);
+    console.log(minval);
+    console.log(maxval);
+    console.log(ticksize);
+    console.log(expiry);
+
+
+    if (!betname || !description || !minval || !maxval || !ticksize || expiry) {
 	var error = 'All fields are required';
     }
     else if (betname !== encodeURIComponent(betname)) {
@@ -63,7 +97,7 @@ exports.newbet_post = function(req, res) {
 
     if (error) {
 	res.status(403);
-	res.render('new_bet', {error:error});
+	res.render('new_bet', {'welcome_msg': 'Welcome ' + username + '!', 'active': active_list, 'expired': expired_list, 'settled': settled_list, 'error':error});
 	return;
     }
 
