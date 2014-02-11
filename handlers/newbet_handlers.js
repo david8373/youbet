@@ -1,6 +1,7 @@
 var Consts = require('../node/consts.js');
 var Security = require('../node/security.js');
 var Enums = require('../node/enums.js');
+var Bet = require('../node/bet.js');
 
 var BetState = Enums.BetState;
 var BETNAME_RE = Consts.BETNAME_RE;
@@ -17,21 +18,10 @@ exports.newbet_get = function(req, res) {
 	res.redirect('/signin');
 	return;
     }
-    var active_list = [];
-    var expired_list = [];
-    var settled_list = [];
-    BETS.forEach(function(value, key) {
-	if (value.state == BetState.ACTIVE) {
-	    active_list.push(value.name);
-	}
-	else if (value.state == BetState.EXPIRED) {
-	    expired_list.push(value.name);
-	}
-	else {
-	    settled_list.push(value.name);
-	}
-    });
-    res.render('new_bet', {'welcome_msg': 'Welcome ' + username + '!', 'active': active_list, 'expired': expired_list, 'settled': settled_list, 'error': ''});
+    var render_msg = getBetList();
+    render_msg['welcome_msg'] = 'Welcome ' + username + '!';
+    render_msg['error'] = '';
+    res.render('new_bet', render_msg);
     return;
 };
 
@@ -47,20 +37,7 @@ exports.newbet_post = function(req, res) {
 	res.redirect('/signin');
 	return;
     }
-    var active_list = [];
-    var expired_list = [];
-    var settled_list = [];
-    BETS.forEach(function(value, key) {
-	if (value.state == BetState.ACTIVE) {
-	    active_list.push(value.name);
-	}
-	else if (value.state == BetState.EXPIRED) {
-	    expired_list.push(value.name);
-	}
-	else {
-	    settled_list.push(value.name);
-	}
-    });
+
     var betname = req.body.betname;
     var description = req.body.description;
     var minval = req.body.minval;
@@ -68,15 +45,14 @@ exports.newbet_post = function(req, res) {
     var ticksize = req.body.ticksize;
     var expiry = req.body.expiry;
 
-    console.log(betname);
-    console.log(description);
-    console.log(minval);
-    console.log(maxval);
-    console.log(ticksize);
-    console.log(expiry);
+    console.log('betname = ' + betname);
+    console.log('description = ' + description);
+    console.log('minval = ' + minval);
+    console.log('maxval = ' + maxval);
+    console.log('ticksize = ' + ticksize);
+    console.log('expiry = ' + expiry);
 
-
-    if (!betname || !description || !minval || !maxval || !ticksize || expiry) {
+    if (!betname || !description || !minval || !maxval || !ticksize || !expiry) {
 	var error = 'All fields are required';
     }
     else if (betname !== encodeURIComponent(betname)) {
@@ -97,33 +73,34 @@ exports.newbet_post = function(req, res) {
 
     if (error) {
 	res.status(403);
-	res.render('new_bet', {'welcome_msg': 'Welcome ' + username + '!', 'active': active_list, 'expired': expired_list, 'settled': settled_list, 'error':error});
+        var render_msg = getBetList();
+        render_msg['welcome_msg'] = 'Welcome ' + username + '!';
+        render_msg['error'] = error;
+        res.render('new_bet', render_msg);
 	return;
     }
 
-    //var query = POSTGRES_CLIENT.query({text: 'SELECT * FROM users where username=$1', values: [username_h]}, function(err, result) {
-    //    if (err) {
-    //        console.log(err);
-    //        res.render('signup', {error: err});
-    //        return;
-    //    }
-    //    if (result && result.rowCount > 0) {
-    //        res.status(403);
-    //        res.render('signup', {error: 'Username is already taken'});
-    //        return;
-    //    }
-    //});
-
-    //var query = POSTGRES_CLIENT.query({text: 'INSERT INTO users VALUES ($1, $2, $3, $4)', values: [username_h, email, password_h, new Date()]}, function(err, result) {
-    //    if (err) {
-    //        console.log(err);
-    //        res.render('signup', {error: err});
-    //        return;
-    //    }
-    //    else {
-    //        res.cookie('username', username_h, {maxAge: 900000, httpOnly: false});
-    //        res.redirect('/home');
-    //        return;
-    //    }
-    //});
+    console.log("Creating the bet");
+    var bet = new Bet(betname, description, username, expiry, minval, maxval, ticksize, true);
+    console.log("Redirecting to /home/" + betname);
+    BETS.set(betname, bet);
+    res.redirect('/home/' + betname);
 };
+
+var getBetList = function() {
+    var active_list = [];
+    var expired_list = [];
+    var settled_list = [];
+    BETS.forEach(function(value, key) {
+	if (value.state == BetState.ACTIVE) {
+	    active_list.push(value.name);
+	}
+	else if (value.state == BetState.EXPIRED) {
+	    expired_list.push(value.name);
+	}
+	else {
+	    settled_list.push(value.name);
+	}
+    });
+    return {'active': active_list, 'expired': expired_list, 'settled': settled_list};
+}

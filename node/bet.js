@@ -138,6 +138,11 @@ var PriceTimeDescending = function(o1, o2) {
 }
 
 Bet.prototype.submit = function(participant, isBid, price, size) {
+    console.log("price = " + price);
+    console.log("this.tickSize = " + this.tickSize);
+    console.log("Math.round(price / this.tickSize) = " + Math.round(price / this.tickSize));
+    console.log((Math.abs(Math.round(price / this.tickSize) * this.tickSize) - price));
+    console.log("EPSILON = " + EPSILON);
     if (!this.participants.has(participant))
 	var msg = "You (" + participant + ") are not invited to this bet. please contact " + this.host + " to include you";
     else if (this.state != BetState.ACTIVE)
@@ -150,7 +155,7 @@ Bet.prototype.submit = function(participant, isBid, price, size) {
 	var msg = price + " is below minimum price (" + this.minVal + ") of this bet";
     else if (price > this.maxVal)
 	var msg = price + " is above maximum price (" + this.maxVal + ") of this bet";
-    else if ((Math.abs(Math.round(price / this.tickSize) * this.tickSize) - price) > EPSILON)
+    else if (Math.abs(Math.round(price / this.tickSize) * this.tickSize - price) > EPSILON)
 	var msg = price + " does not follow minimum tick size of " + this.tickSize;
     else if (size <= 0)
 	var msg = "Order size (" + size + ") should be positive";
