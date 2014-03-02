@@ -140,8 +140,8 @@ exports.testExpireSettle = function(test) {
     // Settling a bet
     response = bet.settle(0.3);
     test.equals(BetState.SETTLED, bet.state, "Bet settled");
-    test.ok(Math.abs(0.3 - response.get('Yuhan')) < EPSILON, "Yuhan made 0.3");
-    test.ok(Math.abs(0.3 + response.get('Jing')) < EPSILON, "Jing lost 0.3");
+    test.ok(Math.abs(0.3 - response.get('result').get('Yuhan')) < EPSILON, "Yuhan made 0.3");
+    test.ok(Math.abs(0.3 + response.get('result').get('Jing')) < EPSILON, "Jing lost 0.3");
     test.done();
 };
 

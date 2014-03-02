@@ -25,6 +25,8 @@ console.log('New s3 =', s3.array());
 
 // You can make shallow copies of sets.
 var s4 = new sets.Set([1, 2, 3]);
+console.log(s4.get(2));
+console.log(s4.get(4));
 var s5 = s4.copy();
 s4.add(42);
 s5.remove(2);

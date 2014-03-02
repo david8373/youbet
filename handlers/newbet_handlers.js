@@ -2,9 +2,13 @@ var Consts = require('../node/consts.js');
 var Security = require('../node/security.js');
 var Enums = require('../node/enums.js');
 var Bet = require('../node/bet.js');
+var Socket = require('../node/socket.js');
 
 var BetState = Enums.BetState;
 var BETNAME_RE = Consts.BETNAME_RE;
+
+var moment = require('moment');
+moment().format();
 
 exports.newbet_get = function(req, res) {
     if (!req.cookies.username) {
@@ -50,6 +54,9 @@ exports.newbet_post = function(req, res) {
     console.log('minval = ' + minval);
     console.log('maxval = ' + maxval);
     console.log('ticksize = ' + ticksize);
+    var dateStr = moment(expiry).toISOString();
+    dateStr = dateStr.replace('Z', '-05:00');
+    expiry = new Date(dateStr);
     console.log('expiry = ' + expiry);
 
     if (!betname || !description || !minval || !maxval || !ticksize || !expiry) {
@@ -70,6 +77,12 @@ exports.newbet_post = function(req, res) {
     else if (isNaN(ticksize)) {
 	var error = 'Tick size value must be a number';
     }
+    else if (BETS.get(betname)) {
+	var error = 'Bet with same name already exists';
+    }
+    else if (moment(expiry) - moment() <= 0) {
+	var error = 'Expiry cannot be in the past';
+    }
 
     if (error) {
 	res.status(403);
@@ -82,6 +95,8 @@ exports.newbet_post = function(req, res) {
 
     console.log("Creating the bet");
     var bet = new Bet(betname, description, username, expiry, minval, maxval, ticksize, true);
+    setTimeout(function() { Socket.expire(betname); }, moment(expiry) - moment());
+
     console.log("Redirecting to /home/" + betname);
     BETS.set(betname, bet);
     res.redirect('/home/' + betname);

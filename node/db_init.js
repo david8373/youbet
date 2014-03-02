@@ -20,6 +20,7 @@ var CREATE_TABLE_BETS_QUERY = "CREATE TABLE bets ( id serial primary key," +
 						 " min_val real," + 
 						 " max_val real," + 
 						 " tick_size real," + 
+						 " settle_value real," + 
 						 " host varchar(60));";
 var CREATE_TABLE_ORDERS_QUERY = "CREATE TABLE orders ( id serial primary key," + 
                                                      "bet_name varchar(40)," +

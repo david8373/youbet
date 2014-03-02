@@ -63,7 +63,7 @@ exports.home_bet_get = function(req, res) {
 
     var bet = BETS.get(req.params.bet_id);
     if (!bet) {
-        res.render('home', {'welcome_msg': 'Welcome ' + username + '!', 'alert': 'Bet not found!', 'active': active_list, 'expired': expired_list, 'settled': settled_list});
+	res.render('home', {'welcome_msg': 'Welcome ' + username + '!', 'alert': 'Bet not found!', 'active': active_list, 'expired': expired_list, 'settled': settled_list});
 	return;
     }
 
@@ -73,12 +73,34 @@ exports.home_bet_get = function(req, res) {
     else {
 	var is_host = false;
     }
-    res.render('bet_main', {'welcome_msg': 'Welcome ' + username + '!', 
-	                'alert': '', 
-	                'active': active_list, 
-	                'expired': expired_list, 
-	                'settled': settled_list, 
-	                'bet_is_host': is_host});
+
+    var betState = bet.state;
+    if (betState == BetState.ACTIVE || betState == BetState.EXPIRED) {
+	res.render('bet_main', {'welcome_msg': 'Welcome ' + username + '!', 
+	    'state': betState.key.toUpperCase(),
+	    'alert': '', 
+	    'active': active_list, 
+	    'expired': expired_list, 
+	    'settled': settled_list, 
+	    'bet_is_host': is_host});
+    }
+    else {
+	var settlementPrice = bet.settlementPrice;
+	var result = bet.settle(settlementPrice);
+	var pnl = result.get(username);
+	if (!pnl)
+	    pnl = 0.0;
+
+	res.render('bet_main', {'welcome_msg': 'Welcome ' + username + '!', 
+	    'state': betState.key.toUpperCase(),
+	    'settle_value': settlementPrice,
+	    'pnl': pnl,
+	    'alert': '', 
+	    'active': active_list, 
+	    'expired': expired_list, 
+	    'settled': settled_list, 
+	    'bet_is_host': is_host});
+    }
     return;
 }
 

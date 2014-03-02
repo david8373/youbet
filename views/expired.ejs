@@ -8,7 +8,7 @@
 	<meta name="author" content="">
 	<link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
 
-	<title>Youbet home</title>
+	<title>Expired bet</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -18,9 +18,6 @@
 
 	<!-- Custom styling -->
 	<link href="/css/bet.css" rel="stylesheet">
-
-	<!-- Custom styles for charting -->
-	<link href="/css/chart.css" rel="stylesheet">
 
 	<!-- Just for debugging purposes. Don't actually copy this line! -->
 	<!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -83,7 +80,7 @@
 	    <h1 id="bet-header">
 	    </h1>
 	    <div class="row">
-		<div class="col-md-8" id="left-column">
+		<div class="col-md-8">
 		    <div class="panel-group" id="lhs-group">
 			<div class="panel panel-default">
 			    <div class="panel-heading">
@@ -110,62 +107,20 @@
 			    </div> <!-- more-info panel -->
 			</div> <!-- more info panel -->
 
-			<div class="panel panel-default" id="market-panel">
-			    <div class="panel-heading">
-				<h4 class="panel-title">
-				    Market
-				</h4>
-			    </div>
-			    <% if (state == 'ACTIVE') { %>
-			    <div id="market-body" class="panel-body">
-				<svg class="chart"></svg>
-			    </div> <!-- market panel body -->
-			    <% } else { %>
-			    <div id="makret-body" class="panel-body">
-				<h4>
-				    Bet has expired, market no longer available
-				</h4>
-			    </div>
-			    <% } %>
-			</div> <!-- market panel -->
-
-			<% if (bet_is_host && (state == 'EXPIRED' || state == 'SETTLED')) { %>
+			<% if (bet_is_host) { %>
 			<div class="panel panel-default">
-			    <div class="panel-heading">
-				<h4 class="panel-title">
-				    Settlement
-				</h4>
-			    </div>
-			    <div class="panel-body">
-				<div class="input-group" id="settle">
-				    <input type="text" class="form-control" id="input-settle">
-				    <span class="input-group-btn">
-					<button class="btn btn-default" type="button" id="button-settle">Settle</button>
-				    </span>
-				</div>
-			    </div>
-			</div>
+			    <div id="settle" class="panel-body">
+				<form class="form-settle" id="settleForm" method="post">
+				    <input type="text" class="form-control" placeholder="Settlement value" name="settlevalue" required autofocus>
+		<button id="submitBtn" class="btn btn-lg btn-primary btn-block" type="submit">Settle</button>
+		<span class="label label-warning"><%= error %></span>
+			    </div> <!-- settle panel body -->
+			</div> <!-- settle panel -->
 			<% } %>
-
-			<% if (state == 'SETTLED') { %>
-			<div class="panel panel-default" id="settlement-result">
-			    <div class="panel-heading">
-				<h4 class="panel-title">
-				    Settlement result
-				</h4>
-			    </div>
-			    <div class="panel-body">
-				<h4>
-				    Settlement price was <% settle_value %> and your P&L was <% pnl %>.
-				</h4>
-			    </div>
-			</div>
-			<% } %>
-
 		    </div> <!-- panel-group -->
 		</div> <!-- col-md-8 -->
 
-		<div class="col-md-4" id="right-column">
+		<div class="col-md-4">
 		    <div class="panel-group" id="rhs-group">
 			<div class="panel panel-default">
 			    <div class="panel-heading">
@@ -174,9 +129,9 @@
 				</h4>
 			    </div>
 			    <div id="participants" class="panel-body">
-				<div id="participant-list-div" class="panel-body">
-				    <ul class="list-group" id="participant-list"></ul>
-				</div> <!-- panel body -->
+			        <div id="participant-list-div" class="panel-body">
+			            <ul class="list-group" id="participant-list"></ul>
+			        </div> <!-- panel body -->
 				<% if (bet_is_host) { %>
 				<div class="input-group" id="invite">
 				    <input type="text" class="form-control" id="input-invite">
@@ -188,8 +143,7 @@
 			    </div> <!-- panel body -->
 			</div> <!-- panel -->
 
-			<% if (state == 'ACTIVE') {%>
-			<div id="neworder-panel" class="panel panel-default">
+			<div class="panel panel-default">
 			    <div class="panel-heading">
 				<h4 class="panel-title">
 				    New Order
@@ -210,10 +164,8 @@
 				</div>
 			    </div> <!-- panel body -->
 			</div> <!-- panel -->
-			<% } %>
 
-			<% if (state == 'ACTIVE') {%>
-			<div id="order-panel" class="panel panel-default">
+			<div class="panel panel-default">
 			    <div class="panel-heading">
 				<h4 class="panel-title">
 				    Active Orders
@@ -223,7 +175,6 @@
 				<ul class="list-group" id="order-list"></ul>
 			    </div> <!-- panel body -->
 			</div> <!-- panel -->
-			<% } %>
 
 			<div class="panel panel-default">
 			    <div class="panel-heading">

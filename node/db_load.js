@@ -6,6 +6,7 @@ var Bet = require('./bet.js');
 var Order = require('./order.js');
 var Trade = require('./trade.js');
 var Enums = require('./enums.js');
+var Socket = require('./socket.js');
 
 var BetState = Enums.BetState;
 var OrderState = Enums.OrderState;
@@ -13,8 +14,11 @@ var TradeState = Enums.TradeState;
 var HashMap = map.HashMap;
 var Set = sets.Set;
 
+var moment = require('moment');
+moment().format();
+
 exports.load_all = function() {
-    async.series([load_bets, load_orders, load_trades, load_complete]);
+    async.series([load_bets, load_orders, load_trades, schedule_expiry, load_complete]);
 }
 
 var load_bets = function(callback) {
@@ -33,6 +37,7 @@ var load_bets = function(callback) {
 	    bet.initTime = row.time;
 	    bet.participants = new Set(participants);
 	    bet.state = BetState.get(row.state);
+	    bet.settlementPrice = row.settle_value;
 	    bets.set(row.name, bet);
 	}
 
@@ -83,6 +88,20 @@ var load_trades = function(callback) {
 	}
 	callback();
     });
+}
+
+var schedule_expiry = function(callback) {
+    BETS.forEach(function(bet, betname) {
+	if (bet.state == BetState.ACTIVE) {
+	    if (moment(bet.expiry) - moment() <= 0) {
+		Socket.expire(betname);
+	    }
+	    else {
+		setTimeout(function() { Socket.expire(betname); }, moment(bet.expiry) - moment());
+	    }
+	}
+    });
+    callback();
 }
 
 var load_complete = function() {

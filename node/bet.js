@@ -15,6 +15,9 @@ var DEPTH_LEVELS = Consts.DEPTH_LEVELS;
 var HashMap = map.HashMap;
 var Set = sets.Set;
 
+var moment = require('moment');
+moment().format();
+
 // Constructor
 function Bet(name, description, host, expiry, minVal, maxVal, tickSize, doSave) {
     this.name = name;
@@ -36,7 +39,7 @@ Bet.prototype.save = function() {
     if (this.doSave) {
 	var participants_str = this.participants.array().join(',');
 	var state_str = this.state.key.toUpperCase();
-	POSTGRES_CLIENT.query({text: 'INSERT INTO bets(name,time,description,participants,state,expiry,min_val,max_val,tick_size,host) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)', values: [this.name, this.initTime, this.description, participants_str, state_str, this.expiry, this.minVal, this.maxVal, this.tickSize, this.host]}, function(err, result) {
+	POSTGRES_CLIENT.query({text: 'INSERT INTO bets(name,time,description,participants,state,expiry,min_val,max_val,tick_size,settle_value,host) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)', values: [this.name, this.initTime, this.description, participants_str, state_str, this.expiry, this.minVal, this.maxVal, this.tickSize, this.settlementPrice, this.host]}, function(err, result) {
 	    if (err) {
 		console.log('Error when saving bet update: ' + err);
 		return;
@@ -50,6 +53,7 @@ Bet.prototype.init = function() {
     this.trades = [];
     this.bidOrders = [];
     this.offerOrders = [];
+    this.settlementPrice = 0.0;
 };
 
 Bet.prototype.getParticipants = function() {
@@ -241,15 +245,19 @@ Bet.prototype.expire = function() {
 };
 
 Bet.prototype.settle = function(settlementPrice) {
+    if (!settlementPrice || isNaN(settlementPrice))
+	var msg = "Settlement price must be a numeric value";
     if (this.state == BetState.ACTIVE) {
-	console.warn("Bet state is still ACTIVE and cannot be settled");
-	return;
-    }
-    if (this.state == BetState.SETTLED) {
-	console.warn("Bet state is already SETTLED and cannot be further settled");
+	var msg = "Bet state is still ACTIVE and cannot be settled";
 	return;
     }
 
+    if (msg) {
+	console.warn("Bet settlement error: " + msg);
+	return {state: ExecState.REJECTED, msg: msg};
+    }
+
+    this.settlementPrice = settlementPrice;
     var result = new HashMap();
     this.participants.each(function(participant) { result.set(participant, 0.0); });
     for (ind in this.trades) {
@@ -262,7 +270,7 @@ Bet.prototype.settle = function(settlementPrice) {
     }
     this.state = BetState.SETTLED;
     this.save();
-    return result;
+    return {state: ExecState.ACCEPTED, msg: result};
 };
 
 // Internal implementation functions
@@ -312,8 +320,14 @@ Bet.prototype.removeTerminalOrders = function() {
 };
 
 Bet.prototype.jsonStaticUpdateMsg = function() {
+    if (moment(this.expiry) <= moment()) {
+	var expiryMsg = 'Expired ' + moment(this.expiry).fromNow();
+    }
+    else {
+	var expiryMsg = 'Expires ' + moment(this.expiry).fromNow();
+    }
     return {'name': this.name,
-	'expiry': this.expiry,
+	'expiry': expiryMsg,
 	'state': this.state.key,
 	'description': this.description,
 	'minVal': this.minVal,
@@ -381,6 +395,39 @@ Bet.prototype.jsonTradeUpdateMsg = function(username) {
     return {'name': this.name,
 	    'trades': trades};
 };
+
+Bet.prototype.jsonTradeSettledUpdateMsg = function(username) {
+    var trades = [];
+    for (var i in this.trades) {
+	if (this.trades[i].longParty == username) {
+	    trades.push({'side': 'Long', 
+		'price': this.trades[i].price, 
+		'size': this.trades[i].size,
+		'uuid': this.trades[i].id,
+	        'pnl': this.trades[i].settle(this.settlementPrice)});
+	}
+	else if (this.trades[i].shortParty = username) {
+	    trades.push({'side': 'Short', 
+		'price': this.trades[i].price, 
+		'size': this.trades[i].size,
+		'uuid': this.trades[i].id,
+	        'pnl': this.trades[i].settle(-1.0 * this.settlementPrice)});
+	}
+    }
+    return {'name': this.name,
+	    'settlementPrice': this.settlementPrice,
+	    'trades': trades};
+}
+
+Bet.prototype.jsonSettlementUpdateMsg = function(username) {
+    var pnl = [];
+    this.doSave = false;
+    var result = this.settle(this.settlementPrice);
+    this.doSave = true;
+    return {'name': this.name,
+	    'settlementPrice': this.settlementPrice,
+	    'pnl': result.get(username)};
+}
 
 module.exports = Bet;
 
