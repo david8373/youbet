@@ -193,7 +193,7 @@ var on_BET_UPDATE_SETTLEMENT = function(data) {
     console.log("Received BET_UPDATE_SETTLEMENT update on socket");
     if ($('#settlement-result').length > 0)
 	$('#settlement-result').remove();
-    var settlePanel = "<div class=\"panel panel-default\" id=\"settlement-result\">\n"
+    var settlePanel = "<div class=\"panel panel-primary\" id=\"settlement-result\">\n"
 			+ "    <div class=\"panel-heading\">\n"
 			+ "	<h4 class=\"panel-title\">\n"
 			+ "	    Settlement result\n"
@@ -237,7 +237,7 @@ var on_BET_EXPIRE = function(data) {
         $('#order-panel').remove();
 
     if (data.bet_is_host) {
-	var settlePanel = "<div class=\"panel panel-default\">\n"
+	var settlePanel = "<div class=\"panel panel-primary\">\n"
                         + "    <div class=\"panel-heading\">\n"
                         + "	<h4 class=\"panel-title\">\n"
                         + "	    Settlement\n"

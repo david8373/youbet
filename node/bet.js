@@ -142,11 +142,8 @@ var PriceTimeDescending = function(o1, o2) {
 }
 
 Bet.prototype.submit = function(participant, isBid, price, size) {
-    console.log("price = " + price);
-    console.log("this.tickSize = " + this.tickSize);
-    console.log("Math.round(price / this.tickSize) = " + Math.round(price / this.tickSize));
-    console.log((Math.abs(Math.round(price / this.tickSize) * this.tickSize) - price));
-    console.log("EPSILON = " + EPSILON);
+    console.log('Submitting participant=' + participant
+	    + isBid?', bid ':', ask ' + size + ' @' + price);
     if (!this.participants.has(participant))
 	var msg = "You (" + participant + ") are not invited to this bet. please contact " + this.host + " to include you";
     else if (this.state != BetState.ACTIVE)
@@ -249,7 +246,12 @@ Bet.prototype.settle = function(settlementPrice) {
 	var msg = "Settlement price must be a numeric value";
     if (this.state == BetState.ACTIVE) {
 	var msg = "Bet state is still ACTIVE and cannot be settled";
-	return;
+    }
+    if (settlementPrice < this.minVal) {
+	var msg = 'Settlement price ' + settlementPrice + ' cannot be below minimum value of ' + this.minVal;
+    }
+    if (settlementPrice > this.maxVal) {
+	var msg = 'Settlement price ' + settlementPrice + ' cannot be above maximum value of ' + this.maxVal;
     }
 
     if (msg) {
@@ -426,7 +428,7 @@ Bet.prototype.jsonSettlementUpdateMsg = function(username) {
     this.doSave = true;
     return {'name': this.name,
 	    'settlementPrice': this.settlementPrice,
-	    'pnl': result.get(username)};
+	    'pnl': result.msg.get(username)};
 }
 
 module.exports = Bet;

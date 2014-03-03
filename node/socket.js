@@ -187,6 +187,7 @@ exports.server = function(socket) {
 	            socketsInRoom[i].emit('BET_UPDATE_SETTLEMENT_TRADE', bet.jsonTradeSettledUpdateMsg(username));
 	            socketsInRoom[i].emit('BET_UPDATE_SETTLEMENT', bet.jsonSettlementUpdateMsg(username));
 		}
+		send_bet_list();
 	    }
 	    else {
 		socket.emit('BET_SETTLE_RESPONSE', {'success': false, 'msg': result.msg});
@@ -217,4 +218,23 @@ exports.expire = function(betname) {
 	        socketsInRoom[i].emit('BET_EXPIRE', {'bet_is_host': false});
 	}
     }
+    send_bet_list();
+}
+
+send_bet_list = function() {
+    var active_list = [];
+    var expired_list = [];
+    var settled_list = [];
+    BETS.forEach(function(value, key) {
+	if (value.state == BetState.ACTIVE) {
+	    active_list.push(value.name);
+	}
+	else if (value.state == BetState.EXPIRED) {
+	    expired_list.push(value.name);
+	}
+	else {
+	    settled_list.push(value.name);
+	}
+    });
+    IO.sockets.emit('BET_LIST', {'Active': active_list, 'Expired': expired_list, 'Settled': settled_list});
 }

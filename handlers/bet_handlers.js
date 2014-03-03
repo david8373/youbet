@@ -87,7 +87,7 @@ exports.home_bet_get = function(req, res) {
     else {
 	var settlementPrice = bet.settlementPrice;
 	var result = bet.settle(settlementPrice);
-	var pnl = result.get(username);
+	var pnl = result.msg.get(username);
 	if (!pnl)
 	    pnl = 0.0;
 

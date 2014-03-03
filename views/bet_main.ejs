@@ -85,7 +85,7 @@
 	    <div class="row">
 		<div class="col-md-8" id="left-column">
 		    <div class="panel-group" id="lhs-group">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 			    <div class="panel-heading">
 				<h4 class="panel-title">
 				    <a data-toggle="collapse" data-parent="#more-info-pgroup" href="#more-info">More info</a>
@@ -110,7 +110,7 @@
 			    </div> <!-- more-info panel -->
 			</div> <!-- more info panel -->
 
-			<div class="panel panel-default" id="market-panel">
+			<div class="panel panel-primary" id="market-panel">
 			    <div class="panel-heading">
 				<h4 class="panel-title">
 				    Market
@@ -130,7 +130,7 @@
 			</div> <!-- market panel -->
 
 			<% if (bet_is_host && (state == 'EXPIRED' || state == 'SETTLED')) { %>
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 			    <div class="panel-heading">
 				<h4 class="panel-title">
 				    Settlement
@@ -148,7 +148,7 @@
 			<% } %>
 
 			<% if (state == 'SETTLED') { %>
-			<div class="panel panel-default" id="settlement-result">
+			<div class="panel panel-primary" id="settlement-result">
 			    <div class="panel-heading">
 				<h4 class="panel-title">
 				    Settlement result
@@ -167,7 +167,7 @@
 
 		<div class="col-md-4" id="right-column">
 		    <div class="panel-group" id="rhs-group">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 			    <div class="panel-heading">
 				<h4 class="panel-title">
 				    Participants
@@ -177,7 +177,7 @@
 				<div id="participant-list-div" class="panel-body">
 				    <ul class="list-group" id="participant-list"></ul>
 				</div> <!-- panel body -->
-				<% if (bet_is_host) { %>
+				<% if (state == 'ACTIVE' && bet_is_host) { %>
 				<div class="input-group" id="invite">
 				    <input type="text" class="form-control" id="input-invite">
 				    <span class="input-group-btn">
@@ -189,7 +189,7 @@
 			</div> <!-- panel -->
 
 			<% if (state == 'ACTIVE') {%>
-			<div id="neworder-panel" class="panel panel-default">
+			<div id="neworder-panel" class="panel panel-primary">
 			    <div class="panel-heading">
 				<h4 class="panel-title">
 				    New Order
@@ -213,7 +213,7 @@
 			<% } %>
 
 			<% if (state == 'ACTIVE') {%>
-			<div id="order-panel" class="panel panel-default">
+			<div id="order-panel" class="panel panel-danger">
 			    <div class="panel-heading">
 				<h4 class="panel-title">
 				    Active Orders
@@ -225,7 +225,7 @@
 			</div> <!-- panel -->
 			<% } %>
 
-			<div class="panel panel-default">
+			<div class="panel panel-info">
 			    <div class="panel-heading">
 				<h4 class="panel-title">
 				    Done Trades
