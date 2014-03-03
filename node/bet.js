@@ -413,7 +413,7 @@ Bet.prototype.jsonTradeSettledUpdateMsg = function(username) {
 		'price': this.trades[i].price, 
 		'size': this.trades[i].size,
 		'uuid': this.trades[i].id,
-	        'pnl': this.trades[i].settle(-1.0 * this.settlementPrice)});
+	        'pnl': -1.0 * this.trades[i].settle(this.settlementPrice)});
 	}
     }
     return {'name': this.name,

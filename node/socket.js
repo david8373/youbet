@@ -151,6 +151,7 @@ exports.server = function(socket) {
 		    console.log("Updating participants list for " + socketsInRoom[i].username);
 		    socketsInRoom[i].emit('BET_UPDATE_PARTICIPANTS', bet.jsonParticipantUpdateMsg());
 		}
+		send_bet_list();
 	    }
 	    else {
 		socket.emit('BET_INVITE_RESPONSE', {'success': false, 'msg': result.msg});
