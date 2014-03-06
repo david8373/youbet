@@ -50,6 +50,16 @@ read({prompt: 'Password: ', silent: true}, function(err, password) {
 	    client.end();
 	}
 
+        client.query("CREATE USER youbet WITH PASSWORD \'youbetjunk\';", function(err, result) {
+	    if (err) console.error('error running query', err.toString());
+	    else console.log('Bet state type successfully created');
+	}
+
+        client.query("GRANT ALL PRIVILEGES ON DATABASE \"postgres_db\" to youbet;", function(err, result) {
+	    if (err) console.error('error running query', err.toString());
+	    else console.log('Bet state type successfully created');
+	}
+
 	client.query(CREATE_TYPE_BET_STATE, function(err, result) {
 	    if (err) console.error('error running query', err.toString());
 	    else console.log('Bet state type successfully created');

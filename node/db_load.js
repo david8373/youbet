@@ -28,7 +28,6 @@ var load_bets = function(callback) {
 	    console.log('Error when loading bets from DB: ' + err);
 	    callback();
 	}
-	console.log("Inside and I can see a=" + a);
 	var bets = new HashMap();
 	for (ind in result.rows) {
 	    var row = result.rows[ind];
