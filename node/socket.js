@@ -24,15 +24,15 @@ exports.server = function(socket) {
 	    socket.emit('BET_UPDATE_STATIC', bet.jsonStaticUpdateMsg());
 	    socket.emit('BET_UPDATE_PARTICIPANTS', bet.jsonParticipantUpdateMsg());
 	    if (bet.state == BetState.ACTIVE) {
-	        socket.emit('BET_UPDATE_DEPTH', bet.jsonDepthUpdateMsg());
-	        socket.emit('BET_UPDATE_ORDER', bet.jsonOrderUpdateMsg(username));
+		socket.emit('BET_UPDATE_DEPTH', bet.jsonDepthUpdateMsg());
+		socket.emit('BET_UPDATE_ORDER', bet.jsonOrderUpdateMsg(username));
 	    }
 	    if (bet.state == BetState.SETTLED) {
-	        socket.emit('BET_UPDATE_SETTLEMENT_TRADE', bet.jsonTradeSettledUpdateMsg(username));
-	        socket.emit('BET_UPDATE_SETTLEMENT', bet.jsonSettlementUpdateMsg(username));
+		socket.emit('BET_UPDATE_SETTLEMENT_TRADE', bet.jsonTradeSettledUpdateMsg(username));
+		socket.emit('BET_UPDATE_SETTLEMENT', bet.jsonSettlementUpdateMsg(username));
 	    }
 	    else {
-	        socket.emit('BET_UPDATE_TRADE', bet.jsonTradeUpdateMsg(username));
+		socket.emit('BET_UPDATE_TRADE', bet.jsonTradeUpdateMsg(username));
 	    }
 	}
     });
@@ -140,23 +140,47 @@ exports.server = function(socket) {
 	    return;
 	}
 
-	var bet = BETS.get(betname);
-	if (bet) {
-	    var result = bet.addParticipant(invite);
-	    console.log(result);
-	    if (result.success) {
-		socket.emit('BET_INVITE_RESPONSE', {'success': true, 'msg': result.msg});
-		var socketsInRoom = IO.sockets.clients(betname);
-		for (i in socketsInRoom) {
-		    console.log("Updating participants list for " + socketsInRoom[i].username);
-		    socketsInRoom[i].emit('BET_UPDATE_PARTICIPANTS', bet.jsonParticipantUpdateMsg());
+	var msg = '';
+	POSTGRES_CLIENT.query('SELECT * from users;', function(err, result) {
+	    if(err) {
+	        socket.emit('BET_INVITE_RESPONSE', {'success': false, 
+	    	    'msg': 'Database non-responsive'});
+		return;
+	    }
+	    msg = 'Username ' + invite + ' is not registered';
+	    for (ind in result.rows) {
+		var thisuser = Security.check_secure_username(result.rows[ind].username);
+		console.log("checking " + thisuser);
+		if (thisuser == invite) {
+		    msg = '';
 		}
-		send_bet_list();
 	    }
-	    else {
-		socket.emit('BET_INVITE_RESPONSE', {'success': false, 'msg': result.msg});
+	    console.log(msg);
+	    if (msg.length > 0) {
+	        socket.emit('BET_INVITE_RESPONSE', {'success': false, 
+	    	'msg': msg});
+	        return;
 	    }
-	}
+	    console.log("Still going");
+
+	    var bet = BETS.get(betname);
+	    if (bet) {
+	        var result = bet.addParticipant(invite);
+	        console.log(result);
+	        if (result.success) {
+	    	socket.emit('BET_INVITE_RESPONSE', {'success': true, 'msg': result.msg});
+	    	var socketsInRoom = IO.sockets.clients(betname);
+	    	for (i in socketsInRoom) {
+	    	    console.log("Updating participants list for " + socketsInRoom[i].username);
+	    	    socketsInRoom[i].emit('BET_UPDATE_PARTICIPANTS', bet.jsonParticipantUpdateMsg());
+	    	}
+	    	send_bet_list();
+	        }
+	        else {
+	    	socket.emit('BET_INVITE_RESPONSE', {'success': false, 'msg': result.msg});
+	        }
+	    }
+	});
     });
 
     socket.on('BET_SETTLE', function(un, betname, settlementPrice) {
@@ -182,11 +206,11 @@ exports.server = function(socket) {
 		var socketsInRoom = IO.sockets.clients(betname);
 		for (i in socketsInRoom) {
 		    if (socketsInRoom[i].username == bet.host)
-	                socketsInRoom[i].emit('BET_SETTLE', {'bet_is_host': true});
+			socketsInRoom[i].emit('BET_SETTLE', {'bet_is_host': true});
 		    else
-	                socketsInRoom[i].emit('BET_SETTLE', {'bet_is_host': false});
-	            socketsInRoom[i].emit('BET_UPDATE_SETTLEMENT_TRADE', bet.jsonTradeSettledUpdateMsg(username));
-	            socketsInRoom[i].emit('BET_UPDATE_SETTLEMENT', bet.jsonSettlementUpdateMsg(username));
+			socketsInRoom[i].emit('BET_SETTLE', {'bet_is_host': false});
+		    socketsInRoom[i].emit('BET_UPDATE_SETTLEMENT_TRADE', bet.jsonTradeSettledUpdateMsg(username));
+		    socketsInRoom[i].emit('BET_UPDATE_SETTLEMENT', bet.jsonSettlementUpdateMsg(username));
 		}
 		send_bet_list();
 	    }
@@ -214,9 +238,9 @@ exports.expire = function(betname) {
 	var socketsInRoom = IO.sockets.clients(betname);
 	for (i in socketsInRoom) {
 	    if (socketsInRoom[i].username == bet.host)
-	        socketsInRoom[i].emit('BET_EXPIRE', {'bet_is_host': true});
+		socketsInRoom[i].emit('BET_EXPIRE', {'bet_is_host': true});
 	    else
-	        socketsInRoom[i].emit('BET_EXPIRE', {'bet_is_host': false});
+		socketsInRoom[i].emit('BET_EXPIRE', {'bet_is_host': false});
 	}
     }
     send_bet_list();
@@ -237,5 +261,6 @@ send_bet_list = function() {
 	    settled_list.push(value.name);
 	}
     });
-    IO.sockets.emit('BET_LIST', {'Active': active_list, 'Expired': expired_list, 'Settled': settled_list});
+    console.log("Emitting " + {'active': active_list, 'expired': expired_list, 'settled': settled_list});
+    IO.sockets.emit('BET_LIST', {'active': active_list, 'expired': expired_list, 'settled': settled_list});
 }

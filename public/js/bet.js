@@ -78,7 +78,8 @@ var getUsername = function() {
 
 var on_BET_LIST = function(data) {
     console.log("Received BET_LIST update on socket");
-    var active_list = data.Active;
+    console.log(data);
+    var active_list = data.active;
     $("#active-dropdown").empty();
     for (var i in active_list) {
 	var name = active_list[i].toString();
@@ -86,7 +87,7 @@ var on_BET_LIST = function(data) {
 	var $newElem = $(content);
 	$newElem.appendTo("#active-dropdown");
     }
-    var expired_list = data.Expired;
+    var expired_list = data.expired;
     $("#expired-dropdown").empty();
     for (var i in expired_list) {
 	var name = expired_list[i].toString();
@@ -94,7 +95,7 @@ var on_BET_LIST = function(data) {
 	var $newElem = $(content);
 	$newElem.appendTo("#expired-dropdown");
     }
-    var settled_list = data.Settled;
+    var settled_list = data.settled;
     $("#settled-dropdown").empty();
     for (var i in settled_list) {
 	var name = settled_list[i].toString();

@@ -30,7 +30,11 @@ exports.home_get = function(req, res) {
 	    settled_list.push(value.name);
 	}
     });
-    res.render('home', {'welcome_msg': 'Welcome ' + username + '!', 'alert': '', 'active': active_list, 'expired': expired_list, 'settled': settled_list});
+    res.render('home', {'welcome_msg': 'Welcome ' + username + '!', 
+        'alert': '', 
+        'active': active_list, 
+        'expired': expired_list, 
+        'settled': settled_list});
     return;
 };
 
