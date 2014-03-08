@@ -5,7 +5,7 @@ var util = require('util');
 var Consts = require('./consts.js');
 
 exports.create = function() {
-    var password = '5-ZOTzc2APIlRw6J574PvxQYWl';
+    var password = 'amazonps';
     var seckey = 'youbet';
 //    read({prompt: 'Password: ', silent: true}, function(err, password) {
 //	read({prompt: 'Security key: ', silent: true}, function(err, seckey) {
