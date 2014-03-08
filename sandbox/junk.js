@@ -1,7 +1,8 @@
 
 var a = 0.9;
 var b = 0.9;
-console.log(isNaN(a));
-console.log(/,/.test('abc,def'));
-console.log(/,/.test('abcdf'));
-console.log("abc e  ".trim());
+
+var a = 0.49999;
+var tick = 0.1;
+var b = Math.round(a/tick)*tick;
+console.log(b);

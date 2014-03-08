@@ -137,11 +137,12 @@ exports.testExpireSettle = function(test) {
     response = bet.submit('Yuhan', true, 0.5, 1);
     test.equals(ExecState.REJECTED, response.state, "Cannot submit to expired bet");
 
+    console.log('aaa');
     // Settling a bet
     response = bet.settle(0.3);
     test.equals(BetState.SETTLED, bet.state, "Bet settled");
-    test.ok(Math.abs(0.3 - response.get('result').get('Yuhan')) < EPSILON, "Yuhan made 0.3");
-    test.ok(Math.abs(0.3 + response.get('result').get('Jing')) < EPSILON, "Jing lost 0.3");
+    test.ok(Math.abs(0.3 - response.msg.get('Yuhan')) < EPSILON, "Yuhan made 0.3");
+    test.ok(Math.abs(0.3 + response.msg.get('Jing')) < EPSILON, "Jing lost 0.3");
     test.done();
 };
 

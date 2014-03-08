@@ -23,9 +23,10 @@ Trade.prototype.save = function() {
     }
 }
 
-Trade.prototype.settle = function(settlementPrice) {
+Trade.prototype.settle = function(settlementPrice, tickSize) {
     // Positive if long party made money
-    return (settlementPrice - this.price) * this.size;
-};
+    var pnl = (settlementPrice - this.price) * this.size;
+    return Math.round(pnl/tickSize) * tickSize;
+}
 
 module.exports = Trade;

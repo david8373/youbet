@@ -264,7 +264,7 @@ Bet.prototype.settle = function(settlementPrice) {
     this.participants.each(function(participant) { result.set(participant, 0.0); });
     for (ind in this.trades) {
 	var trade = this.trades[ind];
-	var res = trade.settle(settlementPrice);
+	var res = trade.settle(settlementPrice, this.tickSize);
 	var tmp = result.get(trade.longParty);
 	result.set(trade.longParty, tmp + res);
 	tmp = result.get(trade.shortParty);
@@ -406,14 +406,14 @@ Bet.prototype.jsonTradeSettledUpdateMsg = function(username) {
 		'price': this.trades[i].price, 
 		'size': this.trades[i].size,
 		'uuid': this.trades[i].id,
-	        'pnl': this.trades[i].settle(this.settlementPrice)});
+	        'pnl': this.trades[i].settle(this.settlementPrice, this.tickSize)});
 	}
 	else if (this.trades[i].shortParty = username) {
 	    trades.push({'side': 'Short', 
 		'price': this.trades[i].price, 
 		'size': this.trades[i].size,
 		'uuid': this.trades[i].id,
-	        'pnl': -1.0 * this.trades[i].settle(this.settlementPrice)});
+	        'pnl': -1.0 * this.trades[i].settle(this.settlementPrice, this.tickSize)});
 	}
     }
     return {'name': this.name,

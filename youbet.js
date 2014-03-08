@@ -51,10 +51,6 @@ app.get('/home/:bet_id', bet_handlers.home_bet_get);
 
 var server = http.createServer(app);
 IO = socketio.listen(server);
-IO.configure(function() {
-    IO.set("transports", ["xhr-polling"]);
-    IO.set("polling duration", 10);
-});
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
