@@ -1,0 +1,108 @@
+info: socket.io started
+DB client created
+Express server listening on port 8080
+bets loaded
+david8373|e3ef26d22ddc8a4d2c10a6954ed272a1
+{ username: 'david8373|e3ef26d22ddc8a4d2c10a6954ed272a1',
+  email: 'david8373@gmail.com',
+  password: '17bd86c85c981b7e284d7b77122dd943|GXxge',
+  time: Sun Mar 09 2014 01:42:36 GMT+0000 (UTC) }
+[90mPOST /signin [36m302 [90m23ms - 66b[0m
+[90mGET /home [32m200 [90m21ms - 2.87kb[0m
+[90mGET /bootstrap/css/bootstrap.css [36m304 [90m4ms[0m
+[90mGET /css/navbar-fixed-top.css [36m304 [90m2ms[0m
+[90mGET /bootstrap/js/bootstrap.min.js [36m304 [90m4ms[0m
+[90mGET /jquery/jquery.js [36m304 [90m2ms[0m
+[90mGET /css/chart.css [36m304 [90m1ms[0m
+[90mGET /home/SPX_close [32m200 [90m10ms - 6.03kb[0m
+[90mGET /bootstrap/css/bootstrap.css [36m304 [90m6ms[0m
+[90mGET /css/navbar-fixed-top.css [36m304 [90m6ms[0m
+[90mGET /css/chart.css [36m304 [90m4ms[0m
+[90mGET /css/bet.css [36m304 [90m1ms[0m
+[90mGET /jquery/jquery.js [36m304 [90m1ms[0m
+[90mGET /bootstrap/js/bootstrap.min.js [36m304 [90m5ms[0m
+[90mGET /js/bet.js [36m304 [90m1ms[0m
+[90mGET /js/chart.js [36m304 [90m2ms[0m
+debug: served static content /socket.io.js
+debug: client authorized
+info: handshake authorized j1W7ayDpIMzMZC57Zric
+debug: setting request GET /socket.io/1/websocket/j1W7ayDpIMzMZC57Zric
+debug: set heartbeat interval for client j1W7ayDpIMzMZC57Zric
+debug: client authorized for 
+debug: websocket writing 1::
+socket BET_SUBSCRIBE: username=david8373%7Ce3ef26d22ddc8a4d2c10a6954ed272a1, betname=SPX_close
+Joining room SPX_close
+debug: websocket writing 5:::{"name":"BET_UPDATE_STATIC","args":[{"name":"SPX_close","expiry":"Expired 2 hours ago","state":"SETTLED","description":"SPX opened 1877. let's bet where it closes","minVal":1500,"maxVal":2500,"tickSize":5}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_PARTICIPANTS","args":[{"name":"SPX_close","participants":["david8373","randomlove"]}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_SETTLEMENT_TRADE","args":[{"name":"SPX_close","settlementPrice":1877,"trades":[{"side":"Long","price":1850,"size":10,"uuid":"32a2dd11-a86e-11e3-ad81-219a8f912025","pnl":270}]}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_SETTLEMENT","args":[{"name":"SPX_close","settlementPrice":1877,"pnl":270}]}
+[90mGET / [32m200 [90m10ms - 2.15kb[0m
+[90mGET /bootstrap/css/bootstrap.css [36m304 [90m2ms[0m
+[90mGET /css/jumbotron-narrow.css [32m200 [90m5ms - 1.43kb[0m
+[90mGET /signin [32m200 [90m8ms - 2.06kb[0m
+[90mGET /bootstrap/css/bootstrap.css [36m304 [90m2ms[0m
+[90mGET /css/signin.css [36m304 [90m2ms[0m
+david8373|e3ef26d22ddc8a4d2c10a6954ed272a1
+{ username: 'david8373|e3ef26d22ddc8a4d2c10a6954ed272a1',
+  email: 'david8373@gmail.com',
+  password: '17bd86c85c981b7e284d7b77122dd943|GXxge',
+  time: Sun Mar 09 2014 01:42:36 GMT+0000 (UTC) }
+[90mPOST /signin [36m302 [90m6ms - 66b[0m
+[90mGET /home [32m200 [90m6ms - 2.87kb[0m
+[90mGET /bootstrap/css/bootstrap.css [36m304 [90m1ms[0m
+[90mGET /css/navbar-fixed-top.css [36m304 [90m1ms[0m
+[90mGET /bootstrap/js/bootstrap.min.js [36m304 [90m1ms[0m
+[90mGET /css/chart.css [36m304 [90m1ms[0m
+[90mGET /jquery/jquery.js [36m304 [90m1ms[0m
+debug: emitting heartbeat for client j1W7ayDpIMzMZC57Zric
+debug: websocket writing 2::
+debug: set heartbeat timeout for client j1W7ayDpIMzMZC57Zric
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client j1W7ayDpIMzMZC57Zric
+debug: set heartbeat interval for client j1W7ayDpIMzMZC57Zric
+[90mGET /home/SPX_close [32m200 [90m8ms - 6.03kb[0m
+debug: served static content /socket.io.js
+[90mGET /js/chart.js [32m200 [90m10ms - 1.34kb[0m
+[90mGET /css/bet.css [32m200 [90m8ms - 515b[0m
+[90mGET /js/bet.js [32m200 [90m3ms - 12.09kb[0m
+[90mGET /css/chart.css [36m304 [90m5ms[0m
+[90mGET /bootstrap/css/bootstrap.css [36m304 [90m3ms[0m
+[90mGET /jquery/jquery.js [36m304 [90m2ms[0m
+[90mGET /css/navbar-fixed-top.css [36m304 [90m1ms[0m
+[90mGET /bootstrap/js/bootstrap.min.js [36m304 [90m1ms[0m
+debug: client authorized
+info: handshake authorized k0CkEEh6nAsqFAihZrid
+debug: setting request GET /socket.io/1/xhr-polling/k0CkEEh6nAsqFAihZrid?t=1394495432658
+debug: setting poll timeout
+debug: client authorized for 
+debug: clearing poll timeout
+debug: xhr-polling writing 1::
+debug: set close timeout for client k0CkEEh6nAsqFAihZrid
+debug: xhr-polling received data packet 5:::{"name":"BET_SUBSCRIBE","args":["david8373%7Ce3ef26d22ddc8a4d2c10a6954ed272a1; BCSI-CS-599633fceb42e1a6=2","SPX_close"]}
+socket BET_SUBSCRIBE: username=david8373%7Ce3ef26d22ddc8a4d2c10a6954ed272a1; BCSI-CS-599633fceb42e1a6=2, betname=SPX_close
+Joining room SPX_close
+debug: setting request GET /socket.io/1/xhr-polling/k0CkEEh6nAsqFAihZrid?t=1394495432762
+debug: setting poll timeout
+debug: clearing poll timeout
+debug: xhr-polling writing �211�5:::{"name":"BET_UPDATE_STATIC","args":[{"name":"SPX_close","expiry":"Expired 2 hours ago","state":"SETTLED","description":"SPX opened 1877. let's bet where it closes","minVal":1500,"maxVal":2500,"tickSize":5}]}�110�5:::{"name":"BET_UPDATE_PARTICIPANTS","args":[{"name":"SPX_close","participants":["david8373","randomlove"]}]}�201�5:::{"name":"BET_UPDATE_SETTLEMENT_TRADE","args":[{"name":"SPX_close","settlementPrice":1877,"trades":[{"side":"Long","price":1850,"size":10,"uuid":"32a2dd11-a86e-11e3-ad81-219a8f912025","pnl":270}]}]}�99�5:::{"name":"BET_UPDATE_SETTLEMENT","args":[{"name":"SPX_close","settlementPrice":1877,"pnl":270}]}
+debug: set close timeout for client k0CkEEh6nAsqFAihZrid
+debug: discarding transport
+debug: cleared close timeout for client k0CkEEh6nAsqFAihZrid
+debug: setting request GET /socket.io/1/xhr-polling/k0CkEEh6nAsqFAihZrid?t=1394495432871
+debug: setting poll timeout
+debug: discarding transport
+debug: cleared close timeout for client k0CkEEh6nAsqFAihZrid
+debug: emitting heartbeat for client j1W7ayDpIMzMZC57Zric
+debug: websocket writing 2::
+debug: set heartbeat timeout for client j1W7ayDpIMzMZC57Zric
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client j1W7ayDpIMzMZC57Zric
+debug: set heartbeat interval for client j1W7ayDpIMzMZC57Zric
+debug: clearing poll timeout
+debug: xhr-polling writing 8::
+debug: set close timeout for client k0CkEEh6nAsqFAihZrid
+debug: xhr-polling closed due to exceeded duration
+debug: setting request GET /socket.io/1/xhr-polling/k0CkEEh6nAsqFAihZrid?t=1394495452973
+debug: setting poll timeout
+debug: discarding transport
+debug: cleared close timeout for client k0CkEEh6nAsqFAihZrid

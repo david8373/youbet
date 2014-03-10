@@ -95,7 +95,10 @@ exports.newbet_post = function(req, res) {
 
     console.log("Creating the bet");
     var bet = new Bet(betname, description, username, expiry, minval, maxval, ticksize, true);
-    setTimeout(function() { Socket.expire(betname); }, moment(expiry) - moment());
+    // TODO: properly fix scheduling for long-expiry bets
+    if (moment(expiry) - moment() < moment.duration(1, 'weeks')) {
+        setTimeout(function() { Socket.expire(betname); }, moment(expiry) - moment());
+    }
 
     console.log("Redirecting to /home/" + betname);
     BETS.set(betname, bet);

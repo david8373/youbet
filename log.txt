@@ -1,0 +1,5 @@
+socket BET_SUBSCRIBE: username=david8373%7Ce3ef26d22ddc8a4d2c10a6954ed272a1; BCSI-CS-599633fceb42e1a6=2, betname=SPX_close
+Username in cookies does not match (could have been changed manually at client side).
+
+socket BET_SUBSCRIBE: username=david8373%7Ce3ef26d22ddc8a4d2c10a6954ed272a1, betname=SPX_close
+Joining room SPX_close

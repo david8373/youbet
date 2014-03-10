@@ -95,7 +95,8 @@ var schedule_expiry = function(callback) {
 	    if (moment(bet.expiry) - moment() <= 0) {
 		Socket.expire(betname);
 	    }
-	    else {
+            // TODO: properly fix scheduling for long-expiry bets
+	    else if (moment(bet.expiry) - moment() < moment.duration(1, 'weeks')) {
 		setTimeout(function() { Socket.expire(betname); }, moment(bet.expiry) - moment());
 	    }
 	}

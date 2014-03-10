@@ -23,7 +23,11 @@ exports.make_secure_username = function(s) {
 }
 
 exports.check_secure_username = function(s) {
-    var s_esc = s.replace('%7C', '|');
+   // Morgan Stanley cookie adds a string at the end of username
+   var ss = s.split(';');
+   var sss = ss[0];
+
+    var s_esc = sss.replace('%7C', '|');
     var sp = s_esc.split('|');
     if (sp.length != 2) {
 	return null;
