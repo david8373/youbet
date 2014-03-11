@@ -54,18 +54,20 @@ var load_orders = function(callback) {
 	}
 	for (ind in result.rows) {
 	    var row = result.rows[ind];
-	    var order = new Order(BETS.get(row.bet_name), row.username, row.is_bid, row.price, row.size, false);
-	    order.remainingSize = row.remaining_size;
-	    order.state = OrderState.get(row.state);
-	    order.id = row.uid;
-	    order.createTime = row.time;
-	    if (!order.isTerminal()) {
-		if (order.isBid) {
-		    BETS.get(row.bet_name).bidOrders.push(order);
-		}
-		else {
-		    BETS.get(row.bet_name).offerOrders.push(order);
-		}
+	    if (BETS.get(row.bet_name)) {
+	        var order = new Order(BETS.get(row.bet_name), row.username, row.is_bid, row.price, row.size, false);
+	        order.remainingSize = row.remaining_size;
+	        order.state = OrderState.get(row.state);
+	        order.id = row.uid;
+	        order.createTime = row.time;
+	        if (!order.isTerminal()) {
+	            if (order.isBid) {
+	                BETS.get(row.bet_name).bidOrders.push(order);
+	            }
+	            else {
+	                BETS.get(row.bet_name).offerOrders.push(order);
+	            }
+	        }
 	    }
 	}
 	callback();
@@ -80,10 +82,12 @@ var load_trades = function(callback) {
 	}
 	for (ind in result.rows) {
 	    var row = result.rows[ind];
-	    var trade = new Trade(BETS.get(row.bet_name), row.long_user, row.short_user, row.price, row.size, false);
-	    trade.id = row.uid;
-	    trade.tradeTime = row.time;
-	    BETS.get(row.bet_name).trades.push(trade);
+	    if (BETS.get(row.bet_name)) {
+	        var trade = new Trade(BETS.get(row.bet_name), row.long_user, row.short_user, row.price, row.size, false);
+	        trade.id = row.uid;
+	        trade.tradeTime = row.time;
+	        BETS.get(row.bet_name).trades.push(trade);
+	    }
 	}
 	callback();
     });

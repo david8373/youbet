@@ -52,13 +52,6 @@ app.get('/home/:bet_id', bet_handlers.home_bet_get);
 
 var server = http.createServer(app);
 IO = socketio.listen(server);
-//IO.set('transports', [
-//	'websocket'
-//	, 'flashsocket'
-//	, 'htmlfile'
-//	, 'xhr-polling'
-//	, 'jsonp-polling'
-//	]);
 
 server.listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
