@@ -22,7 +22,7 @@ exports.newbet_get = function(req, res) {
 	res.redirect('/signin');
 	return;
     }
-    var render_msg = getBetList();
+    var render_msg = getBetList(username);
     render_msg['welcome_msg'] = 'Welcome ' + username + '!';
     render_msg['error'] = '';
     res.render('new_bet', render_msg);
@@ -48,14 +48,15 @@ exports.newbet_post = function(req, res) {
     var maxval = req.body.maxval;
     var ticksize = req.body.ticksize;
     var expiry = req.body.expiry;
+    var tzOffset = req.body.clientTzOffset;
+    console.log("Timezone Offset = " + tzOffset);
 
     console.log('betname = ' + betname);
     console.log('description = ' + description);
     console.log('minval = ' + minval);
     console.log('maxval = ' + maxval);
     console.log('ticksize = ' + ticksize);
-    var dateStr = moment(expiry).toISOString();
-    dateStr = dateStr.replace('Z', '-05:00');
+    var dateStr = moment(expiry).add('minutes', tzOffset).toISOString();
     expiry = new Date(dateStr);
     console.log('expiry = ' + expiry);
 
@@ -105,18 +106,18 @@ exports.newbet_post = function(req, res) {
     res.redirect('/home/' + betname);
 };
 
-var getBetList = function() {
+var getBetList = function(username) {
     var active_list = [];
     var expired_list = [];
     var settled_list = [];
     BETS.forEach(function(value, key) {
-	if (value.state == BetState.ACTIVE) {
+	if (value.state == BetState.ACTIVE && value.participants.has(username)) {
 	    active_list.push(value.name);
 	}
-	else if (value.state == BetState.EXPIRED) {
+	else if (value.state == BetState.EXPIRED && value.participants.has(username)) {
 	    expired_list.push(value.name);
 	}
-	else {
+	else if (value.participants.has(username)) {
 	    settled_list.push(value.name);
 	}
     });

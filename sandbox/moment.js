@@ -11,3 +11,7 @@ console.log(moment(d)-moment() > moment.duration(3, 'days'));
 //var d2 = moment().add('s', 2);
 //console.log(d2-d1);
 //setTimeout(function() { console.log("blabla"); }, d2 - d1);
+
+console.log(moment().utc().zone());
+console.log(moment([2011,2,12]).isDST());
+console.log(moment([2011,2,14]).isDST());

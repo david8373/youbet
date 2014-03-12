@@ -142,15 +142,14 @@ var PriceTimeDescending = function(o1, o2) {
 }
 
 Bet.prototype.submit = function(participant, isBid, price, size) {
-    console.log('Submitting participant=' + participant
-	    + isBid?', bid ':', ask ' + size + ' @' + price);
+    console.log('Submitting participant=' + participant + (isBid?', bid ':', ask ') + size + ' @' + price);
     if (!this.participants.has(participant))
 	var msg = "You (" + participant + ") are not invited to this bet. please contact " + this.host + " to include you";
     else if (this.state != BetState.ACTIVE)
 	var msg = "Bet state is " + this.state + " and no more orders allowed";
-    else if (!price || isNaN(price))
+    else if (price == null || isNaN(price))
 	var msg = "Price must be a numeric value";
-    else if (!size || isNaN(size))
+    else if (size == null || isNaN(size))
 	var msg = "Size must be a numeric value";
     else if (price < this.minVal)
 	var msg = price + " is below minimum price (" + this.minVal + ") of this bet";

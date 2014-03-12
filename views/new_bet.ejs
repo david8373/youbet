@@ -73,7 +73,7 @@
 
 	<div class="container">
 	    <form class="form-newbet" id="newBetForm" method="post">
-		<input type="text" class="form-control" placeholder="Bet name" name="betname" required autofocus>
+		<input type="text" id="bet_name" class="form-control" placeholder="Bet name" name="betname" required autofocus>
 		<textarea rows="8" class="form-control" placeholder="Description" name="description" autofocus></textarea>
 		<input type="text" class="form-control" placeholder="Minimum value" name="minval" required autofocus>
 		<input type="text" class="form-control" placeholder="Maximum value" name="maxval" required autofocus>
@@ -111,9 +111,12 @@
 	<script src="/js/bootstrap-datetimepicker.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 
-	<script type="text/javascript">
+	<script type="text/javascript" language="JavaScript">
 	    $(function () { $('#datetimepicker1').datetimepicker(); });
-        </script>
+	    var offset = new Date();
+	    var tzOffset = '<input type="hidden" id="clientTzOffset" name="clientTzOffset" value="' + offset.getTimezoneOffset() + '"/>';
+	    $(tzOffset).insertAfter($('#bet_name'));
+	    </script>
 
-    </body>
-</html>
+	</body>
+    </html>

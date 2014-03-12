@@ -20,13 +20,13 @@ exports.home_get = function(req, res) {
     var expired_list = [];
     var settled_list = [];
     BETS.forEach(function(value, key) {
-	if (value.state == BetState.ACTIVE) {
+	if (value.state == BetState.ACTIVE && value.participants.has(username)) {
 	    active_list.push(value.name);
 	}
-	else if (value.state == BetState.EXPIRED) {
+	else if (value.state == BetState.EXPIRED && value.participants.has(username)) {
 	    expired_list.push(value.name);
 	}
-	else {
+	else if (value.participants.has(username)) {
 	    settled_list.push(value.name);
 	}
     });

@@ -5,8 +5,6 @@ var util = require('util');
 var Consts = require('./consts.js');
 
 exports.create = function() {
-    var password = 'amazonps';
-    var seckey = 'youbet';
 //    read({prompt: 'Password: ', silent: true}, function(err, password) {
 //	read({prompt: 'Security key: ', silent: true}, function(err, seckey) {
 	    var CONN_STRING = util.format(Consts.RDS_POSTGRES_CONN_STRING, password);
