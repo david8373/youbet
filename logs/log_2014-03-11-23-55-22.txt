@@ -1,0 +1,265 @@
+info: socket.io started
+DB client created
+Express server listening on port 8080
+bets loaded
+Emitting [object Object]
+debug: client authorized
+info: handshake authorized oHmCrKrDe3GtS2pJknIw
+debug: setting request GET /socket.io/1/websocket/oHmCrKrDe3GtS2pJknIw
+debug: set heartbeat interval for client oHmCrKrDe3GtS2pJknIw
+debug: client authorized for 
+debug: websocket writing 1::
+[90mGET /home [36m304 [90m22ms[0m
+info: transport end (undefined)
+debug: set close timeout for client oHmCrKrDe3GtS2pJknIw
+debug: cleared close timeout for client oHmCrKrDe3GtS2pJknIw
+debug: cleared heartbeat interval for client oHmCrKrDe3GtS2pJknIw
+Disconnecting and leaving room undefined
+debug: discarding transport
+[90mGET /bootstrap/css/bootstrap.css [36m304 [90m4ms[0m
+[90mGET /css/navbar-fixed-top.css [36m304 [90m2ms[0m
+[90mGET /css/chart.css [36m304 [90m1ms[0m
+[90mGET /jquery/jquery.js [36m304 [90m3ms[0m
+[90mGET /bootstrap/js/bootstrap.min.js [36m304 [90m1ms[0m
+[90mGET /home/10Y_RATE [32m200 [90m8ms - 6.49kb[0m
+[90mGET /bootstrap/css/bootstrap.css [36m304 [90m3ms[0m
+[90mGET /css/navbar-fixed-top.css [36m304 [90m3ms[0m
+[90mGET /css/bet.css [36m304 [90m4ms[0m
+[90mGET /css/chart.css [36m304 [90m1ms[0m
+[90mGET /jquery/jquery.js [36m304 [90m1ms[0m
+[90mGET /bootstrap/js/bootstrap.min.js [36m304 [90m3ms[0m
+[90mGET /js/chart.js [36m304 [90m3ms[0m
+[90mGET /js/bet.js [36m304 [90m2ms[0m
+debug: served static content /socket.io.js
+debug: client authorized
+info: handshake authorized ik2Pu96ztv1uyTQZknIx
+debug: setting request GET /socket.io/1/websocket/ik2Pu96ztv1uyTQZknIx
+debug: set heartbeat interval for client ik2Pu96ztv1uyTQZknIx
+debug: client authorized for 
+debug: websocket writing 1::
+socket BET_SUBSCRIBE: username=david8373%7Ce3ef26d22ddc8a4d2c10a6954ed272a1, betname=10Y_RATE
+Joining room 10Y_RATE
+debug: websocket writing 5:::{"name":"BET_UPDATE_STATIC","args":[{"name":"10Y_RATE","expiry":"Expires in 2 days","state":"ACTIVE","description":"Bet the 10 year rate post the retail sales figure","minVal":2.6,"maxVal":2.9,"tickSize":0.01}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_PARTICIPANTS","args":[{"name":"10Y_RATE","participants":["kaushik","david8373"]}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_DEPTH","args":[{"name":"10Y_RATE","depth":[[2.78,15],[2.79,-10],[2.82,-1],[2.83,-1]]}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_ORDER","args":[{"name":"10Y_RATE","orders":[{"side":"Bid","price":2.78,"totalSize":5,"remainingSize":5,"uuid":"a0366600-a934-11e3-bad1-efce871fd4e3"},{"side":"Ask","price":2.79,"totalSize":10,"remainingSize":10,"uuid":"020252a0-a93e-11e3-bad1-efce871fd4e3"},{"side":"Ask","price":2.83,"totalSize":1,"remainingSize":1,"uuid":"02f82880-a937-11e3-bad1-efce871fd4e3"},{"side":"Ask","price":2.84,"totalSize":3,"remainingSize":3,"uuid":"a5daee80-a93b-11e3-bad1-efce871fd4e3"}]}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_TRADE","args":[{"name":"10Y_RATE","trades":[{"side":"Short","price":2.8,"size":9,"uuid":"f7568ab1-a93d-11e3-bad1-efce871fd4e3"},{"side":"Short","price":2.8,"size":1,"uuid":"2749cbd1-a937-11e3-bad1-efce871fd4e3"}]}]}
+debug: emitting heartbeat for client ik2Pu96ztv1uyTQZknIx
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ik2Pu96ztv1uyTQZknIx
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ik2Pu96ztv1uyTQZknIx
+debug: set heartbeat interval for client ik2Pu96ztv1uyTQZknIx
+[90mGET /home/SwapRate [36m304 [90m9ms[0m
+info: transport end (undefined)
+debug: set close timeout for client ik2Pu96ztv1uyTQZknIx
+debug: cleared close timeout for client ik2Pu96ztv1uyTQZknIx
+debug: cleared heartbeat interval for client ik2Pu96ztv1uyTQZknIx
+Disconnecting and leaving room 10Y_RATE
+debug: discarding transport
+[90mGET /css/navbar-fixed-top.css [36m304 [90m2ms[0m
+[90mGET /css/chart.css [36m304 [90m2ms[0m
+[90mGET /bootstrap/css/bootstrap.css [36m304 [90m1ms[0m
+[90mGET /css/bet.css [36m304 [90m3ms[0m
+[90mGET /jquery/jquery.js [36m304 [90m1ms[0m
+[90mGET /bootstrap/js/bootstrap.min.js [36m304 [90m1ms[0m
+debug: served static content /socket.io.js
+[90mGET /js/chart.js [36m304 [90m2ms[0m
+[90mGET /js/bet.js [36m304 [90m2ms[0m
+debug: client authorized
+info: handshake authorized ttBBg2KOnUkdO5BPknIy
+debug: setting request GET /socket.io/1/websocket/ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: client authorized for 
+debug: websocket writing 1::
+socket BET_SUBSCRIBE: username=david8373%7Ce3ef26d22ddc8a4d2c10a6954ed272a1, betname=SwapRate
+Joining room SwapRate
+debug: websocket writing 5:::{"name":"BET_UPDATE_STATIC","args":[{"name":"SwapRate","expiry":"Expired 2 hours ago","state":"EXPIRED","description":"30yr rate","minVal":3.67,"maxVal":3.7,"tickSize":0.005}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_PARTICIPANTS","args":[{"name":"SwapRate","participants":["Kunpeng","david8373","randomlove"]}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_TRADE","args":[{"name":"SwapRate","trades":[{"side":"Long","price":3.68,"size":40,"uuid":"0a384421-a934-11e3-bad1-efce871fd4e3"},{"side":"Long","price":3.68,"size":10,"uuid":"ce922a20-a920-11e3-bad1-efce871fd4e3"}]}]}
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy
+debug: emitting heartbeat for client ttBBg2KOnUkdO5BPknIy
+debug: websocket writing 2::
+debug: set heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client ttBBg2KOnUkdO5BPknIy
+debug: set heartbeat interval for client ttBBg2KOnUkdO5BPknIy

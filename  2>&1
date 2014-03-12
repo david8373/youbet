@@ -1,0 +1,67 @@
+info: socket.io started
+DB client created
+Express server listening on port 8080
+bets loaded
+Emitting [object Object]
+debug: client authorized
+info: handshake authorized V7pRj-ERPdiXlXoLjxrj
+debug: setting request GET /socket.io/1/websocket/V7pRj-ERPdiXlXoLjxrj
+debug: set heartbeat interval for client V7pRj-ERPdiXlXoLjxrj
+debug: client authorized for 
+debug: websocket writing 1::
+[90mGET /home/SPX_close [36m304 [90m25ms[0m
+info: transport end (undefined)
+debug: set close timeout for client V7pRj-ERPdiXlXoLjxrj
+debug: cleared close timeout for client V7pRj-ERPdiXlXoLjxrj
+debug: cleared heartbeat interval for client V7pRj-ERPdiXlXoLjxrj
+Disconnecting and leaving room undefined
+debug: discarding transport
+[90mGET /css/navbar-fixed-top.css [36m304 [90m4ms[0m
+[90mGET /bootstrap/css/bootstrap.css [36m304 [90m3ms[0m
+[90mGET /jquery/jquery.js [36m304 [90m4ms[0m
+[90mGET /css/bet.css [36m304 [90m3ms[0m
+[90mGET /css/chart.css [36m304 [90m1ms[0m
+[90mGET /bootstrap/js/bootstrap.min.js [36m304 [90m0ms[0m
+debug: served static content /socket.io.js
+[90mGET /js/bet.js [36m304 [90m5ms[0m
+[90mGET /js/chart.js [36m304 [90m4ms[0m
+debug: client authorized
+info: handshake authorized dg_KtnP8Wz-6pHE5jxrk
+debug: setting request GET /socket.io/1/websocket/dg_KtnP8Wz-6pHE5jxrk
+debug: set heartbeat interval for client dg_KtnP8Wz-6pHE5jxrk
+debug: client authorized for 
+debug: websocket writing 1::
+socket BET_SUBSCRIBE: username=david8373%7Ce3ef26d22ddc8a4d2c10a6954ed272a1, betname=SPX_close
+Joining room SPX_close
+debug: websocket writing 5:::{"name":"BET_UPDATE_STATIC","args":[{"name":"SPX_close","expiry":"Expired a day ago","state":"SETTLED","description":"SPX opened 1877. let's bet where it closes","minVal":1500,"maxVal":2500,"tickSize":5}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_PARTICIPANTS","args":[{"name":"SPX_close","participants":["david8373","randomlove"]}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_SETTLEMENT_TRADE","args":[{"name":"SPX_close","settlementPrice":1877.17,"trades":[{"side":"Long","price":1850,"size":10,"uuid":"32a2dd11-a86e-11e3-ad81-219a8f912025","pnl":271.7}]}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_SETTLEMENT","args":[{"name":"SPX_close","settlementPrice":1877.17,"pnl":271.7}]}
+[90mGET /home/SPX_close [36m304 [90m13ms[0m
+info: transport end (undefined)
+debug: set close timeout for client dg_KtnP8Wz-6pHE5jxrk
+debug: cleared close timeout for client dg_KtnP8Wz-6pHE5jxrk
+debug: cleared heartbeat interval for client dg_KtnP8Wz-6pHE5jxrk
+Disconnecting and leaving room SPX_close
+debug: discarding transport
+[90mGET /bootstrap/css/bootstrap.css [36m304 [90m2ms[0m
+[90mGET /css/navbar-fixed-top.css [36m304 [90m1ms[0m
+[90mGET /jquery/jquery.js [36m304 [90m1ms[0m
+[90mGET /bootstrap/js/bootstrap.min.js [36m304 [90m1ms[0m
+[90mGET /css/bet.css [36m304 [90m0ms[0m
+[90mGET /css/chart.css [36m304 [90m1ms[0m
+debug: served static content /socket.io.js
+[90mGET /js/bet.js [36m304 [90m0ms[0m
+[90mGET /js/chart.js [36m304 [90m1ms[0m
+debug: client authorized
+info: handshake authorized HmlkyAST8ODyRORZjxrl
+debug: setting request GET /socket.io/1/websocket/HmlkyAST8ODyRORZjxrl
+debug: set heartbeat interval for client HmlkyAST8ODyRORZjxrl
+debug: client authorized for 
+debug: websocket writing 1::
+socket BET_SUBSCRIBE: username=david8373%7Ce3ef26d22ddc8a4d2c10a6954ed272a1, betname=SPX_close
+Joining room SPX_close
+debug: websocket writing 5:::{"name":"BET_UPDATE_STATIC","args":[{"name":"SPX_close","expiry":"Expired a day ago","state":"SETTLED","description":"SPX opened 1877. let's bet where it closes","minVal":1500,"maxVal":2500,"tickSize":5}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_PARTICIPANTS","args":[{"name":"SPX_close","participants":["david8373","randomlove"]}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_SETTLEMENT_TRADE","args":[{"name":"SPX_close","settlementPrice":1877.17,"trades":[{"side":"Long","price":1850,"size":10,"uuid":"32a2dd11-a86e-11e3-ad81-219a8f912025","pnl":271.7}]}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_SETTLEMENT","args":[{"name":"SPX_close","settlementPrice":1877.17,"pnl":271.7}]}

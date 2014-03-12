@@ -1,0 +1,54 @@
+info: socket.io started
+DB client created
+Express server listening on port 8080
+bets loaded
+Emitting [object Object]
+debug: client authorized
+info: handshake authorized gHiGzN8yOzOgjzH7kio1
+debug: setting request GET /socket.io/1/websocket/gHiGzN8yOzOgjzH7kio1
+debug: set heartbeat interval for client gHiGzN8yOzOgjzH7kio1
+debug: client authorized for 
+debug: websocket writing 1::
+[90mGET /home/SPX_close [36m304 [90m27ms[0m
+info: transport end (undefined)
+debug: set close timeout for client gHiGzN8yOzOgjzH7kio1
+debug: cleared close timeout for client gHiGzN8yOzOgjzH7kio1
+debug: cleared heartbeat interval for client gHiGzN8yOzOgjzH7kio1
+Disconnecting and leaving room undefined
+debug: discarding transport
+[90mGET /css/navbar-fixed-top.css [36m304 [90m4ms[0m
+[90mGET /jquery/jquery.js [36m304 [90m1ms[0m
+[90mGET /css/bet.css [36m304 [90m1ms[0m
+[90mGET /css/chart.css [36m304 [90m2ms[0m
+[90mGET /bootstrap/css/bootstrap.css [36m304 [90m1ms[0m
+[90mGET /bootstrap/js/bootstrap.min.js [36m304 [90m1ms[0m
+debug: served static content /socket.io.js
+[90mGET /js/bet.js [36m304 [90m5ms[0m
+[90mGET /js/chart.js [36m304 [90m4ms[0m
+debug: client authorized
+info: handshake authorized FyNznKI8ja7SOed7kio2
+debug: setting request GET /socket.io/1/websocket/FyNznKI8ja7SOed7kio2
+debug: set heartbeat interval for client FyNznKI8ja7SOed7kio2
+debug: client authorized for 
+debug: websocket writing 1::
+socket BET_SUBSCRIBE: username=david8373%7Ce3ef26d22ddc8a4d2c10a6954ed272a1, betname=SPX_close
+Joining room SPX_close
+debug: websocket writing 5:::{"name":"BET_UPDATE_STATIC","args":[{"name":"SPX_close","expiry":"Expired a day ago","state":"SETTLED","description":"SPX opened 1877. let's bet where it closes","minVal":1500,"maxVal":2500,"tickSize":5}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_PARTICIPANTS","args":[{"name":"SPX_close","participants":["david8373","randomlove"]}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_SETTLEMENT_TRADE","args":[{"name":"SPX_close","settlementPrice":1877.17,"trades":[{"side":"Long","price":1850,"size":10,"uuid":"32a2dd11-a86e-11e3-ad81-219a8f912025","pnl":271.7}]}]}
+debug: websocket writing 5:::{"name":"BET_UPDATE_SETTLEMENT","args":[{"name":"SPX_close","settlementPrice":1877.17,"pnl":271.7}]}
+
+/home/ubuntu/youbet/node/socket.js:189
+	console.log(aaaa.bbb);
+	                ^
+TypeError: Cannot read property 'bbb' of undefined
+    at Socket.<anonymous> (/home/ubuntu/youbet/node/socket.js:189:18)
+    at Socket.EventEmitter.emit [as $emit] (events.js:106:17)
+    at SocketNamespace.handlePacket (/home/ubuntu/youbet/node_modules/socket.io/lib/namespace.js:335:22)
+    at Manager.onClientMessage (/home/ubuntu/youbet/node_modules/socket.io/lib/manager.js:488:38)
+    at WebSocket.Transport.onMessage (/home/ubuntu/youbet/node_modules/socket.io/lib/transport.js:387:20)
+    at Parser.<anonymous> (/home/ubuntu/youbet/node_modules/socket.io/lib/transports/websocket/hybi-16.js:39:10)
+    at Parser.EventEmitter.emit (events.js:95:17)
+    at finish (/home/ubuntu/youbet/node_modules/socket.io/lib/transports/websocket/hybi-16.js:288:16)
+    at Parser.expectHandler (/home/ubuntu/youbet/node_modules/socket.io/lib/transports/websocket/hybi-16.js:299:15)
+    at Parser.add (/home/ubuntu/youbet/node_modules/socket.io/lib/transports/websocket/hybi-16.js:466:24)
