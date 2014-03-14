@@ -9,5 +9,7 @@ exports.BETNAME_RE = /^[a-zA-Z0-9_-]{3,20}$/;
 exports.PASSWORD_RE = /^.{3,20}$/;
 exports.EMAIL_RE = /^[\S]+@[\S]+\.[\S]+/;
 
+exports.LOBBY_ROOM_NAME = "__LOBBY_ROOM_NAME__";
+
 exports.SHA_ALGORITHM = 'md5';
 
