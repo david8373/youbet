@@ -142,24 +142,24 @@ var on_BET_UPDATE_DEPTH = function(data) {
 var on_BET_UPDATE_ORDER = function(data) {
     console.log("Received BET_UPDATE_ORDER update on socket");
     if ($('#order-panel').length > 0) { // Only update if that panel still exists
-        $("#order-list").empty();
-        for (var i in data.orders) {
-            var id = data.orders[i].uuid;
-            var cancelButtonId = "order-cancel-" + id;
-            var orderContent = "<li class=\"list-group-item\" id=\"order-" + data.orders[i].uuid + "\">\n" 
-                + data.orders[i].side + " " 
-                + data.orders[i].remainingSize + "/"
-                + data.orders[i].totalSize + " @"
-                + data.orders[i].price + "\n"
-                + "<button class=\"btn btn-default btn-xs\" type=\"button\" style=\"float: right;\"" 
-                + " id=\"" + cancelButtonId + "\">Cancel</button>"
-                + "\n</li>";
-            var $newOrder = $(orderContent);
-            $newOrder.appendTo("#order-list");
-            $("#" + cancelButtonId).on("click", {'username': getUsername(), 'betname': getBetName(), 'id': id}, function(e) {
-                SOCKET.emit('BET_CANCEL', e.data.username, e.data.betname, e.data.id);
-            });
-        }
+	$("#order-list").empty();
+	for (var i in data.orders) {
+	    var id = data.orders[i].uuid;
+	    var cancelButtonId = "order-cancel-" + id;
+	    var orderContent = "<li class=\"list-group-item\" id=\"order-" + data.orders[i].uuid + "\">\n" 
+		+ data.orders[i].side + " " 
+		+ data.orders[i].remainingSize + "/"
+		+ data.orders[i].totalSize + " @"
+		+ data.orders[i].price + "\n"
+		+ "<button class=\"btn btn-default btn-xs\" type=\"button\" style=\"float: right;\"" 
+		+ " id=\"" + cancelButtonId + "\">Cancel</button>"
+		+ "\n</li>";
+	    var $newOrder = $(orderContent);
+	    $newOrder.appendTo("#order-list");
+	    $("#" + cancelButtonId).on("click", {'username': getUsername(), 'betname': getBetName(), 'id': id}, function(e) {
+		SOCKET.emit('BET_CANCEL', e.data.username, e.data.betname, e.data.id);
+	    });
+	}
     }
 }
 
@@ -195,18 +195,18 @@ var on_BET_UPDATE_SETTLEMENT = function(data) {
     if ($('#settlement-result').length > 0)
 	$('#settlement-result').remove();
     var settlePanel = "<div class=\"panel panel-primary\" id=\"settlement-result\">\n"
-			+ "    <div class=\"panel-heading\">\n"
-			+ "	<h4 class=\"panel-title\">\n"
-			+ "	    Settlement result\n"
-			+ "	</h4>\n"
-			+ "    </div>\n"
-			+ "    <div class=\"panel-body\">\n"
-			+ "	<h4>\n"
-			+ "	    Settlement price was " + data.settlementPrice 
-			+ " and your P&L was " + data.pnl + ".\n"
-			+ "	</h4>\n"
-			+ "    </div>\n"
-			+ "</div>\n";
+	+ "    <div class=\"panel-heading\">\n"
+	+ "	<h4 class=\"panel-title\">\n"
+	+ "	    Settlement result\n"
+	+ "	</h4>\n"
+	+ "    </div>\n"
+	+ "    <div class=\"panel-body\">\n"
+	+ "	<h4>\n"
+	+ "	    Settlement price was " + data.settlementPrice 
+	+ " and your P&L was " + data.pnl + ".\n"
+	+ "	</h4>\n"
+	+ "    </div>\n"
+	+ "</div>\n";
     $('#left-column').append(settlePanel);
 }
 
@@ -225,35 +225,42 @@ var on_BET_UPDATE_PARTICIPANTS = function(data) {
 var on_BET_EXPIRE = function(data) {
     console.log("Received BET_EXPIRE update on socket");
     var marketBody = "<div id=\"makret-body\" class=\"panel-body\">\n"
-                   + "    <h4>\n"
-                   + "        Bet has expired, market no longer available\n"
-                   + "    </h4>\n"
-                   + "</div>\n";
+	+ "    <h4>\n"
+	+ "        Bet has expired, market no longer available\n"
+	+ "    </h4>\n"
+	+ "</div>\n";
     $('#market-body').replaceWith(marketBody);
     if ($('#invite').length > 0)
 	$('#invite').remove();
     if ($('#neworder-panel').length > 0)
-        $('#neworder-panel').remove();
+	$('#neworder-panel').remove();
     if ($('#order-panel').length > 0)
-        $('#order-panel').remove();
+	$('#order-panel').remove();
 
     if (data.bet_is_host) {
 	var settlePanel = "<div class=\"panel panel-primary\">\n"
-                        + "    <div class=\"panel-heading\">\n"
-                        + "	<h4 class=\"panel-title\">\n"
-                        + "	    Settlement\n"
-                        + "	</h4>\n"
-                        + "    </div>\n"
-                        + "    <div class=\"panel-body\">\n"
-                        + "	<div class=\"input-group\" id=\"settle\">\n"
-                        + "	    <input type=\"text\" class=\"form-control\" id=\"input-settle\">\n"
-                        + "	    <span class=\"input-group-btn\">\n"
-                        + "		<button class=\"btn btn-default\" type=\"button\" id=\"button-settle\">Settle</button>\n"
-                        + "	    </span>\n"
-                        + "	</div>\n"
-                        + "    </div>\n"
-                        + "</div>\n";
+	    + "    <div class=\"panel-heading\">\n"
+	    + "	<h4 class=\"panel-title\">\n"
+	    + "	    Settlement\n"
+	    + "	</h4>\n"
+	    + "    </div>\n"
+	    + "    <div class=\"panel-body\">\n"
+	    + "	<div class=\"input-group\" id=\"settle\">\n"
+	    + "	    <input type=\"text\" class=\"form-control\" id=\"input-settle\">\n"
+	    + "	    <span class=\"input-group-btn\">\n"
+	    + "		<button class=\"btn btn-default\" type=\"button\" id=\"button-settle\">Settle</button>\n"
+	    + "	    </span>\n"
+	    + "	</div>\n"
+	    + "    </div>\n"
+	    + "</div>\n";
 	$(settlePanel).insertAfter($('#market-panel'));
+
+	$('#button-settle').on("click", {'username': getUsername(),
+	    'betname': getBetName()}, function(e) {
+		var settlementPrice = $("#input-settle").val().trim();
+		console.log("Settle button clicked, settlementPrice=" + settlementPrice);
+		SOCKET.emit('BET_SETTLE', e.data.username, e.data.betname, settlementPrice);
+	    });
     }
 
     $('#bet-static').text('EXPIRED');
