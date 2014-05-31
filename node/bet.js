@@ -386,7 +386,7 @@ Bet.prototype.jsonTradeUpdateMsg = function(username) {
 		'size': this.trades[i].size,
 		'uuid': this.trades[i].id});
 	}
-	else if (this.trades[i].shortParty = username) {
+	else if (this.trades[i].shortParty == username) {
 	    trades.push({'side': 'Short', 
 		'price': this.trades[i].price, 
 		'size': this.trades[i].size,
@@ -407,7 +407,7 @@ Bet.prototype.jsonTradeSettledUpdateMsg = function(username) {
 		'uuid': this.trades[i].id,
 	        'pnl': this.trades[i].settle(this.settlementPrice)});
 	}
-	else if (this.trades[i].shortParty = username) {
+	else if (this.trades[i].shortParty == username) {
 	    trades.push({'side': 'Short', 
 		'price': this.trades[i].price, 
 		'size': this.trades[i].size,
