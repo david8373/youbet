@@ -241,7 +241,7 @@ Bet.prototype.expire = function() {
 };
 
 Bet.prototype.settle = function(settlementPrice) {
-    if (!settlementPrice || isNaN(settlementPrice))
+    if (settlementPrice == null || isNaN(settlementPrice))
 	var msg = "Settlement price must be a numeric value";
     if (this.state == BetState.ACTIVE) {
 	var msg = "Bet state is still ACTIVE and cannot be settled";
