@@ -88,7 +88,7 @@
 			<div class="panel panel-primary">
 			    <div class="panel-heading">
 				<h4 class="panel-title">
-				    <a data-toggle="collapse" data-parent="#more-info-pgroup" href="#more-info">More info</a>
+				    <a data-toggle="collapse" data-parent="#more-info-pgroup" href="#more-info">Bet Details</a>
 				</h4>
 			    </div>
 			    <div id="more-info" class="panel-collapse collapse in">
@@ -113,7 +113,7 @@
 			<div class="panel panel-primary" id="market-panel">
 			    <div class="panel-heading">
 				<h4 class="panel-title">
-				    Market
+				    Market (blue: bid, red: offer)
 				</h4>
 			    </div>
 			    <% if (state == 'ACTIVE') { %>
@@ -133,7 +133,7 @@
 			<div class="panel panel-primary">
 			    <div class="panel-heading">
 				<h4 class="panel-title">
-				    Settlement
+				    You are the host. Please enter settlement value
 				</h4>
 			    </div>
 			    <div class="panel-body">
@@ -156,7 +156,7 @@
 			    </div>
 			    <div class="panel-body">
 				<h4>
-				    Settlement price was <% settle_value %> and your P&L was <% pnl %>.
+				    Settlement value was <% settle_value %> and your P&L was <% pnl %>.
 				</h4>
 			    </div>
 			</div>

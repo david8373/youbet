@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    SOCKET = io.connect('http://ec2-54-213-10-197.us-west-2.compute.amazonaws.com:8080');
+    SOCKET = io.connect('http://ec2-52-33-150-22.us-west-2.compute.amazonaws.com:8080');
 
     SOCKET.emit('REQ_BETLIST', {});
 
