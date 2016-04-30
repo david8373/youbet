@@ -20,6 +20,9 @@ var bet_handlers = require('./handlers/bet_handlers.js');
 var newbet_handlers = require('./handlers/newbet_handlers.js');
 var index_handlers = require('./handlers/index_handlers.js');
 
+PASSWORD = process.argv[2]
+SECKEY = process.argv[3]
+
 // all environments
 app.set('port', process.env.PORT || 8080);
 //app.set('port', 9090);
@@ -57,7 +60,7 @@ server.listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
 });
 
-DbClient.create();
+DbClient.create(PASSWORD, SECKEY);
 DbLoad.load_all();
 
 // socket.io
